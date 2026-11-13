@@ -16,4 +16,4 @@ button comes from `/theme.js` on the main site.
 
 The `prep/` folder holds the test notebook and two scripts I made on 10 November 2026 to check
 that the SPHEREx data path works before the hackathon. It is study material, not the hackathon
-project. See `prep/README.md`.
+project. See `prep/README.md` to run it and `prep/GUIDE.md` for a step-by-step walk through the notebook.

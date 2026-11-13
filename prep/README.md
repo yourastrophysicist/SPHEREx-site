@@ -13,6 +13,8 @@ A first look at real SPHEREx images, made on 10 November 2026 to check that the 
 
 The targets are Barnard's Star, Epsilon Indi B, WISE 0855-0714, RW Aurigae and R Draconis.
 
+`GUIDE.md` walks through the notebook step by step, with what went wrong on the first run.
+
 ## Running it
 
 ```
