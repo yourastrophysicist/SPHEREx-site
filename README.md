@@ -11,3 +11,9 @@ The page is plain HTML and CSS in the same look as the main site, in English, In
 Italian, with an ASCII flipbook that shows the idea. It is served through GitHub Pages and shown
 at `yourastro.space/SPHEREx` by a rewrite in the main site's `vercel.json`. The light and dark
 button comes from `/theme.js` on the main site.
+
+## prep/
+
+The `prep/` folder holds the test notebook and two scripts I made on 10 November 2026 to check
+that the SPHEREx data path works before the hackathon. It is study material, not the hackathon
+project. See `prep/README.md`.
