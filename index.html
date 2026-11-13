@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>try{var t=localStorage.getItem("yas-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
+    <script>if(location.hostname==="yourastrophysicist.github.io"){location.replace("https://www.yourastro.space/SPHEREx/"+location.pathname.replace(/^\/SPHEREx-site\/?/,"")+location.search+location.hash);}</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPHEREx | yourastro.space</title>
+    <meta name="description" content="Coming soon: a small web tool that plays SPHEREx images of any patch of sky like a flipbook, so moving objects stand out. Built at NASA Space Apps Milano 2026.">
+    <meta property="og:title" content="SPHEREx, coming soon">
+    <meta property="og:description" content="A small web tool that plays SPHEREx images of any patch of sky like a flipbook, so moving objects stand out.">
+    <meta property="og:url" content="https://www.yourastro.space/SPHEREx/">
+    <link rel="canonical" href="https://www.yourastro.space/SPHEREx/">
+    <meta name="theme-color" content="#f2f2f2">
+    <link rel="icon" type="image/png" href="/img/favicon.png?v=2">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+    <div class="frame">
+        <header class="top">
+            <a class="mark" href="/" aria-label="yourastro.space, home"><span>your</span><span>astro</span></a>
+            <nav aria-label="Pages">
+                <a href="/" data-i18n="n.home">home</a>
+                <a href="/notes/" data-i18n="n.notes">notes</a>
+                <a href="/terminal/">terminal</a>
+                <a href="/SPHEREx/" aria-current="page">SPHEREx</a>
+            </nav>
+            <div class="tools">
+                <div class="lang" role="group" aria-label="Language / Bahasa / Lingua">
+                    <button type="button" data-lang="en" aria-pressed="true" title="English">EN</button>
+                    <button type="button" data-lang="id" aria-pressed="false" title="Bahasa Indonesia">ID</button>
+                    <button type="button" data-lang="it" aria-pressed="false" title="Italiano">IT</button>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Switch to dark mode" title="Dark mode"><svg class="t-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="t-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+            </div>
+        </header>
+
+        <main id="main" class="hero">
+            <p class="eyebrow" data-i18n="eye">coming soon · NASA Space Apps Milano 2026</p>
+            <h1>SPHEREx</h1>
+            <p class="lede" data-i18n="lede">A small web tool for the part of the sky that moves. Type a position, and it plays the SPHEREx images of that patch one after another, like a flipbook, so anything that moved between visits jumps out.</p>
+
+            <figure class="flip" aria-label="Illustration of the idea: the same patch of sky in four visits, with one dot moving">
+                <div class="flip-bar"><span>ra 269.452 · dec +4.693</span><span class="flip-n" aria-hidden="true">visit 1 / 4</span></div>
+                <pre class="flip-ascii" aria-hidden="true"></pre>
+                <figcaption data-i18n="flipcap">illustration of the idea, not real data</figcaption>
+            </figure>
+        </main>
+    </div>
+
+    <div class="page">
+        <section class="sec">
+            <p class="eyebrow" data-i18n="what.label">what it will be</p>
+            <h2 class="giant" data-i18n="what.h">The plan</h2>
+            <div class="grid">
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="p1.t">the telescope</span><span>01</span></div>
+                    <p data-i18n="p1.d">SPHEREx is NASA's all-sky infrared survey telescope, launched in March 2025. It maps the whole sky every six months in 102 colours between 0.75 and 5 microns, so every patch of sky gets visited again and again.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="p2.t">the tool</span><span>02</span></div>
+                    <p data-i18n="p2.d">You enter a right ascension and a declination. The tool fetches the public SPHEREx images of that patch from NASA/IPAC IRSA, puts them in time order, and plays them as a short animation. A nearby star or brown dwarf that moves across the sky shows up as a dot that jumps.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="p3.t">the check</span><span>03</span></div>
+                    <p data-i18n="p3.d">Before trusting it anywhere else, we test it on objects whose motion we already know, such as Barnard's Star, Epsilon Indi B, WISE 0855, RW Aurigae and R Draconis. If the tool shows what we know is there, we can believe what it shows elsewhere.</p>
+                </div>
+            </div>
+            <p class="note" data-i18n="planetx">The challenge, Planet X and SPHEREx, also asks whether SPHEREx could catch a distant Planet X. Part of the project is saying honestly, with numbers, how faint is too faint.</p>
+        </section>
+
+        <section class="sec status">
+            <p class="eyebrow" data-i18n="st.label">status</p>
+            <h2 class="giant" data-i18n="st.h">Soon</h2>
+            <p class="sub" data-i18n="st.d">Built during NASA Space Apps Milano, 14 and 15 November 2026, at Politecnico di Milano. This page fills in after the hackathon, with the tool, the code and what we found.</p>
+            <p class="btns">
+                <a class="btn btn-grey" href="https://science.nasa.gov/mission/spherex/" data-i18n="b.nasa">SPHEREx at NASA</a>
+                <a class="btn btn-grey" href="https://irsa.ipac.caltech.edu/Missions/spherex.html" data-i18n="b.irsa">the data at IRSA</a>
+                <a class="btn" href="/" data-i18n="b.home">back to yourastro.space</a>
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <p data-i18n="foot">Padova, Italy · 45.4° N, 11.9° E · a page of <a href="/">yourastro.space</a></p>
+    </footer>
+
+<script>
+/* EN / ID / IT, shares the saved choice with the rest of yourastro.space */
+(function () {
+    var ID = {
+        'skip': 'Langsung ke isi', 'n.home': 'beranda', 'n.notes': 'catatan',
+        'eye': 'segera hadir · NASA Space Apps Milano 2026',
+        'lede': 'Alat web kecil untuk bagian langit yang bergerak. Ketik sebuah posisi, lalu alat ini memutar gambar SPHEREx dari petak langit itu satu per satu, seperti buku gambar yang dibalik cepat, sehingga apa pun yang berpindah di antara kunjungan langsung terlihat.',
+        'flipcap': 'ilustrasi idenya, bukan data asli',
+        'what.label': 'akan jadi apa', 'what.h': 'Rencananya',
+        'p1.t': 'teleskopnya', 'p1.d': 'SPHEREx adalah teleskop survei inframerah seluruh langit milik NASA, diluncurkan pada Maret 2025. Ia memetakan seluruh langit setiap enam bulan dalam 102 warna antara 0,75 dan 5 mikron, sehingga setiap petak langit dikunjungi berulang kali.',
+        'p2.t': 'alatnya', 'p2.d': 'Kamu memasukkan asensio rekta dan deklinasi. Alat ini mengambil gambar SPHEREx publik dari petak itu di NASA/IPAC IRSA, mengurutkannya menurut waktu, lalu memutarnya sebagai animasi pendek. Bintang dekat atau katai cokelat yang bergerak di langit akan tampak sebagai titik yang melompat.',
+        'p3.t': 'pengujiannya', 'p3.d': 'Sebelum dipercaya di tempat lain, kami mengujinya pada objek yang geraknya sudah diketahui, seperti Bintang Barnard, Epsilon Indi B, WISE 0855, RW Aurigae, dan R Draconis. Kalau alat ini menunjukkan apa yang kami tahu memang ada, kami bisa memercayai apa yang ditunjukkannya di tempat lain.',
+        'planetx': 'Tantangannya, Planet X and SPHEREx, juga bertanya apakah SPHEREx bisa menangkap Planet X yang jauh. Bagian dari proyek ini adalah menjawab dengan jujur, dengan angka, seberapa redup yang sudah terlalu redup.',
+        'st.label': 'status', 'st.h': 'Segera',
+        'st.d': 'Dibuat selama NASA Space Apps Milano, 14 dan 15 November 2026, di Politecnico di Milano. Halaman ini akan diisi setelah hackathon, dengan alatnya, kodenya, dan apa yang kami temukan.',
+        'b.nasa': 'SPHEREx di NASA', 'b.irsa': 'datanya di IRSA', 'b.home': 'kembali ke yourastro.space',
+        'foot': 'Padova, Italia · 45,4° LU, 11,9° BT · bagian dari <a href="/">yourastro.space</a>'
+    };
+    var IT = {
+        'skip': 'Vai al contenuto', 'n.home': 'home', 'n.notes': 'appunti',
+        'eye': 'in arrivo · NASA Space Apps Milano 2026',
+        'lede': 'Un piccolo strumento web per la parte del cielo che si muove. Scrivi una posizione e lo strumento mostra le immagini SPHEREx di quella zona una dopo l’altra, come un flipbook, così tutto ciò che si è spostato tra una visita e l’altra salta all’occhio.',
+        'flipcap': 'illustrazione dell’idea, non dati reali',
+        'what.label': 'cosa sarà', 'what.h': 'Il piano',
+        'p1.t': 'il telescopio', 'p1.d': 'SPHEREx è il telescopio della NASA che osserva tutto il cielo nell’infrarosso, lanciato a marzo 2025. Mappa l’intero cielo ogni sei mesi in 102 colori tra 0,75 e 5 micron, quindi ogni zona del cielo viene rivisitata più volte.',
+        'p2.t': 'lo strumento', 'p2.d': 'Inserisci un’ascensione retta e una declinazione. Lo strumento scarica da NASA/IPAC IRSA le immagini SPHEREx pubbliche di quella zona, le mette in ordine di tempo e le mostra come una breve animazione. Una stella vicina o una nana bruna che si muove nel cielo appare come un punto che salta.',
+        'p3.t': 'la verifica', 'p3.d': 'Prima di fidarci altrove, lo proviamo su oggetti di cui conosciamo già il moto, come la Stella di Barnard, Epsilon Indi B, WISE 0855, RW Aurigae e R Draconis. Se lo strumento mostra ciò che sappiamo esserci, possiamo credere a ciò che mostra altrove.',
+        'planetx': 'La sfida, Planet X and SPHEREx, chiede anche se SPHEREx potrebbe vedere un Pianeta X lontano. Parte del progetto è dire con onestà, con i numeri, quanto debole è troppo debole.',
+        'st.label': 'stato', 'st.h': 'Presto',
+        'st.d': 'Costruito durante NASA Space Apps Milano, il 14 e 15 novembre 2026, al Politecnico di Milano. Questa pagina si riempirà dopo l’hackathon, con lo strumento, il codice e quello che abbiamo trovato.',
+        'b.nasa': 'SPHEREx alla NASA', 'b.irsa': 'i dati su IRSA', 'b.home': 'torna a yourastro.space',
+        'foot': 'Padova, Italia · 45,4° N, 11,9° E · una pagina di <a href="/">yourastro.space</a>'
+    };
+    var KEY = 'yas-lang', root = document.documentElement;
+    var nodes = document.querySelectorAll('[data-i18n]'), buttons = document.querySelectorAll('.lang button'), EN = {};
+    nodes.forEach(function (n) { if (!(n.dataset.i18n in EN)) EN[n.dataset.i18n] = n.innerHTML; });
+    function apply(lang) {
+        var d = lang === 'id' ? ID : lang === 'it' ? IT : EN;
+        nodes.forEach(function (n) { var v = d[n.dataset.i18n]; if (v != null) n.innerHTML = v; });
+        root.lang = lang;
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    }
+    var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+    var nav = (navigator.language || '').toLowerCase().slice(0, 2);
+    var start = (saved === 'en' || saved === 'id' || saved === 'it') ? saved : (nav === 'id' || nav === 'it' ? nav : 'en');
+    if (start !== 'en') apply(start);
+    buttons.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang); try { localStorage.setItem(KEY, b.dataset.lang); } catch (e) {} }); });
+})();
+</script>
+<script>
+/* ASCII flipbook: a fixed star field, and one '@' that hops between four visits */
+(function () {
+    var pre = document.querySelector('.flip-ascii'), n = document.querySelector('.flip-n');
+    if (!pre) return;
+    var W = 48, H = 14, seed = 7;
+    function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    var base = [];
+    for (var y = 0; y < H; y++) { var l = []; for (var x = 0; x < W; x++) { var r = rnd(); l.push(r < 0.03 ? '*' : r < 0.07 ? '.' : r < 0.085 ? '+' : ' '); } base.push(l); }
+    var path = [[14, 9], [19, 8], [24, 7], [29, 6]];
+    function frame(k, trail) {
+        var g = base.map(function (l) { return l.slice(); });
+        if (trail) path.forEach(function (p, i) { if (i < k) g[p[1]][p[0]] = 'o'; });
+        g[path[k][1]][path[k][0]] = '@';
+        return g.map(function (l) { return l.join(''); }).join('\n');
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { pre.textContent = frame(3, true); n.textContent = 'visits 1 to 4'; return; }
+    var k = 0;
+    function tick() { pre.textContent = frame(k, false); n.textContent = 'visit ' + (k + 1) + ' / 4'; k = (k + 1) % 4; }
+    tick(); setInterval(tick, 900);
+})();
+</script>
+<script src="/theme.js?v=2"></script>
+</body>
+</html>
