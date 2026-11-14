@@ -127,3 +127,438 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
   and [sohnjoo1-collab](https://github.com/sohnjoo1-collab).
 - **AI use:** parts of the code and of the text were written with help from Claude (Anthropic),
   and the Time Lens prototype with help from Codex (OpenAI).
+
+  Requirment
+
+  
+NASA Space Apps Challenge 2026
+
+
+Planet X and SPHEREx: Requirements and Optional Features
+
+
+1. Core Requirements (NASA Challenge Objectives)
+
+
+The challenge is to develop a public-facing web application that visualizes real SPHEREx sky observations over time, allowing users to identify moving or changing astronomical objects.
+
+
+Core objectives:
+
+
+
+
+
+
+Public Web Tool
+
+
+
+
+Create a publicly accessible web application.
+
+
+Make SPHEREx observations understandable and usable by a broad audience.
+
+
+
+
+
+
+
+
+Coordinate-Based Sky Selection
+
+
+
+
+Allow users to specify a region of the sky using Right Ascension (RA) and Declination (Dec).
+
+
+The application should support coordinate-based observation rather than being limited to a predefined collection of targets.
+
+
+
+
+
+
+
+
+Real SPHEREx Imagery
+
+
+
+
+Retrieve and display actual astronomical imagery from NASA's SPHEREx mission.
+
+
+Show the selected region of the sky across multiple observation times.
+
+
+
+
+
+
+
+
+Time-Based Visualization
+
+
+
+
+Present a chronological sequence of images, similar to a short video or animation.
+
+
+Make differences between observations easy to recognize.
+
+
+In particular, help users identify objects that shift position against the background sky.
+
+
+
+
+
+
+
+
+Validation Using Known Astronomical Targets
+Test the tool using the targets specifically named in the challenge:
+
+
+
+
+Barnard's Star
+
+
+Epsilon Indi B
+
+
+WISE 0855−0714
+
+
+RW Aurigae
+
+
+R Draconis
+
+
+
+
+These objects provide useful test cases for proper motion and brightness variability.
+
+
+
+
+
+
+2. Optional Features (NASA Potential Considerations)
+
+
+NASA explicitly presents the following as ideas teams may consider but are not required to implement.
+
+
+A. Future Data Updates
+
+
+Design the application so that newly released SPHEREx observations can be incorporated without major modifications.
+
+
+B. Advanced Spectral Visualization
+
+
+Explore effective ways to visualize SPHEREx's 102 infrared spectral bands.
+
+
+Possible approaches include:
+
+
+
+
+Combining observations from each of the six detector arrays
+
+
+Improving signal-to-noise ratios through data stacking
+
+
+Visualizing differences between wavelength ranges
+
+
+Generating spectra dynamically from observations
+
+
+
+
+Dynamic spectrum generation is highlighted as a particularly valuable enhancement.
+
+
+C. Image Addition and Subtraction
+
+
+Allow users to combine or subtract observations from different time periods.
+
+
+Possible applications:
+
+
+
+
+Image stacking
+
+
+Difference imaging
+
+
+Highlighting moving or variable objects
+
+
+Suppressing unchanged background sources
+
+
+
+
+D. Adjustable Field of View
+
+
+Let users select the angular size of the sky region being examined.
+
+
+Larger fields of view can help track fast-moving objects, although they may increase data transfer and processing requirements.
+
+
+E. External Astronomical Data Overlays
+
+
+Allow users to overlay information from other astronomical missions or catalogs, such as:
+
+
+
+
+ESA Gaia
+
+
+NASA WISE
+
+
+
+
+These overlays may provide additional context when examining SPHEREx observations.
+
+
+F. Coordinate-Based URLs
+
+
+Support URLs containing sky coordinates so that users can open, share, or embed a specific observation view directly.
+
+
+For example:
+
+
+?ra=269.45&dec=4.74
+
+
+G. Observation Metadata
+
+
+Display useful metadata associated with the astronomical data, particularly:
+
+
+
+
+Contamination flags
+
+
+Observation quality indicators
+
+
+Other information that helps users interpret the images correctly
+
+
+
+
+H. Existing Astronomical Software
+
+
+Consider using established astronomical tools and libraries rather than implementing every component from scratch.
+
+
+Examples include:
+
+
+
+
+Astropy for astronomical data processing
+
+
+Aladin, developed by the Strasbourg Astronomical Data Center (CDS), for sky visualization
+
+
+
+
+3. Our Project's Proposed Implementation
+
+
+The following features are our team's design decisions, not additional mandatory NASA requirements.
+
+
+Main Sky Interface
+
+
+Use Aladin Lite as the primary interactive sky map.
+
+
+Users can navigate freely, zoom into different regions, inspect RA/Dec coordinates, and select an area of interest.
+
+
+SPHEREx Time Lens
+
+
+Integrate SPHEREx observations into a rectangular lens or observation panel connected to the selected region.
+
+
+The lens should support:
+
+
+
+
+Real SPHEREx image display
+
+
+D1–D6 detector selection
+
+
+Observation timeline
+
+
+Blink animation
+
+
+Difference mode
+
+
+Playback controls
+
+
+Independent magnification
+
+
+Loading and unavailable-data states
+
+
+
+
+Scientific Backend
+
+
+Reuse the existing SPHEREx observation-processing pipeline developed by our teammate.
+
+
+Avoid rebuilding scientific functionality unless necessary for integration.
+
+
+4. Development Priorities
+
+
+
+
+Priority
+Feature
+Requirement status
+
+
+
+
+P0
+Public-facing web application
+Core
+
+
+P0
+RA/Dec coordinate input
+Core
+
+
+P0
+Real SPHEREx images
+Core
+
+
+P0
+Multiple observations in a chronological animation
+Core
+
+
+P0
+Test the five named astronomical targets
+Core objective
+
+
+P1
+D1–D6 and spectral-band exploration
+Optional
+
+
+P1
+Difference imaging and image stacking
+Optional
+
+
+P1
+Adjustable field of view
+Optional
+
+
+P1
+Support future SPHEREx releases
+Optional
+
+
+P2
+Gaia / WISE overlays
+Optional
+
+
+P2
+Coordinate-based shareable URLs
+Optional
+
+
+P2
+Observation metadata and contamination flags
+Optional
+
+
+P2
+Dynamic spectrum generation
+Optional, advanced
+
+
+
+
+5. Important Distinctions
+
+
+
+
+Discovering Planet X is not a required outcome of the challenge.
+
+
+Real-time telescope streaming is not required. The objective is to visualize observations taken at different times.
+
+
+Aladin Lite is suggested, not mandatory.
+
+
+Implementing all 102 spectral channels in the interface is not a core requirement.
+
+
+Difference imaging, spectral overlays, and automatic spectrum generation are optional enhancements.
+
+
+A working chronological SPHEREx viewer is more important than implementing numerous secondary features.
+
+
+
+
+Primary development goal: Deliver a reliable, publicly accessible tool that lets users select a sky region and visually detect changes across real SPHEREx observations.
+
+
