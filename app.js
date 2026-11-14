@@ -146,6 +146,8 @@ const PAGE = {
     "c.target": "target", "c.show": "yang ditampilkan", "c.view": "tampilan", "c.blink": "kedip", "c.diff": "selisih",
     "c.per": "satu gambar per", "c.pass": "lintasan", "c.exp": "pengamatan",
     "c.keys": "spasi putar atau jeda · panah melangkah · 1 sampai 6 detektor · d selisih · m penanda · g Gaia · f layar penuh",
+    "src.label": "rujukan", "src.sum": "18 makalah dan katalog, dengan tautan",
+    "cr.t8": "gambar", "cr.d8": "Foto-foto dalam cerita berasal dari Wikimedia Commons, karya NASA, ESA, JPL-Caltech, Webb, Hubble, WISE, dan Lowell Observatory. Masing-masing diberi kredit di bawahnya dengan tautan ke lisensinya.",
     "c.own": "posisimu sendiri", "c.epoch": "epoch (tahun)", "c.size": "medan (detik busur)", "c.det": "detektor", "c.tinfo": "target ini", "c.look4": "yang dicari",
     "c.go": "tampilkan medan ini",
     "c.hint": "Masukkan posisi pada epoch, lalu gerak diri memindahkannya ke tanggal tiap pengamatan. Di situs ini kelima target langsung terbuka. Posisi lain bertanya ke arsip langsung, yang butuh server dari repo GitHub berjalan di komputermu.",
@@ -185,6 +187,8 @@ const PAGE = {
     "c.target": "oggetto", "c.show": "cosa mostrare", "c.view": "vista", "c.blink": "blink", "c.diff": "differenza",
     "c.per": "un’immagine per", "c.pass": "passaggio", "c.exp": "esposizione",
     "c.keys": "spazio avvia o ferma · frecce un passo · da 1 a 6 rivelatore · d differenza · m segno · g Gaia · f schermo intero",
+    "src.label": "riferimenti", "src.sum": "18 articoli e cataloghi, con i link",
+    "cr.t8": "immagini", "cr.d8": "Le fotografie della storia vengono da Wikimedia Commons, opera di NASA, ESA, JPL-Caltech, Webb, Hubble, WISE e Lowell Observatory. Ognuna è accreditata sotto, con il link alla sua licenza.",
     "c.own": "la tua posizione", "c.epoch": "epoca (anno)", "c.size": "campo (arcsec)", "c.det": "rivelatore", "c.tinfo": "questo oggetto", "c.look4": "cosa cercare",
     "c.go": "mostra questo campo",
     "c.hint": "Inserisci la posizione all’epoca, e il moto proprio la sposta alla data di ogni esposizione. Su questo sito i cinque oggetti si aprono subito. Ogni altra posizione interroga l’archivio, e serve il server del repo GitHub acceso sul tuo computer.",
@@ -611,9 +615,9 @@ function targetInfo() {
   const pic = $("tinfoPic");
   if (pic && typeof TARGET_IMG === "object" && TARGET_IMG[t]) {
     const ti = TARGET_IMG[t];
-    if (pic.dataset.key !== t) {
-      pic.dataset.key = t; pic.textContent = "";
-      pic.appendChild(targetMedia(ti));
+    if (pic.dataset.key !== t + lang) {
+      pic.dataset.key = t + lang; pic.textContent = "";
+      pic.appendChild(targetMedia(ti, t));
       const cap = document.createElement("figcaption");
       cap.innerHTML = `<a href="${ti.page}" rel="noopener">${ti.credit}</a>`;
       pic.appendChild(cap);

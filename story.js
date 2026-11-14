@@ -48,7 +48,7 @@ const STORY = {
         student: `<p>The instrument is a <b>blink comparator</b>, invented in 1904. Two aligned photographs of one field are shown in quick turns, so a fixed star stays still and a moving body jumps. Tombaugh found Pluto on plates of 23 and 29 January 1930. Since 2017 volunteers of Backyard Worlds: Planet 9 have done the same with WISE images and found thousands of brown dwarf candidates [1].</p>
 <p>What they look for is <b>proper motion</b>, the angle a star moves across the sky per year. It grows with the star's speed across our line of sight and shrinks with its distance. The record holder, Barnard's Star, moves 10.4 arcsec per year. That sounds like a lot, but a SPHEREx pixel is 6.15 arcsec wide, so even this star moves less than one pixel between two visits six months apart.</p>`,
         scientist: `<p>Proper motion and tangential velocity are tied by <i>v</i><sub>t</sub> = 4.74 <i>μ d</i>, with <i>μ</i> in arcsec&nbsp;yr<sup>−1</sup>, <i>d</i> in pc and <i>v</i><sub>t</sub> in&nbsp;km&nbsp;s<sup>−1</sup>. For Barnard's Star, <i>μ</i> = 10.39″&nbsp;yr<sup>−1</sup> and <i>d</i> = 1.83 pc from Gaia DR3 [5], so <i>v</i><sub>t</sub> ≈ 90&nbsp;km&nbsp;s<sup>−1</sup>.</p>
-<p>At 6.15″ per pixel that is 1.69 px&nbsp;yr<sup>−1</sup>, or 0.85 px between six-month passes. The motion is sub-pixel per step and the PSF is undersampled, so the tool blinks per-pass medians on one fixed TAN grid rather than single exposures, and a slow mover appears in the difference view as a dipole, the signature Backyard Worlds uses [1, 18]. Across 60 D1 exposures our measured position of Barnard's Star falls on average within a tenth of a pixel of the Gaia prediction moved to each date.</p>`,
+<p>At 6.15″ per pixel that is 1.69 px&nbsp;yr<sup>−1</sup>, or 0.85 px between six-month passes. The motion is sub-pixel per step and the PSF is undersampled, so the tool can also blink per-pass medians on one fixed TAN grid, and a slow mover appears in the difference view as a dipole, the signature Backyard Worlds uses [1, 18]. Across 60 D1 exposures our measured position of Barnard's Star falls on average within a tenth of a pixel of the Gaia prediction moved to each date.</p>`,
       },
       {
         h: "Planets, stars and the things in between", fig: "glow", photo: { src: "img/story/brown_dwarfs.jpg", alt: "Planets up to about 13 Jupiter masses, brown dwarfs from about 13 to 80, and stars above about 80", cap: "Planets, brown dwarfs and stars, sorted by mass. Brown dwarfs sit between about 13 and 80 times the mass of Jupiter.", credit: "NASA/JPL-Caltech, PIA23685", page: "https://commons.wikimedia.org/wiki/File:PIA23685-Planets-BrownDwarfs-Stars.jpg" }, hook: "Why the coldest neighbours of the Sun shine in light we cannot see.",
@@ -116,7 +116,7 @@ function storyCite(html) {
 function storyPhoto(ph) {
   const img = ph.blink
     ? `<div class="plate-blink" role="img" aria-label="${ph.alt}" style="background-image:url(${ph.src})"></div>` +
-      `<button type="button" class="btn btn-grey fig-btn plate-btn" aria-pressed="false">blink the plates</button>`
+      `<button type="button" class="btn btn-grey fig-btn plate-btn" aria-pressed="false">${FT("plates")}</button>`
     : `<img src="${ph.src}" alt="${ph.alt}" loading="lazy">`;
   return `<figure class="photo">${img}<figcaption>${ph.cap} <span class="credit"><a href="${ph.page}" rel="noopener">${ph.credit}</a></span></figcaption></figure>`;
 }
@@ -127,8 +127,8 @@ function plateBlink(el) {
   let timer = null, b = false;
   const show = (second) => el.classList.toggle("second", second);
   btn.addEventListener("click", () => {
-    if (timer) { clearInterval(timer); timer = null; btn.setAttribute("aria-pressed", "false"); btn.textContent = "blink the plates"; return; }
-    btn.setAttribute("aria-pressed", "true"); btn.textContent = "stop";
+    if (timer) { clearInterval(timer); timer = null; btn.setAttribute("aria-pressed", "false"); btn.textContent = FT("plates"); return; }
+    btn.setAttribute("aria-pressed", "true"); btn.textContent = FT("stop");
     timer = setInterval(() => { b = !b; show(b); }, reduceMotionFig ? 1500 : 600);
     FIG_STOPS.push(() => clearInterval(timer));
   });
@@ -152,12 +152,12 @@ function renderStory() {
   // chapters are dropdowns: a title and one line to tempt, then the figure, then the words
   const box2 = document.getElementById("storyChapters");
   box2.querySelectorAll("details.chapter").forEach((d, i) => (d.open ? STORY_OPEN.add(i) : STORY_OPEN.delete(i)));
-  box2.innerHTML = L.chapters.map((c, i) =>
+  box2.innerHTML = L.chapters.map((c, i) => [c, STORY.en.chapters[i]]).map(([c, base], i) =>
     `<details class="panel chapter"${STORY_OPEN.has(i) ? " open" : ""}><summary><div class="panel-bar">` +
     `<span>${String(i + 1).padStart(2, "0")} · ${c.h}</span><span class="plus" aria-hidden="true"></span></div>` +
     `<p class="hook">${c.hook || ""}</p></summary>` +
-    (c.fig ? `<figure class="sfig" data-fig="${c.fig}"></figure>` : "") +
-    `<div class="chapter-main"><div class="chapter-body">${storyCite(c[read])}</div>${c.photo ? storyPhoto(c.photo) : ""}</div></details>`).join("");
+    (base.fig ? `<figure class="sfig" data-fig="${base.fig}"></figure>` : "") +
+    `<div class="chapter-main"><div class="chapter-body">${storyCite(c[read])}</div>${base.photo ? storyPhoto({ ...base.photo, cap: c.photoCap || base.photo.cap }) : ""}</div></details>`).join("");
   box2.querySelectorAll(".plate-blink").forEach(plateBlink);
   if (typeof FIGS === "object") {
     while (FIG_STOPS.length) FIG_STOPS.pop()();
