@@ -40,7 +40,7 @@ Or set things by hand:
 | `size` | field side in arcsec, up to 900 | 360 |
 | `band` | SPHEREx detector, D1 to D6 | D1 |
 | `view` | `blink` or `diff` (each image minus the median of all) | blink |
-| `mode` | `pass` (median of each six-month pass) or `frames` (every exposure) | pass |
+| `mode` | `frames` (every exposure) or `pass` (median of each six-month pass) | frames |
 | `speed` | blink interval in ms | 500 |
 | `stretch` | `asinh` or `linear` | asinh |
 | `contrast` | upper percentile for the stretch | 99.5 |

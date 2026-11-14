@@ -317,13 +317,13 @@ our teammate's Time Lens prototype.
 \subsection{Step 02, the blink viewer}
 The viewer draws the frames on a canvas, pixel for pixel, with no smoothing.
 
-\paragraph{Sky pass or exposure.} With one image per \emph{sky pass}, the default, each pass is
-reduced to its per-pixel median, and the blink steps through the passes. This removes most cosmic
-rays and single-exposure artefacts, and it matches the six-month rhythm in which a proper motion
-becomes visible. With one image per \emph{exposure}, every exposure is shown on its own. The
-counter always gives both numbers, for example \texttt{pass 2 / 3 · 60 exp} in the first mode
-and \texttt{exp 12 / 60 · pass 1 / 3} in the second, so it is clear how much data stands behind
-the few pass images.
+\paragraph{Exposure or sky pass.} By default the viewer blinks every single \emph{exposure}, so
+the full time sequence plays, 36 to 96 images per view. With one image per \emph{sky pass}, each
+pass is reduced to its per-pixel median, and the blink steps through the passes. This removes most
+cosmic rays and single-exposure artefacts, and it matches the six-month rhythm in which a proper
+motion becomes visible. The counter always gives both numbers, for example
+\texttt{exp 12 / 60 · pass 1 / 3} in the first mode and \texttt{pass 2 / 3 · 60 exp} in the
+second, so it is clear how the exposures group into passes.
 
 \paragraph{Detector.} Buttons D1 to D6, or the keys 1 to 6, switch the detector. For the five
 targets this loads the matching file from \texttt{data/bands/}. The target's best detector is
@@ -376,7 +376,7 @@ Parameter & Meaning & Default \\
 \texttt{size} & field side in arcsec, up to 900 & 360 \\
 \texttt{band} & SPHEREx detector, D1 to D6 & best for the target \\
 \texttt{view} & \texttt{blink} or \texttt{diff} & \texttt{blink} \\
-\texttt{mode} & \texttt{pass} (median of each pass) or \texttt{frames} (every exposure) & \texttt{pass} \\
+\texttt{mode} & \texttt{frames} (every exposure) or \texttt{pass} (median of each pass) & \texttt{frames} \\
 \texttt{speed} & blink interval in ms & 500 \\
 \texttt{stretch} & \texttt{asinh} or \texttt{linear} & \texttt{asinh} \\
 \texttt{contrast} & upper percentile of the stretch & 99.5 \\

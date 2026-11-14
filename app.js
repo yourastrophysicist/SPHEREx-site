@@ -221,7 +221,7 @@ const PAGE = {
 
 const DEFAULTS = {
   ra: "", dec: "", size: "360", band: "D1", pmra: "0", pmdec: "0", epoch: "2016.0",
-  view: "blink", mode: "pass", speed: "500", stretch: "asinh", contrast: "99.5",
+  view: "blink", mode: "frames", speed: "500", stretch: "asinh", contrast: "99.5",
   invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
   shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1",
   read: "curious",
