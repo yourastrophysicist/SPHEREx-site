@@ -7,7 +7,8 @@
 Writes ../data/bands/<target>_<D1..D6>.json and _mask.json (flagged pixels blanked), through the
 same code path as the page and export_static.py (server.frames_json), so the files are in the
 format app.js already reads. Files that already exist are skipped, so a stopped run can resume.
-Used by .github/workflows/export-bands.yml, which runs it on GitHub so the cutouts never fill a laptop.
+Used by .github/workflows/export-bands.yml, which runs it on GitHub so the cutouts never fill a laptop
+and hands the files back as a zip to commit by hand.
 """
 
 import glob

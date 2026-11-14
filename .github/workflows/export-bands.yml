@@ -1,15 +1,12 @@
 # Builds data/bands/<target>_<D1..D6>[_mask].json on GitHub, so the SPHEREx cutouts are
-# downloaded on GitHub's machine and never on a laptop. Run it from the Actions tab
-# ("Export all detectors", Run workflow) or with: gh workflow run export-bands.yml
+# downloaded on GitHub's machine and never on a laptop. It never commits: the files come out
+# as one zip per target under Artifacts on the run page. Unzip them into data/bands/ and
+# commit them yourself.
+#
+# Start it from the Actions tab: Export all detectors, Run workflow.
 name: Export all detectors
 
 on:
-  # also runs by itself when the workflow or the export script is pushed
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/export-bands.yml
-      - tool/export_all_bands.py
   workflow_dispatch:
     inputs:
       targets:
@@ -18,7 +15,7 @@ on:
         default: ""
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   export:
@@ -48,24 +45,3 @@ jobs:
           name: bands-${{ matrix.target }}
           path: data/bands/${{ matrix.target }}_*.json
           if-no-files-found: ignore
-
-  commit:
-    needs: export
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: bands-*
-          path: data/bands
-          merge-multiple: true
-      - name: Commit the new files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/bands
-          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
-          git commit -m "Export SPHEREx views of the targets in all six detectors"
-          git pull --rebase origin main
-          git push
