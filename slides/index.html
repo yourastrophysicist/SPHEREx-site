@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>try{var t=localStorage.getItem("yas-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
+    <title>SPHEREx Blink · slides</title>
+    <meta name="description" content="Six slides on SPHEREx Blink for NASA Space Apps Milano 2026, with live SPHEREx data on them.">
+    <link rel="icon" type="image/png" href="/img/favicon.png?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=31">
+    <style>
+        /* the deck: one slide fills the window, in the frame of the site */
+        html, body { height: 100%; }
+        body { overflow: hidden; }
+        .deck { position: fixed; inset: 0; border: 5px solid var(--blue); background: var(--bg); }
+        .slide { position: absolute; inset: 0; display: none; padding: clamp(20px, 4vh, 48px) clamp(24px, 5vw, 72px) 70px; overflow: auto; }
+        .slide.on { display: grid; animation: in .35s ease-out; }
+        .slide:not(.on) { display: none !important; }
+        .levels { display: grid; grid-template-columns: repeat(3, 1fr); }
+        .levels button[aria-selected="true"] { background: var(--blue); color: var(--bg); }
+        @keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .kicker { font: 600 13px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
+        .kicker::before { content: '[ '; opacity: .6; } .kicker::after { content: ' ]'; opacity: .6; }
+        .big { font: 200 clamp(56px, 11vh, 140px)/.86 var(--display); text-transform: uppercase; margin: 0; }
+        .h { font: 200 clamp(40px, 7.4vh, 92px)/.9 var(--display); text-transform: uppercase; margin: 0 0 clamp(14px, 2.4vh, 28px); }
+        .lead { font-size: clamp(18px, 2.4vh, 24px); line-height: 1.45; max-width: 34ch; margin: 18px 0 0; }
+        .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 48px); align-items: center; }
+        .two.wide-r { grid-template-columns: .9fr 1.1fr; }
+        .meta { font: 400 13px/1.7 var(--mono); margin-top: 24px; }
+        .meta b { font-weight: 600; }
+        /* live SPHEREx blinks, real data from ../data */
+        .live { position: relative; background: #000; border: 1px solid var(--blue-line); }
+        .live canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+        .live .tag { position: absolute; left: 0; top: 0; padding: 4px 8px; background: var(--blue); color: #fff; font: 400 12px var(--mono); }
+        .live .tag2 { position: absolute; right: 0; top: 0; padding: 4px 8px; background: var(--blue); color: #fff; font: 400 12px var(--mono); }
+        .hero-live { max-width: min(58vh, 560px); justify-self: center; width: 100%; }
+        /* step cards on slide 2 */
+        .cards { display: grid; gap: 14px; }
+        .card { display: grid; grid-template-columns: 64px 1fr; gap: 16px; align-items: start; padding: 16px 18px; background: var(--panel); border: 1px solid var(--blue-line); text-decoration: none; color: var(--blue); }
+        .card:hover { background: var(--blue-soft); }
+        .card .n { font: 200 54px/0.9 var(--display); }
+        .card h3 { margin: 2px 0 4px; font: 400 24px/1.1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+        .card p { margin: 0; font-size: 16px; }
+        /* stats */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+        .stat { padding: 14px 16px; background: var(--panel); border: 1px solid var(--blue-line); }
+        .stat b { display: block; font: 200 clamp(40px, 6vh, 64px)/1 var(--display); }
+        .stat span { font: 400 13px/1.4 var(--mono); }
+        /* five live targets */
+        .five { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        .five a { text-decoration: none; color: var(--blue); }
+        .five h4 { margin: 10px 0 2px; font: 400 clamp(17px, 2.2vh, 22px)/1.1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+        .five p { margin: 0; font-size: 14px; line-height: 1.4; }
+        .five small { display: block; font: 400 12px var(--mono); margin-bottom: 4px; }
+        /* reading levels on slide 5 */
+        .levels { max-width: 520px; }
+        .levels + .lvl { margin-top: 14px; font-size: 17px; min-height: 5.5em; max-width: 46ch; }
+        .slide .sfig { margin: 0; background: var(--panel); }
+        .explore-url { font: 200 clamp(36px, 6vh, 72px)/1 var(--display); text-transform: uppercase; text-decoration: none; color: var(--blue); border-bottom: 2px solid var(--blue); }
+        /* controls */
+        .nav { position: fixed; left: 5px; right: 5px; bottom: 5px; display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--blue-line); z-index: 5; font: 400 13px var(--mono); }
+        .nav button { min-width: 40px; min-height: 34px; border: 1px solid var(--blue); background: transparent; color: var(--blue); cursor: pointer; font: 600 14px var(--mono); }
+        .nav button:hover { background: var(--blue-soft); }
+        .nav .bar { flex: 1; height: 4px; background: var(--blue-line); }
+        .nav .bar i { display: block; height: 100%; background: var(--blue); transition: width .3s; }
+        .notes { position: fixed; right: 16px; bottom: 64px; width: min(460px, 90vw); max-height: 50vh; overflow: auto; padding: 14px 16px; background: var(--surface); border: 1px solid var(--blue); font-size: 15px; z-index: 6; box-shadow: 0 6px 24px rgba(0,0,0,.15); }
+        .notes b { font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+        @media (max-width: 900px) {
+            body { overflow: auto; }
+            .two, .two.wide-r { grid-template-columns: 1fr; }
+            .five { grid-template-columns: repeat(2, 1fr); }
+            .stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<main class="deck" id="deck" aria-roledescription="slide deck">
+
+    <!-- 01 title, with Barnard's Star walking in real SPHEREx data -->
+    <section class="slide two" aria-label="Slide 1 of 6" data-notes="We are Observationally Speaking, Jessica and Joowon. The challenge is Planet X and SPHEREx. What you see on the right is not an animation we drew. It is every SPHEREx exposure of Barnard's Star, lined up on one grid and played in order. The star walks north, under the red marks that say where Gaia predicts it.">
+        <div>
+            <p class="kicker">NASA Space Apps Milano 2026 · Planet X and SPHEREx</p>
+            <h1 class="big">SPHEREx<br>Blink</h1>
+            <p class="lead">Pick a star and watch it walk. The public SPHEREx images of one patch of sky, played like a flipbook, so anything close enough to move stands out.</p>
+            <p class="meta"><b>Observationally Speaking</b><br>Jessica Syafaq Muthmaina · Joowon Sohn<br>yourastro.space/SPHEREx</p>
+        </div>
+        <figure class="live hero-live" data-live="Barnard" data-mode="frames" style="margin:0"><canvas width="590" height="590"></canvas><span class="tag"></span><span class="tag2">Barnard's Star · D1</span></figure>
+    </section>
+
+    <!-- 02 the challenge and our answer -->
+    <section class="slide two wide-r" aria-label="Slide 2 of 6" data-notes="NASA asked for a public web tool. You type a position, it plays the SPHEREx images of that patch like a video. Our answer is one page in three steps. First you find the spot on the whole sky, then you watch it move, then you can read why it matters at the level you want. Click any card and the live page opens there.">
+        <div>
+            <p class="kicker">the challenge</p>
+            <h2 class="h">Type a place in the sky. Watch it change.</h2>
+            <p class="lead" style="max-width:40ch">NASA asked for a public web tool that plays the SPHEREx images of any patch of sky like a short video, tested on five named objects, with WiseView as the model.</p>
+        </div>
+        <div class="cards">
+            <a class="card" href="../?target=Barnard#explore" target="_blank" rel="noopener"><span class="n">01</span><div><h3>Find it</h3><p>One map of the whole sky, in SPHEREx's 102 colours or older surveys, with a lens to pick a spot.</p></div></a>
+            <a class="card" href="../?target=Barnard#step2" target="_blank" rel="noopener"><span class="n">02</span><div><h3>Watch it move</h3><p>Every exposure on one north-up grid, in any of the six detectors, with Gaia stars moved to each date.</p></div></a>
+            <a class="card" href="../?target=Barnard#story" target="_blank" rel="noopener"><span class="n">03</span><div><h3>Understand it</h3><p>The story told three ways, for someone new, a student or a scientist, in English, Indonesian and Italian.</p></div></a>
+        </div>
+    </section>
+
+    <!-- 03 how it works -->
+    <section class="slide" aria-label="Slide 3 of 6" style="align-content:center" data-notes="Five steps, all in our own Python. We ask NASA's archive IRSA for every exposure, cut a small square, remove the zodiacal light, put everything on one fixed grid, and play it. The five targets are exported ahead of time in all six detectors, 60 views, built on GitHub so the raw files never fill a laptop. The check is that Barnard's Star lands within a tenth of a pixel of where Gaia says it should be.">
+        <p class="kicker">how it works</p>
+        <h2 class="h">From NASA's archive to a moving picture</h2>
+        <div class="two" style="align-items:start">
+            <figure class="sfig" data-fig="steps"></figure>
+            <div class="stats" style="margin-top:0;grid-template-columns:1fr">
+                <div class="stat"><b>60</b><span>views ready to open, five targets in all six detectors</span></div>
+                <div class="stat"><b>36 to 96</b><span>real SPHEREx exposures behind every view</span></div>
+                <div class="stat"><b>0.1 px</b><span>average distance between Barnard's Star in our images and the Gaia prediction</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 04 five targets, five live blinks -->
+    <section class="slide" aria-label="Slide 4 of 6" style="align-content:center" data-notes="These five are blinking live, real SPHEREx data, one image per sky pass. Barnard's Star walks. Epsilon Indi B moves less than a pixel a year. WISE 0855 is only visible in the reddest detector, D6. RW Aurigae and R Draconis do not move, they change brightness. Click any of them to open it in the full viewer.">
+        <p class="kicker">the five test objects</p>
+        <h2 class="h">Five objects, five questions</h2>
+        <div class="five">
+            <a href="../?target=Barnard" target="_blank" rel="noopener"><figure class="live" data-live="Barnard" style="margin:0"><canvas width="236" height="236"></canvas><span class="tag"></span></figure><h4>Barnard's Star</h4><small>D1 · 1.69 px/yr</small><p>Can it see motion? It walks north.</p></a>
+            <a href="../?target=EpsIndB" target="_blank" rel="noopener"><figure class="live" data-live="EpsIndB" style="margin:0"><canvas width="236" height="236"></canvas><span class="tag"></span></figure><h4>Epsilon Indi B</h4><small>D5 · 0.76 px/yr</small><p>Can it see a tiny motion of a faint pair?</p></a>
+            <a href="../?target=WISE0855" target="_blank" rel="noopener"><figure class="live" data-live="WISE0855" style="margin:0"><canvas width="236" height="236"></canvas><span class="tag"></span></figure><h4>WISE 0855</h4><small>D6 · 1.33 px/yr</small><p>Can it show what is invisible in most colours?</p></a>
+            <a href="../?target=RWAur" target="_blank" rel="noopener"><figure class="live" data-live="RWAur" style="margin:0"><canvas width="236" height="236"></canvas><span class="tag"></span></figure><h4>RW Aurigae</h4><small>D1 · still</small><p>Can it show a young star change?</p></a>
+            <a href="../?target=RDra" target="_blank" rel="noopener"><figure class="live" data-live="RDra" style="margin:0"><canvas width="236" height="236"></canvas><span class="tag"></span></figure><h4>R Draconis</h4><small>D3 · still</small><p>Can it show a giant pulse?</p></a>
+        </div>
+    </section>
+
+    <!-- 05 for everyone -->
+    <section class="slide two" aria-label="Slide 5 of 6" data-notes="We wanted anyone to be able to use it. The explanation under the tool comes in three reading levels, and every chapter has something to play with, like this one. Pick the Sun, then WISE 0855, and see the glow move into the infrared. That is why SPHEREx, an infrared telescope, can see the coldest neighbours of the Sun.">
+        <div>
+            <p class="kicker">for everyone</p>
+            <h2 class="h">One page, three ways to read it</h2>
+            <div class="seg seg3 levels" role="tablist" aria-label="reading level">
+                <button type="button" role="tab" data-lvl="0" aria-selected="true">new to this</button>
+                <button type="button" role="tab" data-lvl="1">student</button>
+                <button type="button" role="tab" data-lvl="2">scientist</button>
+            </div>
+            <p class="lvl" id="lvl" aria-live="polite"></p>
+            <p class="meta">6 chapters · 6 interactive figures · NASA and ESA pictures · 18 checked sources · English, Indonesian, Italian</p>
+        </div>
+        <figure class="sfig" data-fig="glow"></figure>
+    </section>
+
+    <!-- 06 the honest answer, then explore -->
+    <section class="slide two" aria-label="Slide 6 of 6" data-notes="The challenge also asks about Planet X. The honest answer, with numbers, is that a Planet Nine of the usual size and distance is about forty times too faint for one SPHEREx exposure. Move the sliders, only a large planet near 300 AU comes close. Motion is never the problem, faintness is. Now please explore the site yourself.">
+        <div>
+            <p class="kicker">the honest answer</p>
+            <h2 class="h">Could it find Planet X?</h2>
+            <p class="lead">Probably not this way. Motion is easy, faintness is the problem. Move the sliders and see.</p>
+            <p class="meta" style="margin-top:32px">now explore it yourself</p>
+            <a class="explore-url" href="../?target=Barnard" target="_blank" rel="noopener">yourastro.space/SPHEREx</a>
+        </div>
+        <figure class="sfig" data-fig="planetx"></figure>
+    </section>
+
+    <nav class="nav" aria-label="slides">
+        <button type="button" id="prev" aria-label="Previous slide">←</button>
+        <span id="num">01 / 06</span>
+        <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+        <button type="button" id="notesBtn" aria-pressed="false" title="Speaker notes (n)">notes</button>
+        <button type="button" id="fsBtn" title="Full screen (f)">full screen</button>
+        <button type="button" id="next" aria-label="Next slide">→</button>
+    </nav>
+    <aside class="notes" id="notes" hidden><b>notes</b><p id="notesText"></p></aside>
+</main>
+
+<script>let lang = "en";</script>
+<script src="../figs.js?v=4"></script>
+<script>
+"use strict";
+// ---------- live SPHEREx blinks from the same static files the page uses ----------
+const BEST = { Barnard: "D1", EpsIndB: "D5", WISE0855: "D6", RWAur: "D1", RDra: "D3" };
+const cache = {};
+function load(t) {
+  return cache[t] || (cache[t] = fetch(`../data/${t}.json`).then((r) => r.json()));
+}
+function decode(f, n) {
+  const bin = atob(f.image), out = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const c = (bin.charCodeAt(2 * i) | (bin.charCodeAt(2 * i + 1) << 8)) << 16 >> 16;
+    out[i] = c === -32768 ? NaN : f.lo + f.scale * (c + 32767);
+  }
+  return out;
+}
+function median(a) { const b = a.filter((x) => !isNaN(x)).sort((x, y) => x - y); return b.length ? b[b.length >> 1] : NaN; }
+function views(j, mode) {
+  const n = j.npix * j.npix, imgs = j.frames.map((f) => decode(f, n));
+  if (mode === "frames") return j.frames.map((f, i) => ({ img: imgs[i], xy: f.target_xy, label: f.year.toFixed(2) }));
+  const passes = [...new Set(j.frames.map((f) => f.pass_index))];
+  return passes.map((p) => {
+    const ids = j.frames.map((f, i) => (f.pass_index === p ? i : -1)).filter((i) => i >= 0);
+    const img = new Float32Array(n);
+    for (let k = 0; k < n; k++) img[k] = median(ids.map((i) => imgs[i][k]));
+    const xy = [0, 1].map((a) => ids.reduce((s, i) => s + j.frames[i].target_xy[a], 0) / ids.length);
+    const y = ids.reduce((s, i) => s + j.frames[i].year, 0) / ids.length;
+    return { img, xy, label: `pass ${passes.indexOf(p) + 1} · ${y.toFixed(2)}` };
+  });
+}
+function paint(cv, v, N) {
+  const ctx = cv.getContext("2d"), fin = Array.from(v.img).filter((x) => !isNaN(x)).sort((a, b) => a - b);
+  const pct = (p) => fin[Math.min(fin.length - 1, Math.round(p / 100 * (fin.length - 1)))];
+  const med = pct(50), mad = 1.4826 * median(Array.from(fin, (x) => Math.abs(x - med))) || 1e-3;
+  const lo = med - 2 * mad, hi = Math.max(pct(99.5), lo + mad), beta = 3 * mad, norm = Math.asinh((hi - lo) / beta);
+  const id = ctx.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const val = v.img[y * N + x], o = ((N - 1 - y) * N + x) * 4;
+    const g = isNaN(val) ? 30 : Math.round(255 * Math.min(1, Math.max(0, Math.asinh((val - lo) / beta) / norm)));
+    id.data[o] = id.data[o + 1] = id.data[o + 2] = g; id.data[o + 3] = 255;
+  }
+  const off = document.createElement("canvas"); off.width = off.height = N; off.getContext("2d").putImageData(id, 0, 0);
+  ctx.imageSmoothingEnabled = false; ctx.drawImage(off, 0, 0, cv.width, cv.height);
+  const s = cv.width / N, cx = (v.xy[0] + 0.5) * s, cy = (N - 1 - v.xy[1] + 0.5) * s;
+  ctx.strokeStyle = "#ff4040"; ctx.lineWidth = Math.max(2, s / 3);
+  ctx.beginPath();
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { ctx.moveTo(cx + dx * 3 * s, cy + dy * 3 * s); ctx.lineTo(cx + dx * 5 * s, cy + dy * 5 * s); }
+  ctx.stroke();
+}
+const timers = [];
+async function startLive(slide) {
+  for (const fig of slide.querySelectorAll("[data-live]")) {
+    const t = fig.dataset.live, cv = fig.querySelector("canvas"), tag = fig.querySelector(".tag");
+    tag.textContent = "loading SPHEREx data";
+    const j = await load(t), vs = views(j, fig.dataset.mode || "pass");
+    let i = 0;
+    const step = () => { paint(cv, vs[i], j.npix); tag.textContent = vs[i].label; i = (i + 1) % vs.length; };
+    step(); timers.push(setInterval(step, fig.dataset.mode === "frames" ? 220 : 650));
+  }
+}
+
+// ---------- the deck ----------
+const slides = [...document.querySelectorAll(".slide")];
+let cur = 0;
+const built = new Set();
+function show(i) {
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  while (timers.length) clearInterval(timers.pop());
+  while (FIG_STOPS.length) FIG_STOPS.pop()();
+  slides.forEach((s, k) => s.classList.toggle("on", k === cur));
+  const s = slides[cur];
+  if (!built.has(cur)) { s.querySelectorAll(".sfig[data-fig]").forEach((f) => FIGS[f.dataset.fig](f)); built.add(cur); }
+  startLive(s).catch(() => {});
+  document.getElementById("num").textContent = `${String(cur + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+  document.getElementById("bar").style.width = `${100 * (cur + 1) / slides.length}%`;
+  document.getElementById("notesText").textContent = s.dataset.notes || "";
+  history.replaceState(null, "", `#${cur + 1}`);
+}
+document.getElementById("prev").onclick = () => show(cur - 1);
+document.getElementById("next").onclick = () => show(cur + 1);
+const notes = document.getElementById("notes"), nb = document.getElementById("notesBtn");
+const toggleNotes = () => { notes.hidden = !notes.hidden; nb.setAttribute("aria-pressed", String(!notes.hidden)); };
+nb.onclick = toggleNotes;
+const fs = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
+document.getElementById("fsBtn").onclick = fs;
+document.addEventListener("keydown", (e) => {
+  if (e.target.closest("input, select, textarea")) return;
+  if (["ArrowRight", "PageDown", " "].includes(e.key) && !e.target.closest("button")) { e.preventDefault(); show(cur + 1); }
+  else if (["ArrowLeft", "PageUp"].includes(e.key) && !e.target.closest("[role=tab]")) { e.preventDefault(); show(cur - 1); }
+  else if (e.key === "n") toggleNotes();
+  else if (e.key === "f") fs();
+  else if (e.key === "Home") show(0);
+  else if (e.key === "End") show(slides.length - 1);
+});
+
+// reading levels on slide 5, the opening lines of chapter 2 at each level
+const LVL = [
+  "An exoplanet is a planet that circles a star other than the Sun. Between planets and stars sits a strange family, the brown dwarfs, too light to keep shining, so they cool for ever and glow in infrared light like a fading ember.",
+  "Below about 13 Jupiter masses an object never burns deuterium, above about 75 to 80 it burns hydrogen and is a star. A cool body glows most at λmax ≈ 2900 μm K / T, so a 250 K brown dwarf peaks near 12 μm.",
+  "The 20 pc census holds 525 L, T and Y dwarfs. WISE 0855−0714 is a Y dwarf near 250 K at 2.3 pc, J ≈ 25 but W2 = 13.70, so its flux sits almost entirely near 4.6 μm, inside SPHEREx's D6.",
+];
+document.querySelectorAll("[data-lvl]").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll("[data-lvl]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  document.getElementById("lvl").textContent = LVL[+b.dataset.lvl];
+}));
+document.getElementById("lvl").textContent = LVL[0];
+
+show(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+</script>
+</body>
+</html>
