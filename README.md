@@ -11,6 +11,14 @@ Pick a star and watch it walk. The page plays the public SPHEREx images of one s
 one six-month sky pass after another, on one fixed north-up grid, so anything close enough to move
 jumps out against the stars behind it. Above it, a whole-sky map shows where that patch sits.
 
+<p align="center">
+  <img src="docs/img/viewer.png" width="49%" alt="The blink viewer on Barnard's Star in detector D1, with Gaia DR3 stars circled at the date of the frame">
+  <img src="docs/img/sky-map.png" width="49%" alt="The whole-sky map in SPHEREx DR1 at 1.2 micrometres, with the five test targets marked">
+</p>
+
+**Slides:** [www.yourastro.space/SPHEREx/slides](https://www.yourastro.space/SPHEREx/slides/), six
+slides with live SPHEREx data on them. More below in [Slides](#slides).
+
 ## What is on the page
 
 **01 · Find it on the whole sky.** One interactive map of the entire sky.
@@ -75,6 +83,8 @@ that the files are cached in `~/spherex_data` and the field opens at once.
 | `tool/earth_mollweide.py` | makes the Earth images in `img/` |
 | `.github/workflows/export-bands.yml` | runs `export_all_bands.py` on GitHub |
 | `docs/release/` | the release document, LaTeX and PDF |
+| `docs/img/` | the screenshots in this README |
+| `slides/index.html` | the six slides |
 | `tool/README.md` | URL parameters, keys, overlays, data format |
 | `prep/` | our test notebook and scripts of 10 November 2026 |
 
@@ -103,6 +113,49 @@ Its ideas now also live inside the main page: the Aladin sky map around the SPHE
 crosshair, the lens you switch on and drag, the fixed Home and the D1 to D6 buttons, which on the main
 page switch the map to real SPHEREx DR1 imagery.
 
+## Slides
+
+The deck is a web page in the same design, `slides/index.html`, shown at
+[www.yourastro.space/SPHEREx/slides](https://www.yourastro.space/SPHEREx/slides/). The images on it
+are real SPHEREx frames read from `data/`, and the figures can be clicked. Arrow keys move between
+slides, `n` shows the speaker notes and `f` goes full screen.
+
+| | |
+|---|---|
+| ![Slide 1, SPHEREx Blink title with Barnard's Star blinking](docs/img/slide-1.png) | ![Slide 2, the challenge: type a place in the sky, watch it change](docs/img/slide-2.png) |
+| **1.** Title, with Barnard's Star blinking | **2.** The challenge and what the page does |
+| ![Slide 3, from NASA's archive to a moving picture](docs/img/slide-3.png) | ![Slide 4, five objects, five questions](docs/img/slide-4.png) |
+| **3.** The data path in five steps | **4.** The five test objects |
+| ![Slide 5, one page, three ways to read it](docs/img/slide-5.png) | ![Slide 6, could it find Planet X?](docs/img/slide-6.png) |
+| **5.** The story at three reading levels | **6.** Could it find Planet X? |
+
+## The challenge, and where we stand
+
+Our teammate's reading of the *Planet X and SPHEREx* brief, with what the page does today. P0 is
+what NASA requires, P1 and P2 are NASA's optional ideas in our order of priority. Finding Planet X
+is not a required outcome, and no live telescope stream is asked for, only observations taken at
+different times.
+
+| Priority | Feature | NASA | Status |
+|---|---|---|---|
+| P0 | Public web application | Core | Done, [yourastro.space/SPHEREx](https://www.yourastro.space/SPHEREx/) |
+| P0 | Sky position by RA and Dec | Core | `ra` and `dec` in the URL work with the local server in `tool/`. The public page opens the five targets only |
+| P0 | Real SPHEREx images | Core | Done, Level 2 exposures from IRSA |
+| P0 | Observations in time order, as an animation | Core | Done, every exposure or one median per six-month pass |
+| P0 | Test on the five named targets | Core | Done, all five in all six detectors |
+| P1 | Detectors D1 to D6 and spectral bands | Optional | Done for D1 to D6 in the viewer, and the 102 colours of DR1 on the sky map |
+| P1 | Difference imaging and stacking | Optional | Done, difference view and pass medians |
+| P1 | Adjustable field of view | Optional | `size` up to 900 arcsec on the local server. The five targets ship at 360 arcsec |
+| P1 | New SPHEREx releases | Optional | The export scripts and the GitHub workflow can be run again |
+| P2 | Gaia and WISE overlays | Optional | Done, Gaia DR3 and CatWISE2020 moved to each frame's date |
+| P2 | Shareable coordinate URLs | Optional | Done, every setting lives in the URL |
+| P2 | Quality and contamination flags | Optional | Flagged pixels can be masked. Per-frame flags are not shown yet |
+| P2 | Spectra made on the fly | Optional, advanced | Not done |
+| | Use existing software | Suggested | Astropy for the data path, Aladin Lite for the sky map |
+
+The priority is a reliable viewer that lets anyone pick a patch of sky and see what changed, ahead
+of more secondary features.
+
 ## prep/
 
 The `prep/` folder holds the test notebook and two scripts made on 10 November 2026 to check that
@@ -127,438 +180,3 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
   and [sohnjoo1-collab](https://github.com/sohnjoo1-collab).
 - **AI use:** parts of the code and of the text were written with help from Claude (Anthropic),
   and the Time Lens prototype with help from Codex (OpenAI).
-
-  Requirment
-
-  
-NASA Space Apps Challenge 2026
-
-
-Planet X and SPHEREx: Requirements and Optional Features
-
-
-1. Core Requirements (NASA Challenge Objectives)
-
-
-The challenge is to develop a public-facing web application that visualizes real SPHEREx sky observations over time, allowing users to identify moving or changing astronomical objects.
-
-
-Core objectives:
-
-
-
-
-
-
-Public Web Tool
-
-
-
-
-Create a publicly accessible web application.
-
-
-Make SPHEREx observations understandable and usable by a broad audience.
-
-
-
-
-
-
-
-
-Coordinate-Based Sky Selection
-
-
-
-
-Allow users to specify a region of the sky using Right Ascension (RA) and Declination (Dec).
-
-
-The application should support coordinate-based observation rather than being limited to a predefined collection of targets.
-
-
-
-
-
-
-
-
-Real SPHEREx Imagery
-
-
-
-
-Retrieve and display actual astronomical imagery from NASA's SPHEREx mission.
-
-
-Show the selected region of the sky across multiple observation times.
-
-
-
-
-
-
-
-
-Time-Based Visualization
-
-
-
-
-Present a chronological sequence of images, similar to a short video or animation.
-
-
-Make differences between observations easy to recognize.
-
-
-In particular, help users identify objects that shift position against the background sky.
-
-
-
-
-
-
-
-
-Validation Using Known Astronomical Targets
-Test the tool using the targets specifically named in the challenge:
-
-
-
-
-Barnard's Star
-
-
-Epsilon Indi B
-
-
-WISE 0855−0714
-
-
-RW Aurigae
-
-
-R Draconis
-
-
-
-
-These objects provide useful test cases for proper motion and brightness variability.
-
-
-
-
-
-
-2. Optional Features (NASA Potential Considerations)
-
-
-NASA explicitly presents the following as ideas teams may consider but are not required to implement.
-
-
-A. Future Data Updates
-
-
-Design the application so that newly released SPHEREx observations can be incorporated without major modifications.
-
-
-B. Advanced Spectral Visualization
-
-
-Explore effective ways to visualize SPHEREx's 102 infrared spectral bands.
-
-
-Possible approaches include:
-
-
-
-
-Combining observations from each of the six detector arrays
-
-
-Improving signal-to-noise ratios through data stacking
-
-
-Visualizing differences between wavelength ranges
-
-
-Generating spectra dynamically from observations
-
-
-
-
-Dynamic spectrum generation is highlighted as a particularly valuable enhancement.
-
-
-C. Image Addition and Subtraction
-
-
-Allow users to combine or subtract observations from different time periods.
-
-
-Possible applications:
-
-
-
-
-Image stacking
-
-
-Difference imaging
-
-
-Highlighting moving or variable objects
-
-
-Suppressing unchanged background sources
-
-
-
-
-D. Adjustable Field of View
-
-
-Let users select the angular size of the sky region being examined.
-
-
-Larger fields of view can help track fast-moving objects, although they may increase data transfer and processing requirements.
-
-
-E. External Astronomical Data Overlays
-
-
-Allow users to overlay information from other astronomical missions or catalogs, such as:
-
-
-
-
-ESA Gaia
-
-
-NASA WISE
-
-
-
-
-These overlays may provide additional context when examining SPHEREx observations.
-
-
-F. Coordinate-Based URLs
-
-
-Support URLs containing sky coordinates so that users can open, share, or embed a specific observation view directly.
-
-
-For example:
-
-
-?ra=269.45&dec=4.74
-
-
-G. Observation Metadata
-
-
-Display useful metadata associated with the astronomical data, particularly:
-
-
-
-
-Contamination flags
-
-
-Observation quality indicators
-
-
-Other information that helps users interpret the images correctly
-
-
-
-
-H. Existing Astronomical Software
-
-
-Consider using established astronomical tools and libraries rather than implementing every component from scratch.
-
-
-Examples include:
-
-
-
-
-Astropy for astronomical data processing
-
-
-Aladin, developed by the Strasbourg Astronomical Data Center (CDS), for sky visualization
-
-
-
-
-3. Our Project's Proposed Implementation
-
-
-The following features are our team's design decisions, not additional mandatory NASA requirements.
-
-
-Main Sky Interface
-
-
-Use Aladin Lite as the primary interactive sky map.
-
-
-Users can navigate freely, zoom into different regions, inspect RA/Dec coordinates, and select an area of interest.
-
-
-SPHEREx Time Lens
-
-
-Integrate SPHEREx observations into a rectangular lens or observation panel connected to the selected region.
-
-
-The lens should support:
-
-
-
-
-Real SPHEREx image display
-
-
-D1–D6 detector selection
-
-
-Observation timeline
-
-
-Blink animation
-
-
-Difference mode
-
-
-Playback controls
-
-
-Independent magnification
-
-
-Loading and unavailable-data states
-
-
-
-
-Scientific Backend
-
-
-Reuse the existing SPHEREx observation-processing pipeline developed by our teammate.
-
-
-Avoid rebuilding scientific functionality unless necessary for integration.
-
-
-4. Development Priorities
-
-
-
-
-Priority
-Feature
-Requirement status
-
-
-
-
-P0
-Public-facing web application
-Core
-
-
-P0
-RA/Dec coordinate input
-Core
-
-
-P0
-Real SPHEREx images
-Core
-
-
-P0
-Multiple observations in a chronological animation
-Core
-
-
-P0
-Test the five named astronomical targets
-Core objective
-
-
-P1
-D1–D6 and spectral-band exploration
-Optional
-
-
-P1
-Difference imaging and image stacking
-Optional
-
-
-P1
-Adjustable field of view
-Optional
-
-
-P1
-Support future SPHEREx releases
-Optional
-
-
-P2
-Gaia / WISE overlays
-Optional
-
-
-P2
-Coordinate-based shareable URLs
-Optional
-
-
-P2
-Observation metadata and contamination flags
-Optional
-
-
-P2
-Dynamic spectrum generation
-Optional, advanced
-
-
-
-
-5. Important Distinctions
-
-
-
-
-Discovering Planet X is not a required outcome of the challenge.
-
-
-Real-time telescope streaming is not required. The objective is to visualize observations taken at different times.
-
-
-Aladin Lite is suggested, not mandatory.
-
-
-Implementing all 102 spectral channels in the interface is not a core requirement.
-
-
-Difference imaging, spectral overlays, and automatic spectrum generation are optional enhancements.
-
-
-A working chronological SPHEREx viewer is more important than implementing numerous secondary features.
-
-
-
-
-Primary development goal: Deliver a reliable, publicly accessible tool that lets users select a sky region and visually detect changes across real SPHEREx observations.
-
-
