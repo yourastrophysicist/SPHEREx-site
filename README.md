@@ -112,7 +112,7 @@ once the second time. It also takes fields up to 900 arcsec, against 600 on the 
 | `.github/workflows/export-bands.yml` | runs `export_all_bands.py` on GitHub |
 | `docs/release/` | the release document, LaTeX and PDF |
 | `docs/img/` | the screenshots in this README |
-| `slides/index.html` | the six slides |
+| `slides/index.html`, `slides/data/` | the seven slides, and the Kapteyn's Star view fetched through the relay for slide 5 |
 | `tool/README.md` | URL parameters, keys, overlays, data format |
 | `prep/` | our test notebook and scripts of 10 November 2026 |
 
@@ -144,7 +144,8 @@ page switch the map to real SPHEREx DR1 imagery.
 
 The deck is a web page in the same design, `slides/index.html`, shown at
 [www.yourastro.space/SPHEREx/slides](https://www.yourastro.space/SPHEREx/slides/). The images on it
-are real SPHEREx frames read from `data/`, and the figures can be clicked. Arrow keys move between
+are real SPHEREx frames read from `data/`, and the figures can be clicked. Slide 5 plays Kapteyn's
+Star, which is not one of the five targets, from a view saved through the relay on 14 November 2026. Arrow keys move between
 slides, `n` shows the speaker notes and `f` goes full screen.
 
 | | |
@@ -153,8 +154,10 @@ slides, `n` shows the speaker notes and `f` goes full screen.
 | **1.** Title, with Barnard's Star blinking | **2.** The challenge and what the page does |
 | ![Slide 3, from NASA's archive to a moving picture](docs/img/slide-3.png) | ![Slide 4, five objects, five questions](docs/img/slide-4.png) |
 | **3.** The data path in five steps | **4.** The five test objects |
-| ![Slide 5, one page, three ways to read it](docs/img/slide-5.png) | ![Slide 6, could it find Planet X?](docs/img/slide-6.png) |
-| **5.** The story at three reading levels | **6.** Could it find Planet X? |
+| ![Slide 5, not just five stars: Kapteyn's Star blinking](docs/img/slide-5.png) | ![Slide 6, one page, three ways to read it](docs/img/slide-6.png) |
+| **5.** Any position, with Kapteyn's Star | **6.** The story at three reading levels |
+| ![Slide 7, could it find Planet X?](docs/img/slide-7.png) | |
+| **7.** Could it find Planet X? | |
 
 ## The challenge, and where we stand
 

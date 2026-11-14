@@ -81,38 +81,38 @@
 <main class="deck" id="deck" aria-roledescription="slide deck">
 
     <!-- 01 title, with Barnard's Star walking in real SPHEREx data -->
-    <section class="slide two" aria-label="Slide 1 of 6" data-notes="We are Observationally Speaking, Jessica and Joowon. The challenge is Planet X and SPHEREx. What you see on the right is not an animation we drew. It is every SPHEREx exposure of Barnard's Star, lined up on one grid and played in order. The star walks north, under the red marks that say where Gaia predicts it.">
+    <section class="slide two" aria-label="Slide 1 of 7" data-notes="We are Observationally Speaking, Jessica and Joowon. The challenge is Planet X and SPHEREx. What you see on the right is not an animation we drew. It is every SPHEREx exposure of Barnard's Star, lined up on one grid and played in order. The star walks north, under the red marks that say where Gaia predicts it.">
         <div>
             <p class="kicker">NASA Space Apps Milano 2026 · Planet X and SPHEREx</p>
             <h1 class="big">SPHEREx<br>Blink</h1>
-            <p class="lead">Pick a star and watch it walk. The public SPHEREx images of one patch of sky, played like a flipbook, so anything close enough to move stands out.</p>
+            <p class="lead">Type any place in the sky, or pick a star, and watch it walk. The public SPHEREx images of one patch of sky, played like a flipbook, so anything close enough to move stands out.</p>
             <p class="meta"><b>Observationally Speaking</b><br>Jessica Syafaq Muthmaina · Joowon Sohn<br>yourastro.space/SPHEREx</p>
         </div>
         <figure class="live hero-live" data-live="Barnard" data-mode="frames" style="margin:0"><canvas width="590" height="590"></canvas><span class="tag"></span><span class="tag2">Barnard's Star · D1</span></figure>
     </section>
 
     <!-- 02 the challenge and our answer -->
-    <section class="slide two wide-r" aria-label="Slide 2 of 6" data-notes="NASA asked for a public web tool. You type a position, it plays the SPHEREx images of that patch like a video. Our answer is one page in three steps. First you find the spot on the whole sky, then you watch it move, then you can read why it matters at the level you want. Click any card and the live page opens there.">
+    <section class="slide two wide-r" aria-label="Slide 2 of 7" data-notes="NASA asked for a public web tool. You type a position, it plays the SPHEREx images of that patch like a video. Our answer is one page in three steps. First you find the spot on the whole sky, then you watch it move, then you can read why it matters at the level you want. Any position works on the live page, not only the five test objects. Click any card and the live page opens there.">
         <div>
             <p class="kicker">the challenge</p>
             <h2 class="h">Type a place in the sky. Watch it change.</h2>
             <p class="lead" style="max-width:40ch">NASA asked for a public web tool that plays the SPHEREx images of any patch of sky like a short video, tested on five named objects, with WiseView as the model.</p>
         </div>
         <div class="cards">
-            <a class="card" href="../?target=Barnard#explore" target="_blank" rel="noopener"><span class="n">01</span><div><h3>Find it</h3><p>One map of the whole sky, in SPHEREx's 102 colours or older surveys, with a lens to pick a spot.</p></div></a>
-            <a class="card" href="../?target=Barnard#step2" target="_blank" rel="noopener"><span class="n">02</span><div><h3>Watch it move</h3><p>Every exposure on one north-up grid, in any of the six detectors, with Gaia stars moved to each date.</p></div></a>
+            <a class="card" href="../?target=Barnard#explore" target="_blank" rel="noopener"><span class="n">01</span><div><h3>Find it</h3><p>One map of the whole sky, in SPHEREx's 102 colours or older surveys, with 29 well-known objects and a lens to pick a spot.</p></div></a>
+            <a class="card" href="../?target=Barnard#step2" target="_blank" rel="noopener"><span class="n">02</span><div><h3>Watch it move</h3><p>Any RA and Dec, live from NASA's archive. Every exposure on one north-up grid, in any of the six detectors, with Gaia stars moved to each date.</p></div></a>
             <a class="card" href="../?target=Barnard#story" target="_blank" rel="noopener"><span class="n">03</span><div><h3>Understand it</h3><p>The story told three ways, for someone new, a student or a scientist, in English, Indonesian and Italian.</p></div></a>
         </div>
     </section>
 
     <!-- 03 how it works -->
-    <section class="slide" aria-label="Slide 3 of 6" style="align-content:center" data-notes="Five steps, all in our own Python. We ask NASA's archive IRSA for every exposure, cut a small square, remove the zodiacal light, put everything on one fixed grid, and play it. The five targets are exported ahead of time in all six detectors, 60 views, built on GitHub so the raw files never fill a laptop. The check is that Barnard's Star lands within a tenth of a pixel of where Gaia says it should be.">
+    <section class="slide" aria-label="Slide 3 of 7" style="align-content:center" data-notes="Five steps, all in our own Python. We ask NASA's archive IRSA for every exposure, cut a small square, remove the zodiacal light, put everything on one fixed grid, and play it. The five targets are exported ahead of time in all six detectors, 60 views. For any other position a small relay on our site runs the same steps live, in about half a minute, and we checked it against the Python in all six detectors. The check is that Barnard's Star lands within a tenth of a pixel of where Gaia says it should be.">
         <p class="kicker">how it works</p>
         <h2 class="h">From NASA's archive to a moving picture</h2>
         <div class="two" style="align-items:start">
             <figure class="sfig" data-fig="steps"></figure>
             <div class="stats" style="margin-top:0;grid-template-columns:1fr">
-                <div class="stat"><b>60</b><span>views ready to open, five targets in all six detectors</span></div>
+                <div class="stat"><b>any</b><span>position on the sky, live from NASA's archive in about half a minute</span></div>
                 <div class="stat"><b>36 to 96</b><span>real SPHEREx exposures behind every view</span></div>
                 <div class="stat"><b>0.1 px</b><span>average distance between Barnard's Star in our images and the Gaia prediction</span></div>
             </div>
@@ -120,7 +120,7 @@
     </section>
 
     <!-- 04 five targets, five live blinks -->
-    <section class="slide" aria-label="Slide 4 of 6" style="align-content:center" data-notes="These five are blinking live, real SPHEREx data, one image per sky pass. Barnard's Star walks. Epsilon Indi B moves less than a pixel a year. WISE 0855 is only visible in the reddest detector, D6. RW Aurigae and R Draconis do not move, they change brightness. Click any of them to open it in the full viewer.">
+    <section class="slide" aria-label="Slide 4 of 7" style="align-content:center" data-notes="These five are blinking live, real SPHEREx data, one image per sky pass. Barnard's Star walks. Epsilon Indi B moves less than a pixel a year. WISE 0855 is only visible in the reddest detector, D6. RW Aurigae and R Draconis do not move, they change brightness. Click any of them to open it in the full viewer.">
         <p class="kicker">the five test objects</p>
         <h2 class="h">Five objects, five questions</h2>
         <div class="five">
@@ -132,8 +132,20 @@
         </div>
     </section>
 
-    <!-- 05 for everyone -->
-    <section class="slide two" aria-label="Slide 5 of 6" data-notes="We wanted anyone to be able to use it. The explanation under the tool comes in three reading levels, and every chapter has something to play with, like this one. Pick the Sun, then WISE 0855, and see the glow move into the infrared. That is why SPHEREx, an infrared telescope, can see the coldest neighbours of the Sun.">
+    <!-- 05 any position -->
+    <section class="slide two" aria-label="Slide 5 of 7" data-notes="The challenge says users enter a position. So the live page takes any position, not only the five. This is Kapteyn's Star, one of the fastest stars on the sky and not one of the five. We typed in its Gaia position and motion, and the page fetched all 39 SPHEREx exposures from NASA's archive in about half a minute. You can also drag the lens on the map, or pick one of 29 well-known objects and press blink it in SPHEREx.">
+        <div>
+            <p class="kicker">any position</p>
+            <h2 class="h">Not just five stars</h2>
+            <p class="lead">Type an RA and Dec, drag the lens, or pick one of 29 well-known objects. The page asks NASA's archive for every SPHEREx exposure of that spot and lines them up, in about half a minute.</p>
+            <p class="meta" style="margin-top:28px">Kapteyn's Star, not one of the five<br>Gaia DR3 position and motion typed in · 39 exposures · D1</p>
+            <a class="explore-url" href="../?ra=77.959937&dec=-45.043813&pmra=6491.2&pmdec=-5708.6&epoch=2016.0" target="_blank" rel="noopener">open it live</a>
+        </div>
+        <figure class="live hero-live" data-live="Kapteyn" data-src="data/Kapteyn_D1.json" data-mode="frames" style="margin:0"><canvas width="590" height="590"></canvas><span class="tag"></span><span class="tag2">Kapteyn's Star · D1</span></figure>
+    </section>
+
+    <!-- 06 for everyone -->
+    <section class="slide two" aria-label="Slide 6 of 7" data-notes="We wanted anyone to be able to use it. The explanation under the tool comes in three reading levels, and every chapter has something to play with, like this one. Pick the Sun, then WISE 0855, and see the glow move into the infrared. That is why SPHEREx, an infrared telescope, can see the coldest neighbours of the Sun.">
         <div>
             <p class="kicker">for everyone</p>
             <h2 class="h">One page, three ways to read it</h2>
@@ -148,8 +160,8 @@
         <figure class="sfig" data-fig="glow"></figure>
     </section>
 
-    <!-- 06 the honest answer, then explore -->
-    <section class="slide two" aria-label="Slide 6 of 6" data-notes="The challenge also asks about Planet X. The honest answer, with numbers, is that a Planet Nine of the usual size and distance is about forty times too faint for one SPHEREx exposure. Move the sliders, only a large planet near 300 AU comes close. Motion is never the problem, faintness is. Now please explore the site yourself.">
+    <!-- 07 the honest answer, then explore -->
+    <section class="slide two" aria-label="Slide 7 of 7" data-notes="The challenge also asks about Planet X. The honest answer, with numbers, is that a Planet Nine of the usual size and distance is about forty times too faint for one SPHEREx exposure. Move the sliders, only a large planet near 300 AU comes close. Motion is never the problem, faintness is. Now please explore the site yourself.">
         <div>
             <p class="kicker">the honest answer</p>
             <h2 class="h">Could it find Planet X?</h2>
@@ -162,7 +174,7 @@
 
     <nav class="nav" aria-label="slides">
         <button type="button" id="prev" aria-label="Previous slide">←</button>
-        <span id="num">01 / 06</span>
+        <span id="num">01 / 07</span>
         <div class="bar" aria-hidden="true"><i id="bar"></i></div>
         <button type="button" id="notesBtn" aria-pressed="false" title="Speaker notes (n)">notes</button>
         <button type="button" id="fsBtn" title="Full screen (f)">full screen</button>
@@ -172,14 +184,15 @@
 </main>
 
 <script>let lang = "en";</script>
-<script src="../figs.js?v=4"></script>
+<script src="../figs.js?v=5"></script>
 <script>
 "use strict";
 // ---------- live SPHEREx blinks from the same static files the page uses ----------
 const BEST = { Barnard: "D1", EpsIndB: "D5", WISE0855: "D6", RWAur: "D1", RDra: "D3" };
-const cache = {};
+const cache = {}, SRC = {};
+document.querySelectorAll("[data-src]").forEach((f) => { SRC[f.dataset.live] = f.dataset.src; });
 function load(t) {
-  return cache[t] || (cache[t] = fetch(`../data/${t}.json`).then((r) => r.json()));
+  return cache[t] || (cache[t] = fetch(SRC[t] || `../data/${t}.json`).then((r) => r.json()));
 }
 function decode(f, n) {
   const bin = atob(f.image), out = new Float32Array(n);
@@ -268,7 +281,7 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "End") show(slides.length - 1);
 });
 
-// reading levels on slide 5, the opening lines of chapter 2 at each level
+// reading levels on slide 6, the opening lines of chapter 2 at each level
 const LVL = [
   "An exoplanet is a planet that circles a star other than the Sun. Between planets and stars sits a strange family, the brown dwarfs, too light to keep shining, so they cool for ever and glow in infrared light like a fading ember.",
   "Below about 13 Jupiter masses an object never burns deuterium, above about 75 to 80 it burns hydrogen and is a star. A cool body glows most at λmax ≈ 2900 μm K / T, so a 250 K brown dwarf peaks near 12 μm.",
