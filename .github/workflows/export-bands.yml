@@ -1,0 +1,65 @@
+# Builds data/bands/<target>_<D1..D6>[_mask].json on GitHub, so the SPHEREx cutouts are
+# downloaded on GitHub's machine and never on a laptop. Run it from the Actions tab
+# ("Export all detectors", Run workflow) or with: gh workflow run export-bands.yml
+name: Export all detectors
+
+on:
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "Targets, space separated (empty = all five)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [Barnard, EpsIndB, WISE0855, RWAur, RDra]
+    steps:
+      - uses: actions/checkout@v4
+        if: inputs.targets == '' || contains(format(' {0} ', inputs.targets), format(' {0} ', matrix.target))
+      - uses: actions/setup-python@v5
+        if: inputs.targets == '' || contains(format(' {0} ', inputs.targets), format(' {0} ', matrix.target))
+        with:
+          python-version: "3.12"
+      - name: Export ${{ matrix.target }}
+        if: inputs.targets == '' || contains(format(' {0} ', inputs.targets), format(' {0} ', matrix.target))
+        env:
+          SPHEREX_DATA: ${{ runner.temp }}/spherex_data
+        run: |
+          pip install --quiet numpy scipy astropy
+          python tool/export_all_bands.py --clean ${{ matrix.target }}
+      - uses: actions/upload-artifact@v4
+        if: always() && (inputs.targets == '' || contains(format(' {0} ', inputs.targets), format(' {0} ', matrix.target)))
+        with:
+          name: bands-${{ matrix.target }}
+          path: data/bands/${{ matrix.target }}_*.json
+          if-no-files-found: ignore
+
+  commit:
+    needs: export
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bands-*
+          path: data/bands
+          merge-multiple: true
+      - name: Commit the new files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bands
+          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
+          git commit -m "Export SPHEREx views of the targets in all six detectors"
+          git pull --rebase origin main
+          git push
