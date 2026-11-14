@@ -484,3 +484,18 @@ details.chapter[open] .sfig { margin-top: 18px; }
 .tinfo-pic .tmedia { aspect-ratio: 16 / 10; }
 .spec-plot .pt.wing { fill: none !important; stroke: var(--blue); stroke-width: 1.2; }
 .spec-plot .pt.wing.on { stroke: #ffb000; stroke-width: 2; }
+.spec-tabs { margin-bottom: 8px; }
+.spec-plot .lc-line { fill: none; stroke: #ffb000; stroke-width: 1.5; }
+.spec-plot .lc-med { fill: #ffb000; stroke: var(--blue); stroke-width: 1; }
+.fake-presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; }
+.fake-range { display: grid; gap: 2px; margin-top: 8px; }
+.fake-range > span { display: flex; justify-content: space-between; gap: 8px; }
+.fake-range output { font: 400 12px var(--mono); text-transform: none; }
+.fake-range input, .fake-range input:focus { width: 100%; height: auto; padding: 0; border: 0; background: none; box-shadow: none; accent-color: #ff4fd8; }
+.fake-range input:disabled { opacity: .35; }
+/* next field and report */
+.fieldnav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; padding: 10px 14px 14px; border-top: 1px solid var(--blue-line); }
+.fieldnav .label { margin: 0 4px 0 0; }
+.fieldnav .rep { margin-left: auto; background: var(--blue); color: var(--bg); }
+.fieldnav-hint { flex-basis: 100%; margin: 4px 0 0; font-size: 13px; line-height: 1.45; opacity: .85; }
+.viewer.is-full .fieldnav { display: none; }

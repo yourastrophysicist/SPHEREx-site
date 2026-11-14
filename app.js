@@ -15,6 +15,16 @@ const PRESETS = {
 // ---------- words, in the three languages of the site ----------
 const WORDS = {
   en: {
+    "nav.lab": "next field", "nav.n": "north", "nav.s": "south", "nav.e": "east", "nav.w": "west", "nav.r": "random spot", "nav.rep": "report a candidate",
+    "nav.hint": "Each step moves one field over, about 5 arcmin. Report opens a short form on GitHub with this exact view filled in; it needs a free GitHub account.",
+    "rep.title": "Candidate at RA {ra}, Dec {dec} ({b})", "rep.body": "View: {url}\n\nWhat I saw (which frames, which direction, how bright):\n\n\nChecks:\n- [ ] It has no Gaia DR3 circle on it\n- [ ] It has no CatWISE2020 circle on it\n- [ ] It shows in more than one sky pass\n- [ ] It is not on a flagged or blank pixel",
+    "fk.sum": "test it with a fake mover", "fk.on": "add a fake mover to the real images", "fk.mag": "brightness (AB mag)", "fk.speed": "motion (arcsec/yr)", "fk.pa": "direction (deg, 0 = north, 90 = east)",
+    "fk.mark": "show where it is", "fk.easy": "easy", "fk.edge": "at the depth", "fk.p9": "Planet Nine-like",
+    "fk.note": "A point source with the SPHEREx PSF (FWHM 7.5″) added to every real exposure at the place its motion puts it, so the noise is real. It starts north-east of the centre. Turn the mark off and see if you can still find it. Planet Nine-like uses the calculator in chapter 6: magnitude about 21, and about 410″ a year of apparent motion at 500 AU.",
+    "fk.line": "{f} mJy · {v} px/yr",
+    "sp.head": "colour and time",
+    "sp.lc": "light curve", "sp.t": "date (year)", "lc.line": "{c} ± {h} µm · {n} exposures · first to last sky pass: {d}",
+    "lc.few": "Too few exposures at this colour for a light curve. Move the slider.", "lc.auto": "the middle colour of this detector, choose another with one colour only",
     "sp.title": "spectrum", "sp.x": "wavelength (µm)", "sp.y": "light in the aperture (mJy)",
     "sp.one": "blink one colour only", "sp.all": "add the other five detectors", "sp.load": "loading {b}", "sp.done": "all six detectors",
     "sp.note": "Each dot is one exposure: the target's light inside 2 pixels, at the wavelength the filter passed at that spot. This is how SPHEREx makes spectra. The aperture holds whatever sits in it, so a faint target next to a star shows the star. A star bright enough to saturate has a blank core. Its dots are hollow and use the light of its wings, which shows how it changes but not its true brightness.",
@@ -62,6 +72,15 @@ const WORDS = {
     "cap.earth.night": "The planet SPHEREx circles, at night, lit by its cities|Black Marble, NASA via GIBS",
   },
   id: {
+    "nav.lab": "medan berikutnya", "nav.n": "utara", "nav.s": "selatan", "nav.e": "timur", "nav.w": "barat", "nav.r": "titik acak", "nav.rep": "laporkan kandidat",
+    "nav.hint": "Setiap langkah bergeser satu medan, sekitar 5 menit busur. Lapor membuka formulir singkat di GitHub dengan tampilan ini sudah terisi; perlu akun GitHub gratis.",
+    "fk.sum": "uji dengan objek bergerak palsu", "fk.on": "tambahkan objek bergerak palsu ke gambar asli", "fk.mag": "kecerlangan (mag AB)", "fk.speed": "gerak (detik busur/tahun)", "fk.pa": "arah (derajat, 0 = utara, 90 = timur)",
+    "fk.mark": "tunjukkan letaknya", "fk.easy": "mudah", "fk.edge": "di batas kedalaman", "fk.p9": "mirip Planet Nine",
+    "fk.note": "Sumber titik dengan PSF SPHEREx (FWHM 7,5″) ditambahkan ke setiap pengamatan asli di tempat yang ditentukan geraknya, jadi derau tetap asli. Ia mulai di timur laut pusat. Matikan tandanya dan lihat apakah kamu masih bisa menemukannya. Mirip Planet Nine memakai kalkulator di bab 6: magnitudo sekitar 21, dan gerak semu sekitar 410″ per tahun pada 500 SA.",
+    "fk.line": "{f} mJy · {v} piksel/tahun",
+    "sp.head": "warna dan waktu",
+    "sp.lc": "kurva cahaya", "sp.t": "tanggal (tahun)", "lc.line": "{c} ± {h} µm · {n} pengamatan · lintasan pertama ke terakhir: {d}",
+    "lc.few": "Pengamatan di warna ini terlalu sedikit untuk kurva cahaya. Geser penggesernya.", "lc.auto": "warna tengah detektor ini, pilih warna lain lewat satu warna saja",
     "sp.title": "spektrum", "sp.x": "panjang gelombang (µm)", "sp.y": "cahaya di dalam apertur (mJy)",
     "sp.one": "kedipkan satu warna saja", "sp.all": "tambahkan lima detektor lainnya", "sp.load": "memuat {b}", "sp.done": "keenam detektor",
     "sp.note": "Setiap titik adalah satu pengamatan: cahaya target di dalam 2 piksel, pada panjang gelombang yang diloloskan filter di titik itu. Begitulah SPHEREx membuat spektrum. Apertur memuat apa pun yang ada di dalamnya, jadi target redup di samping bintang menampilkan bintang itu. Bintang yang cukup terang untuk jenuh punya inti kosong. Titiknya berongga dan memakai cahaya sayapnya, yang menunjukkan perubahannya tetapi bukan terang sebenarnya.",
@@ -109,6 +128,15 @@ const WORDS = {
     "cap.earth.night": "Planet yang dikelilingi SPHEREx, pada malam hari, diterangi kota-kotanya|Black Marble, NASA melalui GIBS",
   },
   it: {
+    "nav.lab": "campo successivo", "nav.n": "nord", "nav.s": "sud", "nav.e": "est", "nav.w": "ovest", "nav.r": "punto a caso", "nav.rep": "segnala un candidato",
+    "nav.hint": "Ogni passo sposta di un campo, circa 5 arcmin. Segnala apre un breve modulo su GitHub con questa vista già compilata; serve un account GitHub gratuito.",
+    "fk.sum": "mettilo alla prova con un falso oggetto in moto", "fk.on": "aggiungi un falso oggetto in moto alle immagini vere", "fk.mag": "luminosità (mag AB)", "fk.speed": "moto (arcsec/anno)", "fk.pa": "direzione (gradi, 0 = nord, 90 = est)",
+    "fk.mark": "mostra dov’è", "fk.easy": "facile", "fk.edge": "al limite", "fk.p9": "come Planet Nine",
+    "fk.note": "Una sorgente puntiforme con la PSF di SPHEREx (FWHM 7,5″) aggiunta a ogni esposizione vera nel punto in cui la porta il suo moto, quindi il rumore è vero. Parte a nord-est del centro. Togli il segno e prova a ritrovarla. Come Planet Nine usa il calcolatore del capitolo 6: magnitudine circa 21 e circa 410″ all’anno di moto apparente a 500 UA.",
+    "fk.line": "{f} mJy · {v} px/anno",
+    "sp.head": "colore e tempo",
+    "sp.lc": "curva di luce", "sp.t": "data (anno)", "lc.line": "{c} ± {h} µm · {n} esposizioni · dal primo all’ultimo passaggio: {d}",
+    "lc.few": "Troppe poche esposizioni a questo colore per una curva di luce. Sposta il cursore.", "lc.auto": "il colore centrale di questo rivelatore, scegline un altro con un solo colore",
     "sp.title": "spettro", "sp.x": "lunghezza d’onda (µm)", "sp.y": "luce nell’apertura (mJy)",
     "sp.one": "blink di un solo colore", "sp.all": "aggiungi gli altri cinque rivelatori", "sp.load": "carico {b}", "sp.done": "tutti e sei i rivelatori",
     "sp.note": "Ogni punto è un’esposizione: la luce dell’oggetto entro 2 pixel, alla lunghezza d’onda che il filtro lasciava passare in quel punto. È così che SPHEREx fa gli spettri. L’apertura contiene tutto ciò che vi cade dentro, quindi un oggetto debole accanto a una stella mostra la stella. Una stella abbastanza brillante da saturare ha il nucleo vuoto. I suoi punti sono cavi e usano la luce delle ali, che mostra come cambia ma non la sua vera luminosità.",
@@ -181,7 +209,7 @@ const PAGE = {
     "a2.t": "langit dan Bumi", "a2.d": "Sisi Bumi menampilkan planet yang dikelilingi SPHEREx, siang dan malam, dalam oval yang sama. Setiap gambar langit diambil dari suatu tempat, dan inilah tempatnya.",
     "a3.t": "surveinya", "a3.d": "SPHEREx DR1 adalah rilis seluruh langit pertama misi ini, dalam 102 warna dari 0,75 sampai 5 mikron, dan penggesernya melangkah di antara warna-warna itu. 2MASS, AllWISE, dan DSS2 menampilkan langit yang sama bertahun-tahun atau berpuluh tahun lebih awal, jadi bintang cepat seperti Barnard ada di tempat berbeda di tiap survei.",
     step1: "temukan di seluruh langit", step2: "lihat ia bergerak", "ex.shield": "klik atau ketuk langit untuk menjelajah",
-    "cr.t1": "gambar", "cr.d1": "Gambar SPHEREx Level 2 dan kubus seluruh langit DR1, NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA.",
+    "cr.t1": "gambar", "cr.d1": "SPHEREx DR1 Spectral Images (doi:10.26131/IRSA678) dan DR1 Spectral All-Sky Cube (doi:10.26131/IRSA679), NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA.",
     "cr.t2": "posisi", "cr.d2": "Gaia DR3 (ESA/DPAC) untuk posisi dan gerak, dan untuk WISE 0855 AllWISE dengan gerak dari Kirkpatrick dkk. 2021.",
     "cr.t3": "katalog", "cr.d3": "Gaia DR3 dan CatWISE2020 (Marocco dkk. 2021), keduanya melalui NASA/IPAC IRSA.",
     "cr.t4": "peta langit", "cr.d4": "Aladin Lite (CDS, Strasbourg), dengan 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA.",
@@ -222,7 +250,7 @@ const PAGE = {
     "a2.t": "cielo e Terra", "a2.d": "Il lato Terra mostra il pianeta attorno a cui gira SPHEREx, di giorno e di notte, nello stesso ovale. Ogni immagine del cielo è presa da qualche parte, ed ecco da dove.",
     "a3.t": "le survey", "a3.d": "SPHEREx DR1 è la prima pubblicazione di tutto il cielo della missione, in 102 colori da 0,75 a 5 micron, e il cursore li percorre. 2MASS, AllWISE e DSS2 mostrano lo stesso cielo anni o decenni prima, così una stella veloce come quella di Barnard si trova in un punto diverso in ognuna.",
     step1: "trovalo in tutto il cielo", step2: "guardalo muoversi", "ex.shield": "clicca o tocca il cielo per esplorarlo",
-    "cr.t1": "immagini", "cr.d1": "Immagini SPHEREx Level 2 e il cubo DR1 di tutto il cielo, NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA.",
+    "cr.t1": "immagini", "cr.d1": "SPHEREx DR1 Spectral Images (doi:10.26131/IRSA678) e DR1 Spectral All-Sky Cube (doi:10.26131/IRSA679), NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA.",
     "cr.t2": "posizioni", "cr.d2": "Gaia DR3 (ESA/DPAC) per posizioni e moti, e per WISE 0855 AllWISE con il moto di Kirkpatrick et al. 2021.",
     "cr.t3": "cataloghi", "cr.d3": "Gaia DR3 e CatWISE2020 (Marocco et al. 2021), entrambi tramite NASA/IPAC IRSA.",
     "cr.t4": "mappe del cielo", "cr.d4": "Aladin Lite (CDS, Strasburgo), con 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA.",
@@ -248,7 +276,7 @@ const DEFAULTS = {
   view: "blink", mode: "frames", speed: "500", stretch: "asinh", contrast: "99.5",
   invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
   shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1", known: "1",
-  read: "curious", wl: "", track: "1",
+  read: "curious", wl: "", track: "1", sv: "spec", fake: "", fakem: "1",
 };
 const DATA_KEYS = ["ra", "dec", "size", "band", "pmra", "pmdec", "epoch"];
 const PIX_ARCSEC = 6.15;
@@ -320,6 +348,7 @@ function syncUI() {
   $("marker").checked = S.marker === "1"; $("invert").checked = S.invert === "1"; $("mask").checked = S.mask === "1";
   $("gaia").checked = S.gaia === "1"; $("catwise").checked = S.catwise === "1"; $("gmag").value = S.gmag; $("wmag").value = S.wmag;
   $("track").checked = S.track === "1";
+  fakeSync();
   document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.view === S.view)));
   document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.mode === S.mode)));
   const t = presetFor();
@@ -498,7 +527,7 @@ async function load() {
     }
     if (seq !== loadSeq) return;
     if (!j.frames.length) { data = null; views = []; draw(); showError(() => [T("none"), T("noned")]); return; }
-    decode(j); data = j; hideLoading(); buildViews(); idx = 0; draw(); if (playing) start();
+    decode(j); data = j; hideLoading(); fakeSync(); buildViews(); idx = 0; draw(); if (playing) start();
     viewerReady = true; if (exVisible) loadAladin();
     mapSync();
   } catch (e) {
@@ -559,7 +588,7 @@ function stackMedian(images, n) {
 }
 
 function buildViews() {
-  const n = data.npix * data.npix, frames = frameSet();
+  const n = data.npix * data.npix, frames = withFake(frameSet());
   buildTrack();
   if (S.mode === "frames") {
     views = frames.map((f) => ({
@@ -582,7 +611,7 @@ function buildViews() {
       };
     });
   }
-  views.forEach((v, i) => { if (S.mode === "frames") v.frame = frames[i]; });
+  views.forEach((v, i) => { if (S.mode === "frames") v.frame = frames[i].orig || frames[i]; });
   if (!views.length) { $("scrub").max = 0; idx = 0; return; }
   // difference view: each image minus the median of all of them, so whatever never changes cancels
   const ref = stackMedian(views.map((v) => v.image), n);
@@ -673,6 +702,12 @@ function draw() {
     const curPass = v.pass !== undefined ? v.pass : (S.mode === "pass" ? idx : -1);
     for (const p of track.pts) { const [x, y] = at(p), r = Math.max(2, (p.pass === curPass ? 0.45 : 0.25) * scale); ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fill(); }
   }
+  const fk = fakeParams();
+  if (fk && S.fakem === "1") {             // a dashed ring where the fake mover is in this view
+    const [fx, fy] = fakeAt(fk, v.year), r = Math.max(4, 2.2 * scale);
+    ctx.save(); ctx.setLineDash([4 * u, 3 * u]); ctx.strokeStyle = "#ff4fd8"; ctx.lineWidth = Math.max(1, 1.4 * u);
+    ctx.beginPath(); ctx.arc((fx + 0.5) * scale, (N - 1 - fy + 0.5) * scale, r, 0, 2 * Math.PI); ctx.stroke(); ctx.restore();
+  }
   ctx.strokeStyle = ink; ctx.fillStyle = ink;
   ctx.font = `600 ${Math.round(11 * u)}px "JetBrains Mono", monospace`;
   // compass, bottom left: north up, east left
@@ -760,6 +795,21 @@ function centroid(img, N, xy) {
   }
   return [cx, cy];
 }
+// a source at the guess: a blank saturated core, or light in 2 pixels above 5 sigma of the 4 to 7 pixel annulus
+function detected(img, N, xy) {
+  const [cx, cy] = xy, ring = [];
+  let sum = 0, n = 0, blank = 0;
+  for (let y = Math.floor(cy - 7); y <= Math.ceil(cy + 7); y++) for (let x = Math.floor(cx - 7); x <= Math.ceil(cx + 7); x++) {
+    if (x < 0 || y < 0 || x >= N || y >= N) continue;
+    const r = Math.hypot(x - cx, y - cy), v = img[y * N + x];
+    if (r <= 2) { if (v === null) blank++; else { sum += v; n++; } }
+    else if (r >= 4 && r <= 7 && v !== null) ring.push(v);
+  }
+  if (blank >= 3) return true;
+  if (!n || ring.length < 8) return false;
+  const m = median(ring), sig = 1.4826 * median(ring.map((v) => Math.abs(v - m)));
+  return sig > 0 && (sum - n * m) > 5 * sig * Math.sqrt(n);
+}
 const slope = (t, v) => { const mt = mean(t), mv = mean(v); let a = 0, b = 0; t.forEach((x, i) => { a += (x - mt) * (v[i] - mv); b += (x - mt) ** 2; }); return b ? a / b : 0; };
 let track = null;
 function buildTrack() {
@@ -769,7 +819,9 @@ function buildTrack() {
   const pts = [];
   for (const [pass, fs] of groups) {
     const guess = [mean(fs.map((f) => f.target_xy[0])), mean(fs.map((f) => f.target_xy[1]))];
-    const c = centroid(stackMedian(fs.map((f) => f.image), n), data.npix, guess);
+    const img = stackMedian(fs.map((f) => f.image), n);
+    if (!detected(img, data.npix, guess)) continue;       // nothing there, no track to measure
+    const c = centroid(img, data.npix, guess);
     if (c && Math.hypot(c[0] - guess[0], c[1] - guess[1]) < 3) pts.push({ pass, x: c[0], y: c[1], gx: guess[0], gy: guess[1], year: mean(fs.map((f) => f.year)) });
   }
   if (pts.length < 2) { track = { pts, measured: 0, expected: 0 }; return; }
@@ -777,6 +829,75 @@ function buildTrack() {
   track = { pts, measured: as(slope(yr, pts.map((p) => p.x)), slope(yr, pts.map((p) => p.y))),
     expected: as(slope(yr, pts.map((p) => p.gx)), slope(yr, pts.map((p) => p.gy))) };
 }
+
+// ---------- next field and report: a volunteer can sweep the sky and send what they find ----------
+function goTo(ra, dec) {
+  form.elements.ra.value = (((ra % 360) + 360) % 360).toFixed(6); form.elements.dec.value = Math.max(-89.9, Math.min(89.9, dec)).toFixed(6);
+  form.elements.pmra.value = "0"; form.elements.pmdec.value = "0"; form.elements.epoch.value = "2016.0";
+  S.wl = ""; form.requestSubmit();
+}
+document.querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", () => {
+  const g = (data && data.grid) || { ra: +S.ra, dec: +S.dec }, st = 0.9 * (+S.size || 360) / 3600;
+  const [dx, dy] = { n: [0, 1], s: [0, -1], e: [1, 0], w: [-1, 0] }[b.dataset.step];
+  goTo(g.ra + dx * st / Math.cos(g.dec * Math.PI / 180), g.dec + dy * st);
+}));
+$("goRandom").addEventListener("click", () => goTo(360 * Math.random(), Math.asin(2 * Math.random() - 1) * 180 / Math.PI));
+$("report").addEventListener("click", () => {
+  const g = (data && data.grid) || { ra: +S.ra, dec: +S.dec };
+  const title = WORDS.en["rep.title"].replace("{ra}", g.ra.toFixed(5)).replace("{dec}", g.dec.toFixed(5)).replace("{b}", S.band);
+  const body = WORDS.en["rep.body"].replace("{url}", location.href);
+  window.open(`https://github.com/yourastrophysicist/SPHEREx-site/issues/new?${new URLSearchParams({ title, body })}`, "_blank", "noopener");
+});
+
+// ---------- a fake mover: a point source with the SPHEREx PSF added to the real exposures ----------
+// The test WiseView offers too. Brightness in AB magnitudes, motion in arcsec per year, direction east of north.
+// At the mean date it sits north-east of the centre; the real noise of every exposure stays as it is.
+const PSF_SIGMA = 7.53 / 2.3548 / PIX_ARCSEC;      // SPHEREx PSF_FWHM from the Level 2 headers, in pixels
+function fakeParams() {
+  if (!S.fake || !data) return null;
+  const [m, sp, pa] = S.fake.split(",").map(Number);
+  if (![m, sp, pa].every(Number.isFinite)) return null;
+  const N = data.npix, c = Math.floor(N / 2), t0 = mean(data.frames.map((f) => f.year));
+  const v = sp / PIX_ARCSEC, a = pa * Math.PI / 180;
+  return { m, sp, pa, x0: c - N / 5, y0: c + N / 5, t0, vx: -v * Math.sin(a), vy: v * Math.cos(a), fl: 3631e3 * 10 ** (-0.4 * m) };
+}
+const fakeAt = (k, t) => [k.x0 + k.vx * (t - k.t0), k.y0 + k.vy * (t - k.t0)];
+const erf = (x) => { const t = 1 / (1 + 0.3275911 * Math.abs(x)); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return x >= 0 ? y : -y; };
+let fakeCache = { key: "", map: new Map() };
+function withFake(frames) {
+  const k = fakeParams();
+  if (!k) return frames;
+  const key = S.fake + "|" + data.frames.length + "|" + (data.band || S.band);
+  if (fakeCache.key !== key || fakeCache.of !== data) fakeCache = { key, of: data, map: new Map() };
+  const N = data.npix, perPix = k.fl / MJY_PER_PIX, q = PSF_SIGMA * Math.SQRT2;
+  return frames.map((f) => {
+    if (fakeCache.map.has(f)) return fakeCache.map.get(f);
+    const [fx, fy] = fakeAt(k, f.year), img = f.image.slice();
+    const x0 = Math.max(0, Math.floor(fx - 4)), x1 = Math.min(N - 1, Math.ceil(fx + 4)), y0 = Math.max(0, Math.floor(fy - 4)), y1 = Math.min(N - 1, Math.ceil(fy + 4));
+    for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+      const p = y * N + x; if (img[p] === null) continue;
+      const w = 0.25 * (erf((x + 0.5 - fx) / q) - erf((x - 0.5 - fx) / q)) * (erf((y + 0.5 - fy) / q) - erf((y - 0.5 - fy) / q));
+      img[p] += perPix * w;
+    }
+    const g = { ...f, image: img, orig: f };
+    fakeCache.map.set(f, g);
+    return g;
+  });
+}
+function fakeSync() {
+  const k = fakeParams(), on = !!k;
+  $("fakeOn").checked = on; $("fakeMark").checked = S.fakem === "1";
+  for (const id of ["fakeMag", "fakeSpeed", "fakePa", "fakeMark"]) $(id).disabled = !on;
+  const [m, sp, pa] = (S.fake || "17,10,0").split(",").map(Number);
+  $("fakeMag").value = m; $("fakeSpeed").value = sp; $("fakePa").value = pa;
+  $("fakeMagOut").textContent = m.toFixed(1); $("fakeSpeedOut").textContent = sp.toFixed(0); $("fakePaOut").textContent = pa.toFixed(0);
+  $("fakeLine").textContent = on ? T("fk.line", { f: k.fl < 0.1 ? k.fl.toPrecision(2) : k.fl.toFixed(2), v: (k.sp / PIX_ARCSEC).toFixed(1) }) : "";
+}
+function setFake(v) { S.fake = v; writeURL(); fakeSync(); if (data) { buildViews(); draw(); } }
+$("fakeOn").addEventListener("change", (e) => setFake(e.target.checked ? `${$("fakeMag").value},${$("fakeSpeed").value},${$("fakePa").value}` : ""));
+for (const id of ["fakeMag", "fakeSpeed", "fakePa"]) $(id).addEventListener("input", () => setFake(`${$("fakeMag").value},${$("fakeSpeed").value},${$("fakePa").value}`));
+$("fakeMark").addEventListener("change", (e) => { S.fakem = e.target.checked ? "1" : "0"; writeURL(); draw(); });
+document.querySelectorAll("[data-fake]").forEach((b) => b.addEventListener("click", () => setFake(b.dataset.fake)));
 
 // the spectrum panel: dots for this detector, and the other five on request
 let spec = { key: "", own: [], extra: {} }, specBusy = false;
@@ -786,7 +907,7 @@ function pointsOf(j) {
   j.frames.forEach((f, i) => {
     if (!Number.isFinite(f.wavelength_um)) return;
     const a = aperture(f.image, N, f.target_xy);
-    if (a !== null) out.push({ wl: f.wavelength_um, fl: a.fl, wing: a.wing, pass: f.pass_index, i });
+    if (a !== null) out.push({ wl: f.wavelength_um, fl: a.fl, wing: a.wing, pass: f.pass_index, i, year: f.year });
   });
   return out;
 }
@@ -808,6 +929,9 @@ function renderSpec() {
     const c = +S.wl, h = c / resolving(data.band || S.band);
     $("wlLine").textContent = T("sp.win", { c: c.toFixed(3), h: h.toFixed(3), n: frameSet().length, m: data.frames.length });
   } else $("wlLine").textContent = T("sp.why");
+  document.querySelectorAll("[data-sv]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.sv === S.sv)));
+  $("specAll").hidden = S.sv === "lc";
+  if (S.sv === "lc") { renderLC(box); return; }
   if (!all.length) { box.innerHTML = ""; return; }
   const W = 320, H = 190, L = 44, R = 8, Tp = 8, B = 30;
   const xs = all.map((p) => p.wl), ys = all.map((p) => p.fl).filter((v) => v > 0);
@@ -833,9 +957,43 @@ function renderSpec() {
   }
   box.innerHTML = g + "</svg>";
 }
+// the light curve: the target's light against time, at one colour, so a change is time and not colour
+function renderLC(box) {
+  const own = spec.own, band = data.band || S.band;
+  if (!own.length) { box.innerHTML = ""; return; }
+  const wls = own.map((p) => p.wl).sort((a, b) => a - b);
+  const c = S.wl ? +S.wl : wls[wls.length >> 1], h = c / resolving(band);
+  const pts = own.filter((p) => Math.abs(p.wl - c) <= h);
+  if (pts.length < 2) { box.innerHTML = `<p class="spec-line">${T("lc.few")}</p>`; return; }
+  const passes = [...new Set(pts.map((p) => p.pass))].sort((a, b) => a - b);
+  const pm = passes.map((ps) => { const q = pts.filter((p) => p.pass === ps); return { pass: ps, year: mean(q.map((p) => p.year)), fl: median(q.map((p) => p.fl)) }; });
+  let d = "–";
+  if (pm.length > 1 && pm[0].fl > 0) { const r = pm[pm.length - 1].fl / pm[0].fl; d = `${r >= 1 ? "+" : ""}${Math.round((r - 1) * 100)} % (${(-2.5 * Math.log10(Math.max(r, 1e-6))).toFixed(2)} mag)`; }
+  $("wlLine").textContent = T("lc.line", { c: c.toFixed(3), h: h.toFixed(3), n: pts.length, d }) + (S.wl ? "" : ` · ${T("lc.auto")}`);
+  const W = 320, H = 190, L = 44, R = 8, Tp = 8, B = 30;
+  const xs = pts.map((p) => p.year), ys = pts.map((p) => p.fl);
+  const x0 = Math.min(...xs) - 0.03, x1 = Math.max(...xs) + 0.03, ylo = Math.min(...ys), yhi = Math.max(...ys), pad = (yhi - ylo || Math.abs(yhi) || 1) * 0.12;
+  const X = (v) => L + (v - x0) / (x1 - x0) * (W - L - R), Y = (v) => H - B - (v - (ylo - pad)) / (yhi - ylo + 2 * pad) * (H - B - Tp);
+  const ticks = (a, b, n) => { const st = Math.pow(10, Math.floor(Math.log10((b - a) / n))); const m = [1, 2, 5, 10].find((k) => (b - a) / (k * st) <= n) * st; const out = []; for (let t = Math.ceil(a / m) * m; t <= b; t += m) out.push(+t.toFixed(6)); return out; };
+  const cur = views[idx] && views[idx].frame;
+  let g = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("sp.lc")}">`;
+  g += `<line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" class="ax"/><line x1="${L}" y1="${Tp}" x2="${L}" y2="${H - B}" class="ax"/>`;
+  for (const t of ticks(x0, x1, 4)) g += `<text x="${X(t)}" y="${H - B + 13}" class="tk" text-anchor="middle">${t}</text>`;
+  for (const t of ticks(ylo - pad, yhi + pad, 4)) g += `<text x="${L - 4}" y="${Y(t) + 3}" class="tk" text-anchor="end">${+t.toPrecision(3)}</text>`;
+  g += `<text x="${(L + W - R) / 2}" y="${H - 2}" class="lb" text-anchor="middle">${T("sp.t")}</text>`;
+  g += `<text x="10" y="${(Tp + H - B) / 2}" class="lb" text-anchor="middle" transform="rotate(-90 10 ${(Tp + H - B) / 2})">${T("sp.y")}</text>`;
+  g += `<polyline class="lc-line" points="${pm.map((p) => `${X(p.year).toFixed(1)},${Y(p.fl).toFixed(1)}`).join(" ")}"/>`;
+  for (const p of pm) g += `<rect class="lc-med" x="${(X(p.year) - 4).toFixed(1)}" y="${(Y(p.fl) - 4).toFixed(1)}" width="8" height="8"/>`;
+  for (const p of pts) {
+    const on = cur && data.frames[p.i] === cur;
+    g += `<circle cx="${X(p.year).toFixed(1)}" cy="${Y(p.fl).toFixed(1)}" r="${on ? 4.5 : 2.8}" class="pt mine p${p.pass % 4}${on ? " on" : ""}${p.wing ? " wing" : ""}" data-i="${p.i}" data-wl="${p.wl}"/>`;
+  }
+  box.innerHTML = g + "</svg>";
+}
+document.querySelectorAll("[data-sv]").forEach((b) => b.addEventListener("click", () => { S.sv = b.dataset.sv; writeURL(); renderSpec(); }));
 $("specPlot").addEventListener("click", (e) => {
   const c = e.target.closest("circle"); if (!c) return;
-  if (S.wl) { S.wl = (+c.dataset.wl).toFixed(3); writeURL(); buildViews(); draw(); return; }
+  if (S.wl && S.sv !== "lc") { S.wl = (+c.dataset.wl).toFixed(3); writeURL(); buildViews(); draw(); return; }
   if (c.dataset.i === "") return;
   if (S.mode !== "frames") { S.mode = "frames"; writeURL(); syncUI(); buildViews(); }
   const k = views.findIndex((v) => v.frame === data.frames[+c.dataset.i]);

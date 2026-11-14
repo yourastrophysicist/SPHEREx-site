@@ -358,8 +358,21 @@ right across its water bands. Read as a movie, that mixes colour with time. Thre
   \item \textbf{One colour only.} Keeps exposures within $\lambda/R$ of a chosen wavelength
         ($R \approx 41$ in D1 to D4, 110 in D5 and D6), so frames compare like with like.
   \item \textbf{Measured track.} The centroid of each sky-pass median near the predicted position,
-        or the centre of the blank patch of a saturated star, fitted against time.
+        or the centre of the blank patch of a saturated star, fitted against time. A pass counts
+        only when the target is detected above $5\sigma$ in it.
+  \item \textbf{Light curve.} The same aperture light against the date, at one colour, with the
+        median of each pass. RW Aurigae brightens by about half a magnitude between the 2025 and
+        the 2026 passes, more at shorter wavelengths.
 \end{itemize}
+
+\subsection{Testing and sweeping}
+A \textbf{fake mover}, as in WiseView, adds a point source with the SPHEREx PSF
+(FWHM \ang{;;7.5}, from the Level 2 headers) of chosen AB magnitude, speed and direction to every
+real exposure, so its noise is the real noise; one preset follows the Planet X calculator,
+magnitude 21 and about \ang{;;410} a year. \textbf{Next field} buttons step one field north,
+south, east or west, a \textbf{random spot} picks a uniform point on the sphere, and
+\textbf{report a candidate} opens a GitHub issue with the exact view and the first checks
+(no Gaia or CatWISE source, seen in more than one pass, not on a flagged pixel).
 
 \subsection{Step 02, the blink viewer}
 The viewer draws the frames on a canvas, pixel for pixel, with no smoothing.
@@ -493,7 +506,7 @@ Target & det. & measured & expected & note \\
 \midrule
 Barnard's Star   & D1 & 10.4 & 10.4 & saturated, blank-core centre \\
 Epsilon Indi B   & D5 & 4.6 & 4.7 & \\
-WISE 0855$-$0714 & D6 & 11.2 & 8.2 & very faint \\
+WISE 0855$-$0714 & D6 & 8.5 & 8.2 & very faint \\
 RW Aurigae       & D1 & 0.2 & 0.0 & \\
 R Draconis       & D3 & 2.1 & 0.0 & saturated \\
 Kapteyn's Star   & D1 & 8.3 & 8.6 & any position, through the relay \\
@@ -609,8 +622,9 @@ Every code file says so in its first lines, and the page carries an \texttt{ai-d
 \section{Credits and data use}
 
 \begin{itemize}
-  \item \textbf{SPHEREx} Level 2 spectral images and the DR1 all-sky cube: NASA/JPL-Caltech/IPAC,
-        through the NASA/IPAC Infrared Science Archive (IRSA).
+  \item \textbf{SPHEREx} DR1 Spectral Images, doi:10.26131/IRSA678, and the DR1 Spectral All-Sky
+        Cube, doi:10.26131/IRSA679: NASA/JPL-Caltech/IPAC, through the NASA/IPAC Infrared Science
+        Archive (IRSA).
   \item \textbf{Gaia} DR3: European Space Agency, mission Gaia, processed by the Gaia Data
         Processing and Analysis Consortium (DPAC).
   \item \textbf{AllWISE} and \textbf{CatWISE2020}: NASA/JPL-Caltech, UCLA. Motion of

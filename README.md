@@ -57,6 +57,14 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
   seen anywhere from 1.62 to 2.41 µm, right across its water bands. In the URL as `wl`.
 - A **measured track**: the target's centroid in each sky pass (the centre of the blank core for a
   saturated star), drawn as orange dots, with the measured motion next to the expected one.
+- A **light curve** at one colour: the target's light against the date, with the median of each
+  sky pass. RW Aurigae brightens by about half a magnitude from the 2025 pass to the 2026 passes,
+  more at short wavelengths, the way dust clearing would look.
+- A **fake mover**, as in WiseView: a point source with the SPHEREx PSF (FWHM 7.5″) and a chosen
+  magnitude, speed and direction, added to every real exposure, with presets from easy to
+  Planet Nine-like. Turn the mark off and see whether you can still find it.
+- **Next field** north, south, east or west, a **random spot**, and **report a candidate**, which
+  opens a GitHub issue with the exact view and the checks a volunteer should make first.
 - **Any other position**: type RA and Dec (with a proper motion if you like) under *your own
   position*, drag the lens on the map, or press *blink it in SPHEREx* on a known object. The page
   fetches every SPHEREx DR1 exposure of that spot live from IRSA, which takes about half a minute.
@@ -169,6 +177,19 @@ slides, `n` shows the speaker notes and `f` goes full screen.
 | ![Slide 7, could it find Planet X?](docs/img/slide-7.png) | |
 | **7.** Could it find Planet X? | |
 
+## What it cannot do
+
+- **It will not find Planet X.** A Planet Nine of the usual size and distance is about magnitude 21,
+  about 40 times fainter than one SPHEREx exposure reaches, and the median of a sky pass does not
+  help because the planet moves several pixels between exposures. Motion is never the problem,
+  faintness is. Chapter 6 of the story and the fake mover let you check this yourself on real frames.
+- It finds bright, slow, nearby movers (stars and brown dwarfs within a few tens of parsecs) and
+  changes in brightness of objects bright enough to stand above the noise in one exposure.
+- Very bright stars saturate, so their brightness is measured from the wings, relative only.
+- The aperture measures whatever sits in it, so a faint target beside a star shows the star.
+- A new position takes about half a minute, the field is at most 600 arcsec on the site, and
+  CatWISE2020 depends on IRSA's TAP service.
+
 ## Does it measure the right thing?
 
 The measured track, on the five targets in their best detector (14 November 2026). Expected is the
@@ -178,7 +199,7 @@ proper motion of Table 2 in the release document.
 |---|---|---|---|---|
 | Barnard's Star | D1 | 10.4″/yr | 10.4″/yr | saturated core, centre of the blank patch |
 | Epsilon Indi B | D5 | 4.6″/yr | 4.7″/yr | |
-| WISE 0855-0714 | D6 | 11.2″/yr | 8.2″/yr | very faint, noisiest |
+| WISE 0855-0714 | D6 | 8.5″/yr | 8.2″/yr | very faint, a pass counts only with a 5σ detection |
 | RW Aurigae | D1 | 0.2″/yr | 0.0″/yr | does not move |
 | R Draconis | D3 | 2.1″/yr | 0.0″/yr | saturated, does not move |
 | Kapteyn's Star (any position) | D1 | 8.3″/yr | 8.6″/yr | through the relay, not one of the five |
@@ -219,8 +240,13 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
 
 ## Credits
 
-- **Images:** SPHEREx Level 2 spectral images and the SPHEREx DR1 all-sky cube,
-  NASA/JPL-Caltech/IPAC, through the [NASA/IPAC Infrared Science Archive](https://irsa.ipac.caltech.edu/Missions/spherex.html).
+- **Images:** SPHEREx DR1 Spectral Images,
+  [doi:10.26131/IRSA678](https://doi.org/10.26131/IRSA678), and the SPHEREx DR1 Spectral All-Sky Cube,
+  [doi:10.26131/IRSA679](https://doi.org/10.26131/IRSA679), NASA/JPL-Caltech/IPAC, through the
+  [NASA/IPAC Infrared Science Archive](https://irsa.ipac.caltech.edu/Missions/spherex.html).
+- **Software:** Astropy, NumPy and SciPy for the Python data path; Aladin Lite for the sky map. The
+  relay and the page use no outside libraries.
+- **Known objects:** the list from our teammate's Time Lens, positions from SIMBAD (CDS).
 - **Positions and motions:** Gaia DR3 (ESA/DPAC). For WISE 0855, AllWISE with the motion of
   Kirkpatrick et al. 2021.
 - **Catalogue overlays:** Gaia DR3 and CatWISE2020 (Marocco et al. 2021), both through IRSA.
@@ -229,7 +255,8 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
 - **Earth:** Blue Marble and Black Marble, NASA, through NASA GIBS.
 - **Ideas:** the blink follows [WiseView](http://byw.tools/wiseview) by Caselden and collaborators.
   The whole-sky layout follows Brice Menard's [ultraviolet sky map](https://menard.pha.jhu.edu/uvmap/).
-  The lens, the crosshair and the fixed Home come from our teammate's Time Lens.
+  The lens, the crosshair, the fixed Home and the known objects come from our teammate's Time Lens.
+  The fake mover follows WiseView's injected test objects.
 - **Team:** Observationally Speaking, [yourastrophysicist](https://github.com/yourastrophysicist)
   and [sohnjoo1-collab](https://github.com/sohnjoo1-collab).
 - **AI use:** most of the code and much of the text in this repository, and the relay

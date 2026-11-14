@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=43">
+    <link rel="stylesheet" href="style.css?v=46">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -158,6 +158,16 @@
                 </div>
                 <p class="legend" id="legend"></p>
                 <p class="now" id="now" aria-live="polite"></p>
+                <div class="fieldnav">
+                    <span class="label" data-i18n="nav.lab">next field</span>
+                    <button type="button" class="mini" data-step="n">↑ <span data-i18n="nav.n">north</span></button>
+                    <button type="button" class="mini" data-step="s">↓ <span data-i18n="nav.s">south</span></button>
+                    <button type="button" class="mini" data-step="e">← <span data-i18n="nav.e">east</span></button>
+                    <button type="button" class="mini" data-step="w">→ <span data-i18n="nav.w">west</span></button>
+                    <button type="button" class="mini" id="goRandom" data-i18n="nav.r">random spot</button>
+                    <button type="button" class="mini rep" id="report" data-i18n="nav.rep">report a candidate</button>
+                    <p class="fieldnav-hint" data-i18n="nav.hint">Each step moves one field over, about 5 arcmin. Report opens a short form on GitHub with this exact view filled in; it needs a free GitHub account.</p>
+                </div>
             </section>
 
             <div class="side">
@@ -202,8 +212,12 @@
                 </section>
 
                 <section class="panel spec" id="specPanel">
-                    <div class="panel-bar"><span data-i18n="sp.title">spectrum</span><span>03</span></div>
+                    <div class="panel-bar"><span data-i18n="sp.head">colour and time</span><span>03</span></div>
                     <div class="panel-body">
+                        <div class="seg spec-tabs" role="radiogroup" aria-label="Spectrum or light curve">
+                            <button type="button" role="radio" data-sv="spec" data-i18n="sp.title">spectrum</button>
+                            <button type="button" role="radio" data-sv="lc" data-i18n="sp.lc">light curve</button>
+                        </div>
                         <div class="spec-plot" id="specPlot"></div>
                         <label class="check"><input id="wlOn" type="checkbox"> <span data-i18n="sp.one">blink one colour only</span></label>
                         <input id="wlC" type="range" min="0.7" max="5.1" step="0.001" aria-label="Wavelength to blink" disabled>
@@ -212,6 +226,24 @@
                         <p class="spec-note" data-i18n="sp.note">Each dot is one exposure: the target's light inside 2 pixels, at the wavelength the filter passed at that spot. This is how SPHEREx makes spectra. The aperture holds whatever sits in it, so a faint target next to a star shows the star. A star bright enough to saturate has a blank core. Its dots are hollow and use the light of its wings, which shows how it changes but not its true brightness.</p>
                     </div>
                 </section>
+
+                <details class="panel" id="fakePanel">
+                    <summary><div class="panel-bar"><span data-i18n="fk.sum">test it with a fake mover</span><span class="plus" aria-hidden="true"></span></div></summary>
+                    <div class="panel-body">
+                        <label class="check"><input id="fakeOn" type="checkbox"> <span data-i18n="fk.on">add a fake mover to the real images</span></label>
+                        <div class="fake-presets">
+                            <button type="button" class="mini" data-fake="14,20,0" data-i18n="fk.easy">easy</button>
+                            <button type="button" class="mini" data-fake="17,10,0" data-i18n="fk.edge">at the depth</button>
+                            <button type="button" class="mini" data-fake="21,410,250" data-i18n="fk.p9">Planet Nine-like</button>
+                        </div>
+                        <label class="field fake-range"><span><span data-i18n="fk.mag">brightness (AB mag)</span> <output id="fakeMagOut"></output></span><input id="fakeMag" type="range" min="10" max="23" step="0.1" value="17"></label>
+                        <label class="field fake-range"><span><span data-i18n="fk.speed">motion (arcsec/yr)</span> <output id="fakeSpeedOut"></output></span><input id="fakeSpeed" type="range" min="0" max="600" step="1" value="10"></label>
+                        <label class="field fake-range"><span><span data-i18n="fk.pa">direction (deg, 0 = north, 90 = east)</span> <output id="fakePaOut"></output></span><input id="fakePa" type="range" min="0" max="359" step="1" value="0"></label>
+                        <label class="check"><input id="fakeMark" type="checkbox" checked> <span data-i18n="fk.mark">show where it is</span></label>
+                        <p class="spec-line" id="fakeLine"></p>
+                        <p class="spec-note" data-i18n="fk.note">A point source with the SPHEREx PSF (FWHM 7.5″) added to every real exposure at the place its motion puts it, so the noise is real. It starts north-east of the centre. Turn the mark off and see if you can still find it. Planet Nine-like uses the calculator in chapter 6: magnitude about 21, and about 410″ a year of apparent motion at 500 AU.</p>
+                    </div>
+                </details>
 
                 <details class="panel" id="ownPanel">
                     <summary><div class="panel-bar"><span data-i18n="c.own">your own position</span><span class="plus" aria-hidden="true"></span></div></summary>
@@ -345,7 +377,7 @@
             <h2 class="giant" data-i18n="cr.h">Thanks</h2>
             <div class="panel credits">
                 <dl>
-                    <dt data-i18n="cr.t1">images</dt><dd data-i18n="cr.d1">SPHEREx Level 2 images and the DR1 all-sky cube, NASA/JPL-Caltech/IPAC, through NASA/IPAC IRSA.</dd>
+                    <dt data-i18n="cr.t1">images</dt><dd data-i18n="cr.d1">SPHEREx DR1 Spectral Images (doi:10.26131/IRSA678) and the DR1 Spectral All-Sky Cube (doi:10.26131/IRSA679), NASA/JPL-Caltech/IPAC, through NASA/IPAC IRSA.</dd>
                     <dt data-i18n="cr.t2">positions</dt><dd data-i18n="cr.d2">Gaia DR3 (ESA/DPAC) for positions and motions, and for WISE 0855 AllWISE with the motion of Kirkpatrick et al. 2021.</dd>
                     <dt data-i18n="cr.t3">catalogues</dt><dd data-i18n="cr.d3">Gaia DR3 and CatWISE2020 (Marocco et al. 2021), both through NASA/IPAC IRSA.</dd>
                     <dt data-i18n="cr.t4">sky maps</dt><dd data-i18n="cr.d4">Aladin Lite (CDS, Strasbourg), with 2MASS and AllWISE through IRSA and DSS2 through ESA.</dd>
@@ -371,7 +403,7 @@
     <div class="toast" id="toast" role="status" hidden></div>
 
 <script src="known.js?v=4"></script>
-<script src="app.js?v=38"></script>
+<script src="app.js?v=44"></script>
 <script src="figs.js?v=6"></script>
 <script src="story.js?v=6"></script>
 <script src="story-i18n.js?v=3"></script>
