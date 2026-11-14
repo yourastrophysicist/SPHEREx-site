@@ -18,7 +18,7 @@
 \usepackage[hidelinks]{hyperref}
 
 % ---------------------------------------------------------------- release facts
-\newcommand{\Version}{v1.0.0}
+\newcommand{\Version}{v1.1.0}
 \newcommand{\ReleaseDate}{15 November 2026}
 \newcommand{\TeamName}{Observationally Speaking}
 \newcommand{\Members}{Jessica Syafaq Muthmaina \\ Joowon Sohn}
@@ -72,8 +72,10 @@ viewer plays the SPHEREx images of it, in any of the six detectors, as one media
 six-month sky pass or as every single exposure. Gaia DR3 and CatWISE2020 sources are drawn on
 top, each moved to the date of the image with its own proper motion. The five test targets of
 the challenge ship as static files in all six detectors, 60 views in all, so the page works on
-plain static hosting. Any other position goes through a small Python server that asks the
-NASA/IPAC Infrared Science Archive (IRSA) live. Every setting lives in the page URL, so one
+plain static hosting. Any other position, typed in, picked with the lens or picked from a
+list of 29 well-known objects on the map, goes through a small relay function on yourastro.space
+that asks the NASA/IPAC Infrared Science Archive (IRSA) live and runs the same steps in about
+half a minute. Every setting lives in the page URL, so one
 link is one view. This document describes release \Version: the data path, the files the
 page reads, the page itself, how to run it, how it was tested, and what it cannot do.
 \end{abstract}
@@ -104,7 +106,8 @@ Our answer has four parts.
         aligned frames (Section~\ref{sec:data}).
   \item \textbf{Static data}: the five targets exported in all six detectors as compact JSON,
         built on GitHub so the raw cutouts never fill a laptop (Section~\ref{sec:static}).
-  \item A small \textbf{server} that runs the data path live for any other position
+  \item A \textbf{relay} on yourastro.space that runs the same steps live for any other
+        position on the public page, and a local Python \textbf{server} with the full data path
         (Section~\ref{sec:server}).
   \item The \textbf{page}, with a whole-sky map and a blink viewer, in English, Indonesian and
         Italian (Section~\ref{sec:page}).
@@ -296,6 +299,29 @@ While a new field downloads, \texttt{/api/progress} reports how many cutouts are
 page shows a progress bar. Results are kept in memory per view, and when the same view is asked
 twice at once the second request waits for the first download instead of starting its own.
 
+\subsection{The relay on yourastro.space}
+The public page cannot read IRSA itself, because IRSA sends no CORS headers. A Vercel function,
+\texttt{api/spherex.js} in the main site's repository, does the work in plain JavaScript, without
+astropy, and returns views in the same int16 format as Section~\ref{sec:static}.
+\begin{lstlisting}
+GET /api/spherex?op=find&ra=..&dec=..&band=..          IRSA SIA, every DR1 exposure
+GET /api/spherex?op=frame&uri=..&cra=..&cdec=..&size=..&gra=..&gdec=..&npix=..&tra=..&tdec=..&mask=..
+GET /api/spherex?op=cat&kind=gaia|catwise&ra=..&dec=..&r=..
+\end{lstlisting}
+\texttt{find} asks IRSA's Simple Image Access service for collection \texttt{spherex\_dr1}
+(about \SI{3}{s}). \texttt{frame} reads one cutout only as far as the IMAGE, FLAGS and ZODI
+extensions, about \SI{60}{kB} of a \SI{4}{MB} file whose remainder is the PSF table, subtracts
+the zodiacal light, masks flagged pixels on request, maps each grid pixel through the TAN-SIP
+header with its inverse polynomial (\texttt{AP}, \texttt{BP}), and resamples bilinearly. The
+WAVE-TAB lookup table at the end of each file is the same calibration for every DR1 exposure of a
+detector, so the six tables are stored in the relay and give the wavelength at the target.
+\texttt{cat} returns Gaia DR3 from ESA's Gaia archive, with IRSA as fallback, and CatWISE2020
+from IRSA. The browser runs six frames at a time, shows the images as soon as they are in, and
+draws each catalogue when it arrives. Checked on Barnard's Star in all six detectors against the
+Python path: the same wavelength to \SI{0.1}{nm}, the same target pixel to \SI{0.001}{px}, and
+pixel values within about one percent, the int16 packing. The relay only fetches SPHEREx paths
+from \texttt{irsa.ipac.caltech.edu}, so it is not an open proxy.
+
 % =================================================================
 \section{The page}\label{sec:page}
 
@@ -312,7 +338,11 @@ can show SPHEREx DR1, the mission's all-sky release in 102 colours, with D1 to D
 wavelength slider, or 2MASS, AllWISE and DSS2 for comparison. The five targets are markers that
 load into the viewer below, and the footprint of the field on screen is drawn on the map. A
 crosshair, a draggable lens that hands its centre to the viewer, and a fixed Home view come from
-our teammate's Time Lens prototype.
+our teammate's Time Lens prototype, and so does a list of 29 well-known objects, fact-checked
+against SIMBAD and the literature, drawn with the Sun at today's place (precessed to J2000) and
+the ecliptic. Fourteen show on the whole sky and the rest below a \ang{70} field. Each opens a
+short card in three languages with a button that blinks that spot in SPHEREx. In full screen the
+map fills the window, with the settings in a panel over it and the legend on the map.
 
 \subsection{Step 02, the blink viewer}
 The viewer draws the frames on a canvas, pixel for pixel, with no smoothing.
@@ -509,10 +539,12 @@ variable stars, in the infrared and on the whole sky.
   \item Linear proper motion only, no parallax.
   \item One detector at a time. The wavelength changes slightly between exposures because of the
         linear variable filter. It is reported, not corrected.
-  \item On the live site only the five targets open. Any other position needs the server running
-        on the user's own computer, and its first view is slow because the cutouts come from IRSA live.
+  \item On the live site any position opens, but a new one takes about half a minute because
+        every exposure comes from IRSA live, and the field is limited to 600 arcsec.
+  \item CatWISE2020 comes only from IRSA's TAP service. When that service is down the CatWISE
+        overlay is missing; Gaia has a second source at ESA.
   \item Near the ecliptic poles the 60-day rule merges visits into few passes.
-  \item The server is meant to run locally. It has no rate limiting.
+  \item The local server and the relay have no rate limiting of their own.
 \end{itemize}
 
 % =================================================================
@@ -523,8 +555,8 @@ Jessica Syafaq Muthmaina on 10 November 2026, before the event, to check that th
 could be reached. The TAP query, the proper-motion centring, the retrying download and the flag
 mask come from there. The Milano Local Lead confirmed on 14 November 2026 that this earlier work
 may be used. It is kept apart in the \texttt{prep/} folder of the repository, with its own README
-and guide. The lens, the crosshair and the fixed Home of the whole-sky map come from Joowon Sohn's
-Time Lens prototype.
+and guide. The lens, the crosshair, the fixed Home and the list of known objects of the whole-sky map come
+from Joowon Sohn's Time Lens prototype.
 
 \paragraph{AI.} Parts of the code and of this document were written with help from Claude
 (Anthropic). The team chose the method, checked the results against the archive and the expected

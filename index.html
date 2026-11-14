@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=38">
+    <link rel="stylesheet" href="style.css?v=39">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -82,7 +82,7 @@
                     <h3 class="ex-card-name" id="kName"></h3>
                     <p id="kText"></p>
                     <p class="ex-card-note" id="kNote"></p>
-                    <button type="button" class="mini" id="kZoom">zoom in here</button>
+                    <div class="ex-card-btns"><button type="button" class="mini" id="kBlink">blink it in SPHEREx</button><button type="button" class="mini" id="kZoom">zoom in here</button></div>
                 </aside>
                 <div class="ex-dock" id="exDock">
                     <div class="shapes" role="radiogroup" aria-label="Shape of the sky">
@@ -220,7 +220,7 @@
                             <option value="D6">D6 · 4.4–5.0 µm</option>
                         </select></label>
                         <button class="btn full" type="submit" data-i18n="c.go">show this field</button>
-                        <p class="hint" data-i18n="c.hint">Give the position at the epoch, and the proper motion moves it to each exposure date. On this site the five targets open at once. Any other position asks the live archive, which needs the server from the GitHub repo running on your computer.</p>
+                        <p class="hint" data-i18n="c.hint">Give the position at the epoch, and the proper motion moves it to each exposure date. The five targets open at once. Any other position comes live from the NASA/IPAC IRSA archive and takes about a minute.</p>
                     </form>
                 </details>
 
@@ -356,11 +356,11 @@
 
     <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="known.js?v=2"></script>
-<script src="app.js?v=33"></script>
-<script src="figs.js?v=4"></script>
-<script src="story.js?v=4"></script>
-<script src="story-i18n.js?v=1"></script>
+<script src="known.js?v=3"></script>
+<script src="app.js?v=34"></script>
+<script src="figs.js?v=5"></script>
+<script src="story.js?v=5"></script>
+<script src="story-i18n.js?v=2"></script>
 <script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
 </body>
 </html>

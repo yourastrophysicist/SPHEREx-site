@@ -32,9 +32,9 @@ const WORDS = {
     "best": "best",
     query: "Asking IRSA which exposures cover this spot",
     dl: "Downloading cutout {a} of {b}",
-    slow: "The first view of a new field downloads every cutout, which takes a few minutes. After that it opens at once.",
-    noserver: "This field needs the live data server.",
-    noserverd: "On this site the five targets open at once. To look anywhere else, run the server from the GitHub repo on your own computer.",
+    slow: "A new spot takes about a minute. The page asks NASA/IPAC IRSA for every SPHEREx exposure of it and lines them up. The five targets open at once.",
+    noserver: "This copy of the page cannot reach the archive.",
+    noserverd: "The five targets open here. For any other position, open the page on yourastro.space/SPHEREx, or run the server from the GitHub repo on your own computer.",
     none: "SPHEREx has not observed this spot on this detector yet.", noned: "Try another detector.",
     fail: "Could not load this field.",
     copied: "link copied", copyfail: "copy failed, the link is in the address bar",
@@ -73,9 +73,9 @@ const WORDS = {
     "best": "terbaik",
     query: "Menanyakan ke IRSA pengamatan mana yang mencakup titik ini",
     dl: "Mengunduh potongan {a} dari {b}",
-    slow: "Tampilan pertama dari medan baru mengunduh semua potongan, jadi butuh beberapa menit. Setelah itu langsung terbuka.",
-    noserver: "Medan ini butuh server data langsung.",
-    noserverd: "Di situs ini kelima target langsung terbuka. Untuk melihat tempat lain, jalankan server dari repo GitHub di komputermu sendiri.",
+    slow: "Titik baru butuh sekitar satu menit. Halaman ini meminta setiap pengamatan SPHEREx di titik itu dari NASA/IPAC IRSA lalu menyejajarkannya. Kelima target langsung terbuka.",
+    noserver: "Salinan halaman ini tidak bisa menjangkau arsipnya.",
+    noserverd: "Kelima target terbuka di sini. Untuk posisi lain, buka halamannya di yourastro.space/SPHEREx, atau jalankan server dari repo GitHub di komputermu sendiri.",
     none: "SPHEREx belum mengamati titik ini dengan detektor ini.", noned: "Coba detektor lain.",
     fail: "Medan ini gagal dimuat.",
     copied: "tautan disalin", copyfail: "gagal menyalin, tautannya ada di bilah alamat",
@@ -114,9 +114,9 @@ const WORDS = {
     "best": "migliore",
     query: "Chiedo a IRSA quali esposizioni coprono questo punto",
     dl: "Scarico il ritaglio {a} di {b}",
-    slow: "La prima volta un campo nuovo scarica tutti i ritagli, e ci vuole qualche minuto. Dopo si apre subito.",
-    noserver: "Questo campo richiede il server dei dati.",
-    noserverd: "Su questo sito i cinque oggetti si aprono subito. Per guardare altrove, avvia il server del repo GitHub sul tuo computer.",
+    slow: "Un punto nuovo richiede circa un minuto. La pagina chiede a NASA/IPAC IRSA ogni esposizione SPHEREx di quel punto e le allinea. I cinque oggetti si aprono subito.",
+    noserver: "Questa copia della pagina non raggiunge l’archivio.",
+    noserverd: "Qui si aprono i cinque oggetti. Per ogni altra posizione apri la pagina su yourastro.space/SPHEREx, oppure avvia il server del repo GitHub sul tuo computer.",
     none: "SPHEREx non ha ancora osservato questo punto con questo rivelatore.", noned: "Prova un altro rivelatore.",
     fail: "Impossibile caricare questo campo.",
     copied: "link copiato", copyfail: "copia non riuscita, il link è nella barra degli indirizzi",
@@ -150,7 +150,7 @@ const PAGE = {
     "cr.t8": "gambar", "cr.d8": "Foto-foto dalam cerita berasal dari Wikimedia Commons, karya NASA, ESA, JPL-Caltech, Webb, Hubble, WISE, dan Lowell Observatory. Masing-masing diberi kredit di bawahnya dengan tautan ke lisensinya.",
     "c.own": "posisimu sendiri", "c.epoch": "epoch (tahun)", "c.size": "medan (detik busur)", "c.det": "detektor", "c.tinfo": "target ini", "c.look4": "yang dicari",
     "c.go": "tampilkan medan ini",
-    "c.hint": "Masukkan posisi pada epoch, lalu gerak diri memindahkannya ke tanggal tiap pengamatan. Di situs ini kelima target langsung terbuka. Posisi lain bertanya ke arsip langsung, yang butuh server dari repo GitHub berjalan di komputermu.",
+    "c.hint": "Masukkan posisi pada epoch, lalu gerak diri memindahkannya ke tanggal tiap pengamatan. Kelima target langsung terbuka. Posisi lain diambil langsung dari arsip NASA/IPAC IRSA dan butuh sekitar satu menit.",
     "c.look": "tampilan gambar", "c.speed": "kedip tiap (ms)", "c.contrast": "kontras (%)", "c.stretch": "skala",
     "c.marker": "tandai posisi target", "c.invert": "balik warna", "c.mask": "kosongkan piksel yang ditandai buruk oleh SPHEREx",
     "c.copy": "salin tautan tampilan ini", "c.pick": "pilih posisi",
@@ -191,7 +191,7 @@ const PAGE = {
     "cr.t8": "immagini", "cr.d8": "Le fotografie della storia vengono da Wikimedia Commons, opera di NASA, ESA, JPL-Caltech, Webb, Hubble, WISE e Lowell Observatory. Ognuna è accreditata sotto, con il link alla sua licenza.",
     "c.own": "la tua posizione", "c.epoch": "epoca (anno)", "c.size": "campo (arcsec)", "c.det": "rivelatore", "c.tinfo": "questo oggetto", "c.look4": "cosa cercare",
     "c.go": "mostra questo campo",
-    "c.hint": "Inserisci la posizione all’epoca, e il moto proprio la sposta alla data di ogni esposizione. Su questo sito i cinque oggetti si aprono subito. Ogni altra posizione interroga l’archivio, e serve il server del repo GitHub acceso sul tuo computer.",
+    "c.hint": "Inserisci la posizione all’epoca, e il moto proprio la sposta alla data di ogni esposizione. I cinque oggetti si aprono subito. Ogni altra posizione arriva dal vivo dall’archivio NASA/IPAC IRSA e richiede circa un minuto.",
     "c.look": "aspetto", "c.speed": "blink ogni (ms)", "c.contrast": "contrasto (%)", "c.stretch": "scala",
     "c.marker": "segna dove dovrebbe essere l’oggetto", "c.invert": "inverti", "c.mask": "nascondi i pixel che SPHEREx segnala come difettosi",
     "c.copy": "copia il link di questa vista", "c.pick": "scegli una posizione",
@@ -317,6 +317,107 @@ function nowLine() {
   $("now").textContent = t ? `${PRESETS[t].label}, ${T("why." + t)}.` : "";
 }
 
+// ---------- any position, through the relay at /api/spherex (yourastrophysicist/api/spherex.js) ----------
+// IRSA sends no CORS headers, so the browser asks our own function, which fetches each cutout, resamples it
+// onto the same north-up grid as tool/spherex_frames.py and sends back the same int16 image.
+const RELAY = "/api/spherex";
+const RELAY_PER_PASS = 30;          // an even sample per six-month pass, as the Python server does with 40
+const RELAY_PARALLEL = 6;
+const PIX_DEG = PIX_ARCSEC / 3600;
+const mjdYear = (m) => 2000 + (m - 51544.5) / 365.25;
+function posAt(t, ra, dec, epoch, pmra, pmdec) {
+  const dt = t - epoch;
+  return [((ra + pmra / 3.6e6 * dt / Math.cos(dec * Math.PI / 180)) % 360 + 360) % 360, dec + pmdec / 3.6e6 * dt];
+}
+function skyToGrid(ra, dec, g) {
+  const D = Math.PI / 180, a = ra * D, d = dec * D, a0 = g.ra * D, d0 = g.dec * D, da = a - a0, P = PIX_DEG * D;
+  const cosc = Math.sin(d0) * Math.sin(d) + Math.cos(d0) * Math.cos(d) * Math.cos(da);
+  const xi = Math.cos(d) * Math.sin(da) / cosc, eta = (Math.cos(d0) * Math.sin(d) - Math.sin(d0) * Math.cos(d) * Math.cos(da)) / cosc;
+  return [g.crpix0 - xi / P, g.crpix0 + eta / P];
+}
+async function relayJSON(params) {
+  const r = await fetch(RELAY + "?" + new URLSearchParams(params));
+  if (!(r.headers.get("content-type") || "").includes("json")) return null;      // no relay on this host
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || r.statusText);
+  return j;
+}
+async function loadRelay(seq) {
+  const ra = +S.ra, dec = +S.dec, epoch = +S.epoch, pmra = +S.pmra, pmdec = +S.pmdec, band = S.band;
+  const fov = +S.size / 3600, npix = Math.round(fov / PIX_DEG) | 1;
+  showLoading(() => [T("query")]);
+  const [fra, fdec] = posAt(2026.0, ra, dec, epoch, pmra, pmdec);
+  const found = await relayJSON({ op: "find", ra: fra.toFixed(6), dec: fdec.toFixed(6), band });
+  if (found === null) return null;
+  if (seq !== loadSeq) return undefined;
+  let rows = found.rows;
+  // passes start after any gap longer than 60 days; keep an even sample of each
+  const pid = []; rows.forEach((r, i) => pid.push(i && r.mjd - rows[i - 1].mjd > 60 ? pid[i - 1] + 1 : (pid[i - 1] || 0)));
+  const keep = [];
+  for (const p of new Set(pid)) {
+    const idx = pid.map((v, i) => (v === p ? i : -1)).filter((i) => i >= 0);
+    if (idx.length <= RELAY_PER_PASS) keep.push(...idx);
+    else for (let k = 0; k < RELAY_PER_PASS; k++) keep.push(idx[Math.round(k * (idx.length - 1) / (RELAY_PER_PASS - 1))]);
+  }
+  rows = [...new Set(keep)].sort((a, b) => a - b).map((i) => rows[i]);
+  const empty = { npix, pixel_arcsec: PIX_ARCSEC, band, encoding: "int16-b64", frames: [], grid: null, overlays: {} };
+  if (!rows.length) return empty;
+  const years = rows.map((r) => mjdYear(r.mjd));
+  const [gra, gdec] = posAt(mean(years), ra, dec, epoch, pmra, pmdec);
+  const grid = { ra: gra, dec: gdec, npix, crpix0: Math.floor(npix / 2) };
+  const span = (Math.max(...years) - Math.min(...years)) * Math.hypot(pmra, pmdec) / 3.6e6;
+  const size = (Math.round((fov + span + 2 * PIX_DEG) * 1000) / 1000).toFixed(3);
+
+  const got = new Array(rows.length);
+  let next = 0, done = 0;
+  showLoading(() => [T("dl", { a: 0, b: rows.length })], 0);
+  const worker = async () => {
+    while (next < rows.length) {
+      const i = next++;
+      if (seq !== loadSeq) return;
+      const [tra, tdec] = posAt(years[i], ra, dec, epoch, pmra, pmdec);
+      const q = { op: "frame", uri: rows[i].uri, cra: tra.toFixed(6), cdec: tdec.toFixed(6), size,
+        gra: gra.toFixed(8), gdec: gdec.toFixed(8), npix, tra: tra.toFixed(7), tdec: tdec.toFixed(7), mask: S.mask };
+      for (let a = 0; a < 2 && !got[i]; a++) {
+        try { got[i] = await relayJSON(q); } catch { /* one stubborn exposure should not sink the view */ }
+      }
+      done++;
+      if (seq === loadSeq) showLoading(() => [T("dl", { a: done, b: rows.length })], done / rows.length);
+    }
+  };
+  await Promise.all(Array.from({ length: RELAY_PARALLEL }, worker));
+  if (seq !== loadSeq) return undefined;
+
+  const frames = [];
+  got.forEach((f, i) => {
+    if (!f) return;
+    frames.push({ year: mjdYear(f.mjd), mjd: f.mjd, wavelength_um: f.wavelength_um ?? NaN, target_xy: f.target_xy,
+      lo: f.lo, scale: f.scale, image: f.image, file: rows[i].uri.split("/").pop() });
+  });
+  frames.forEach((f, i) => { f.pass_index = i === 0 ? 0 : frames[i - 1].pass_index + (f.mjd - frames[i - 1].mjd > 60 ? 1 : 0); });
+
+  // the catalogue overlays, placed on the grid the way tool/spherex_frames.py does; the images show first,
+  // and each catalogue is drawn when it arrives
+  const overlays = {}, r = Math.round(npix * PIX_DEG * 0.75 * 1e4) / 1e4;
+  const result = { ...empty, frames, grid, overlays };
+  const CAT = { gaia: { epoch: 2016.0, pm: 1 }, catwise: { epoch: 2015.4, pm: 1000 } };
+  Object.entries(CAT).forEach(async ([kind, c]) => {
+    try {
+      const j = await relayJSON({ op: "cat", kind, ra: gra.toFixed(6), dec: gdec.toFixed(6), r });
+      if (!j) return;
+      const src = [];
+      for (const [sra, sdec, pa, pd, mag] of j.rows) {
+        const [x0, y0] = skyToGrid(sra, sdec, grid);
+        const [x1, y1] = skyToGrid(...posAt(c.epoch + 1, sra, sdec, c.epoch, pa * c.pm, pd * c.pm), grid);
+        if (x0 >= -2 && x0 <= npix + 1 && y0 >= -2 && y0 <= npix + 1) src.push([x0, y0, x1 - x0, y1 - y0, mag]);
+      }
+      overlays[kind] = { epoch: c.epoch, sources: src };
+      if (data === result) draw();
+    } catch { /* a catalogue that does not answer only loses its overlay */ }
+  });
+  return result;
+}
+
 // ---------- data ----------
 async function load() {
   stop();
@@ -354,14 +455,20 @@ async function load() {
     if (!j) {
       let r;
       try { r = await fetch("/api/frames?" + q); } catch { r = null; }
-      if (!r || !(r.headers.get("content-type") || "").includes("json")) {   // no server, e.g. yourastro.space
-        if (seq !== loadSeq) return;
-        data = null; views = []; draw();
-        showError(() => [T("noserver"), T("noserverd")]);
-        return;
+      if (!r || !(r.headers.get("content-type") || "").includes("json")) {
+        // no local Python server, e.g. yourastro.space: the relay function on the site does the same work
+        j = await loadRelay(seq);
+        if (j === undefined) return;            // a newer view took over
+        if (j === null) {
+          if (seq !== loadSeq) return;
+          data = null; views = []; draw();
+          showError(() => [T("noserver"), T("noserverd")]);
+          return;
+        }
+      } else {
+        j = await r.json();
+        if (!r.ok) throw new Error(j.error || r.statusText);
       }
-      j = await r.json();
-      if (!r.ok) throw new Error(j.error || r.statusText);
     }
     if (seq !== loadSeq) return;
     if (!j.frames.length) { data = null; views = []; draw(); showError(() => [T("none"), T("noned")]); return; }
@@ -430,7 +537,7 @@ function buildViews() {
   if (S.mode === "frames") {
     views = data.frames.map((f) => ({
       image: f.image, target: f.target_xy, year: f.year, pass: f.pass_index,
-      when: f.year.toFixed(3), lambda: `${f.wavelength_um.toFixed(2)} µm`,
+      when: f.year.toFixed(3), lambda: Number.isFinite(f.wavelength_um) ? `${f.wavelength_um.toFixed(2)} µm` : S.band,
     }));
   } else {
     const groups = new Map();
@@ -439,12 +546,12 @@ function buildViews() {
       groups.get(f.pass_index).push(f);
     }
     views = [...groups.values()].map((fs) => {
-      const wl = fs.map((f) => f.wavelength_um), yr = fs.map((f) => f.year);
+      const wl = fs.map((f) => f.wavelength_um).filter(Number.isFinite), yr = fs.map((f) => f.year);
       return {
         image: stackMedian(fs.map((f) => f.image), n),
         target: [mean(fs.map((f) => f.target_xy[0])), mean(fs.map((f) => f.target_xy[1]))], year: mean(yr),
         when: `${mean(yr).toFixed(2)} · ${fs.length} ${T("exp")}`,
-        lambda: `${Math.min(...wl).toFixed(2)}–${Math.max(...wl).toFixed(2)} µm`,
+        lambda: wl.length ? `${Math.min(...wl).toFixed(2)}–${Math.max(...wl).toFixed(2)} µm` : S.band,
       };
     });
   }
@@ -861,6 +968,8 @@ function knownCard(id) {
   $("kText").textContent = o[lang] || o.en;
   $("kNote").textContent = o.t === "sun" ? W.sunNote : W.note;
   $("kZoom").textContent = W.zoom;
+  $("kBlink").textContent = W.blink;
+  $("kBlink").hidden = o.t === "sun";              // the Sun is never in a SPHEREx image
   $("kClose").setAttribute("aria-label", W.close);
   const stage = card.parentElement.querySelector(".ex-stage");
   card.style.setProperty("--k-top", stage.offsetTop + 12 + "px");
@@ -876,6 +985,17 @@ $("kZoom").addEventListener("click", () => {
   aladin.gotoRaDec(ra, dec);
   aladin.setFoV(Math.min(SHAPES[EX.shape].fov, o.fov));
   $("exShield").hidden = true;
+});
+// any known object straight into the viewer: its position goes in the form, the same as typing it
+$("kBlink").addEventListener("click", () => {
+  const o = knownOpen && knownFind(knownOpen);
+  if (!o || o.t === "sun") return;
+  if (fullEl) setFull(fullEl, false);
+  form.elements.ra.value = o.ra.toFixed(6); form.elements.dec.value = o.dec.toFixed(6);
+  form.elements.pmra.value = "0"; form.elements.pmdec.value = "0"; form.elements.epoch.value = "2016.0";
+  $("ownPanel").open = true;
+  form.requestSubmit();
+  $("tool").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
 });
 $("knownChk").addEventListener("change", (e) => {
   S.known = e.target.checked ? "1" : "0"; writeURL(); knownTier();

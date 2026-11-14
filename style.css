@@ -148,6 +148,7 @@ button, input, select { font: inherit; color: inherit; }
 .ex-card-type { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
 .ex-card-name { margin: 0 32px 8px 0; font: 400 26px/1.05 var(--display); text-transform: uppercase; letter-spacing: .01em; }
 .ex-card-note { font: 400 12px/1.45 var(--mono); opacity: .8; padding-top: 8px; border-top: 1px solid var(--blue-line); }
+.ex-card-btns { display: flex; flex-wrap: wrap; gap: 8px; }
 .ex-card-x { position: absolute; right: 8px; top: 6px; width: 32px; height: 32px; border: 0; background: none; color: var(--blue); font: 400 24px/1 var(--display); cursor: pointer; }
 .ex-card-x:hover { background: var(--blue-soft); }
 @media (max-width: 720px) {

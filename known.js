@@ -18,9 +18,9 @@ const KNOWN_TYPES = {
 };
 
 const KNOWN_WORDS = {
-  en: { note: "A known object, not a new discovery. Distances and sizes are approximate.", zoom: "zoom in here", close: "Close", label: "known objects", sunNote: "Its place today comes from a textbook formula, good to about 0.01 degrees." },
-  id: { note: "Objek yang sudah dikenal, bukan penemuan baru. Jarak dan ukuran dibulatkan.", zoom: "perbesar di sini", close: "Tutup", label: "objek terkenal", sunNote: "Posisinya hari ini dihitung dengan rumus buku teks, tepat sampai sekitar 0,01 derajat." },
-  it: { note: "Un oggetto noto, non una nuova scoperta. Distanze e dimensioni sono approssimate.", zoom: "ingrandisci qui", close: "Chiudi", label: "oggetti noti", sunNote: "La sua posizione di oggi viene da una formula da manuale, precisa a circa 0,01 gradi." },
+  en: { note: "A known object, not a new discovery. Distances and sizes are approximate.", zoom: "zoom in here", blink: "blink it in SPHEREx", close: "Close", label: "known objects", sunNote: "Its place today comes from a textbook formula, good to about 0.01 degrees." },
+  id: { note: "Objek yang sudah dikenal, bukan penemuan baru. Jarak dan ukuran dibulatkan.", zoom: "perbesar di sini", blink: "kedipkan di SPHEREx", close: "Tutup", label: "objek terkenal", sunNote: "Posisinya hari ini dihitung dengan rumus buku teks, tepat sampai sekitar 0,01 derajat." },
+  it: { note: "Un oggetto noto, non una nuova scoperta. Distanze e dimensioni sono approssimate.", zoom: "ingrandisci qui", blink: "blink con SPHEREx", close: "Chiudi", label: "oggetti noti", sunNote: "La sua posizione di oggi viene da una formula da manuale, precisa a circa 0,01 gradi." },
 };
 
 // n: name (a string, or {en,id,it} where the name changes), t: type, k: tier, fov: zoom (deg) for "zoom in here"
