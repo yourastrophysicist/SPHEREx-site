@@ -296,3 +296,9 @@ footer p { max-width: 1180px; margin: 0 auto; font: 400 11px/1.6 var(--mono); te
     footer { margin-top: 80px; }
     .targets th:nth-child(2), .targets td:nth-child(2) { display: none; }
 }
+
+/* detector switch in the viewer and the panel about the chosen target */
+.panel-body .seg.seg6 { min-width: 0; }
+.seg button.best:not([aria-checked="true"]) { text-decoration: underline; text-underline-offset: 3px; }
+.tinfo .panel-body p { margin: 0; font-size: 15px; line-height: 1.5; }
+.tinfo .facts { margin-top: 10px !important; font: 400 12px/1.5 var(--mono) !important; letter-spacing: .03em; }

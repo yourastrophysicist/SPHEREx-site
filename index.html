@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=25">
+    <link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -149,6 +149,14 @@
                     <div class="choices" id="targets" role="radiogroup" aria-label="Target"></div>
                 </section>
 
+                <section class="panel tinfo" id="tinfo" hidden>
+                    <div class="panel-bar"><span data-i18n="c.tinfo">this target</span><span data-i18n="c.look4">look for</span></div>
+                    <div class="panel-body">
+                        <p id="tinfoLook"></p>
+                        <p class="facts" id="tinfoFacts"></p>
+                    </div>
+                </section>
+
                 <section class="panel">
                     <div class="panel-bar"><span data-i18n="c.show">what to show</span><span>02</span></div>
                     <div class="panel-body">
@@ -162,7 +170,16 @@
                             <button type="button" role="radio" data-mode="pass" data-i18n="c.pass">sky pass</button>
                             <button type="button" role="radio" data-mode="frames" data-i18n="c.exp">exposure</button>
                         </div>
-                        <p class="keys" data-i18n="c.keys">space plays or pauses · arrows step · d difference · m marker · g Gaia · f full screen</p>
+                        <span class="label" data-i18n="c.det">detector</span>
+                        <div class="seg seg6" role="radiogroup" aria-label="SPHEREx detector">
+                            <button type="button" role="radio" data-band="D1" title="0.75–1.1 µm">D1</button>
+                            <button type="button" role="radio" data-band="D2" title="1.1–1.6 µm">D2</button>
+                            <button type="button" role="radio" data-band="D3" title="1.6–2.4 µm">D3</button>
+                            <button type="button" role="radio" data-band="D4" title="2.4–3.8 µm">D4</button>
+                            <button type="button" role="radio" data-band="D5" title="3.8–4.4 µm">D5</button>
+                            <button type="button" role="radio" data-band="D6" title="4.4–5.0 µm">D6</button>
+                        </div>
+                        <p class="keys" data-i18n="c.keys">space plays or pauses · arrows step · 1 to 6 detector · d difference · m marker · g Gaia · f full screen</p>
                     </div>
                 </section>
 
@@ -297,7 +314,7 @@
 
     <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="app.js?v=23"></script>
+<script src="app.js?v=24"></script>
 <script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
 </body>
 </html>

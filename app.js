@@ -19,6 +19,17 @@ const WORDS = {
     "why.RWAur": "a young star that changes brightness and does not move",
     "why.RDra": "a Mira variable, period 246 days, V 6.7 to 13.2",
     "tag.Barnard": "moves fast", "tag.EpsIndB": "moves", "tag.WISE0855": "faint", "tag.RWAur": "varies", "tag.RDra": "varies",
+    "long.Barnard": "Barnard's Star has the largest proper motion of any star in the sky. It is bright at every SPHEREx wavelength, so it is the cleanest first test. If the tool is right, the star walks north across a field of stars that stand still, and it lands where Gaia says it should be on each date.",
+    "long.EpsIndB": "Epsilon Indi B is two brown dwarfs that orbit each other, and the pair orbits the bright star Epsilon Indi A. It is one of the nearest brown dwarf systems. It is faint in visible light and much brighter in the infrared, where SPHEREx looks. At SPHEREx resolution the two are one blob, and they move less than a pixel a year, so this target tests whether the tool can show a small motion of a faint source.",
+    "long.WISE0855": "WISE 0855-0714 is the coldest brown dwarf known, close to the freezing point of water, and the fourth nearest system to the Sun. Methane and water absorb its light on both sides of 4.6 microns, so it is invisible in visible light and almost invisible at short infrared wavelengths, but it shines near 4.6 microns. Only the longest SPHEREx detector, D6, can see it. This is why the tool keeps each detector apart, since adding all six together would bury it.",
+    "long.RWAur": "RW Aurigae is a very young star still surrounded by gas and dust, with a companion 1.45 arcsec away, and the prototype of its class. Dust in its disk passes in front of the star from time to time and it dims by several magnitudes. It barely moves on the sky, so it tests the other half of the tool, a star that stays in place and changes.",
+    "long.RDra": "R Draconis is an old red giant that swells and shrinks with a period of about 246 days, and its visible brightness changes by more than six magnitudes over one cycle. The change is smaller in the infrared but still large. SPHEREx comes back about every six months, which is not a whole number of periods, so each pass catches it at a different phase. Gaia flags it as variable.",
+    "look.Barnard": "A bright star that steps north by a little under one pixel every six-month pass, about 2.5 pixels over the whole data set. Its core is saturated, so with the bad pixels blanked it shows as a moving hole.",
+    "look.EpsIndB": "A faint source in D5 that shifts by about one pixel over the data set. The difference view shows it as a dark and a bright spot side by side. Epsilon Indi A, 6.7 arcmin away, shares the same motion.",
+    "look.WISE0855": "A faint source in D6 that is missing or very weak in D1 to D4, moving about 1.3 pixels a year to the west. It sits close to a field star, so the blink is how to tell them apart. Step through the detectors to watch it appear.",
+    "look.RWAur": "A star that stays on the same pixel while its brightness changes between passes. The two stars of the binary are one blob at SPHEREx resolution.",
+    "look.RDra": "A bright star that stays still and changes brightness from pass to pass. The wavelength at the star is different in each exposure, so compare sky passes rather than single exposures.",
+    "best": "best",
     query: "Asking IRSA which exposures cover this spot",
     dl: "Downloading cutout {a} of {b}",
     slow: "The first view of a new field downloads every cutout, which takes a few minutes. After that it opens at once.",
@@ -49,6 +60,17 @@ const WORDS = {
     "why.RWAur": "bintang muda yang berubah terang dan tidak bergerak",
     "why.RDra": "bintang variabel Mira, periode 246 hari, V 6,7 sampai 13,2",
     "tag.Barnard": "bergerak cepat", "tag.EpsIndB": "bergerak", "tag.WISE0855": "redup", "tag.RWAur": "berubah", "tag.RDra": "berubah",
+    "long.Barnard": "Bintang Barnard punya gerak diri terbesar di antara semua bintang di langit. Ia terang di semua panjang gelombang SPHEREx, jadi ini uji pertama yang paling bersih. Kalau alatnya benar, bintang ini berjalan ke utara melewati bintang-bintang yang diam, dan tiba di tempat yang Gaia perkirakan pada tiap tanggal.",
+    "long.EpsIndB": "Epsilon Indi B adalah dua katai cokelat yang saling mengorbit, dan pasangan ini mengorbit bintang terang Epsilon Indi A. Ini salah satu sistem katai cokelat terdekat. Ia redup dalam cahaya kasatmata dan jauh lebih terang dalam inframerah, tempat SPHEREx melihat. Dengan resolusi SPHEREx keduanya tampak sebagai satu gumpalan, dan geraknya kurang dari satu piksel per tahun, jadi target ini menguji apakah alatnya bisa menunjukkan gerak kecil dari sumber yang redup.",
+    "long.WISE0855": "WISE 0855-0714 adalah katai cokelat terdingin yang diketahui, mendekati titik beku air, dan sistem terdekat keempat dari Matahari. Metana dan air menyerap cahayanya di kedua sisi 4,6 mikron, jadi ia tak terlihat dalam cahaya kasatmata dan hampir tak terlihat di inframerah pendek, tetapi bersinar dekat 4,6 mikron. Hanya detektor SPHEREx yang paling panjang, D6, yang bisa melihatnya. Karena itu alat ini memisahkan tiap detektor, sebab menjumlahkan keenamnya akan menenggelamkannya.",
+    "long.RWAur": "RW Aurigae adalah bintang yang sangat muda dan masih diselimuti gas dan debu, dengan pasangan berjarak 1,45 detik busur, dan menjadi purwarupa kelasnya. Debu di piringannya sesekali lewat di depan bintang dan membuatnya meredup beberapa magnitudo. Ia nyaris tidak bergerak di langit, jadi ia menguji separuh lain dari alat ini, bintang yang diam di tempat dan berubah.",
+    "long.RDra": "R Draconis adalah raksasa merah tua yang mengembang dan menyusut dengan periode sekitar 246 hari, dan kecerlangan kasatmatanya berubah lebih dari enam magnitudo dalam satu siklus. Perubahannya lebih kecil di inframerah tetapi tetap besar. SPHEREx kembali kira-kira tiap enam bulan, yang bukan kelipatan periodenya, jadi tiap lintasan menangkapnya di fase yang berbeda. Gaia menandainya sebagai bintang variabel.",
+    "look.Barnard": "Bintang terang yang bergeser ke utara sedikit kurang dari satu piksel tiap lintasan enam bulan, sekitar 2,5 piksel di seluruh data. Intinya jenuh, jadi kalau piksel buruk dikosongkan ia tampak sebagai lubang yang bergerak.",
+    "look.EpsIndB": "Sumber redup di D5 yang bergeser sekitar satu piksel di seluruh data. Tampilan selisih menunjukkannya sebagai titik gelap dan titik terang berdampingan. Epsilon Indi A, 6,7 menit busur jauhnya, bergerak dengan gerak yang sama.",
+    "look.WISE0855": "Sumber redup di D6 yang tidak ada atau sangat lemah di D1 sampai D4, bergerak sekitar 1,3 piksel per tahun ke barat. Ia dekat dengan sebuah bintang latar, jadi kedipan adalah cara membedakan keduanya. Pindah dari detektor ke detektor untuk melihatnya muncul.",
+    "look.RWAur": "Bintang yang tetap di piksel yang sama sementara kecerlangannya berubah antarlintasan. Dua bintang pasangan ini tampak sebagai satu gumpalan pada resolusi SPHEREx.",
+    "look.RDra": "Bintang terang yang diam dan berubah kecerlangan dari lintasan ke lintasan. Panjang gelombang di bintang ini berbeda di tiap pengamatan, jadi bandingkan lintasan, bukan pengamatan tunggal.",
+    "best": "terbaik",
     query: "Menanyakan ke IRSA pengamatan mana yang mencakup titik ini",
     dl: "Mengunduh potongan {a} dari {b}",
     slow: "Tampilan pertama dari medan baru mengunduh semua potongan, jadi butuh beberapa menit. Setelah itu langsung terbuka.",
@@ -79,6 +101,17 @@ const WORDS = {
     "why.RWAur": "una stella giovane che cambia luminosità e non si muove",
     "why.RDra": "una variabile Mira, periodo 246 giorni, V da 6,7 a 13,2",
     "tag.Barnard": "veloce", "tag.EpsIndB": "si muove", "tag.WISE0855": "debole", "tag.RWAur": "varia", "tag.RDra": "varia",
+    "long.Barnard": "La Stella di Barnard ha il moto proprio più grande di tutte le stelle del cielo. È luminosa a ogni lunghezza d’onda di SPHEREx, quindi è la prima prova più pulita. Se lo strumento funziona, la stella cammina verso nord tra stelle che restano ferme, e arriva dove Gaia dice che dovrebbe essere a ogni data.",
+    "long.EpsIndB": "Epsilon Indi B sono due nane brune che orbitano l’una attorno all’altra, e la coppia orbita attorno alla stella luminosa Epsilon Indi A. È uno dei sistemi di nane brune più vicini. È debole nella luce visibile e molto più luminosa nell’infrarosso, dove guarda SPHEREx. Alla risoluzione di SPHEREx le due sono una sola macchia e si muovono di meno di un pixel l’anno, quindi questo oggetto mette alla prova lo strumento su un piccolo moto di una sorgente debole.",
+    "long.WISE0855": "WISE 0855-0714 è la nana bruna più fredda che si conosca, vicina al punto di congelamento dell’acqua, ed è il quarto sistema più vicino al Sole. Metano e acqua assorbono la sua luce da entrambi i lati di 4,6 micron, quindi è invisibile nella luce visibile e quasi invisibile nell’infrarosso corto, ma brilla vicino a 4,6 micron. Solo il rivelatore SPHEREx più lungo, D6, riesce a vederla. Per questo lo strumento tiene separati i rivelatori, perché sommarli tutti e sei la nasconderebbe.",
+    "long.RWAur": "RW Aurigae è una stella giovanissima ancora avvolta da gas e polvere, con una compagna a 1,45 secondi d’arco, ed è il prototipo della sua classe. La polvere del suo disco a volte passa davanti alla stella, che si affievolisce di parecchie magnitudini. Quasi non si muove nel cielo, quindi mette alla prova l’altra metà dello strumento, una stella che resta ferma e cambia.",
+    "long.RDra": "R Draconis è una vecchia gigante rossa che si gonfia e si contrae con un periodo di circa 246 giorni, e la sua luminosità visibile cambia di più di sei magnitudini in un ciclo. Nell’infrarosso il cambiamento è minore ma resta grande. SPHEREx torna circa ogni sei mesi, che non è un multiplo del periodo, quindi ogni passaggio la coglie in una fase diversa. Gaia la segnala come variabile.",
+    "look.Barnard": "Una stella luminosa che avanza verso nord di poco meno di un pixel a ogni passaggio di sei mesi, circa 2,5 pixel in tutto. Il suo centro è saturo, quindi con i pixel difettosi oscurati appare come un buco che si sposta.",
+    "look.EpsIndB": "Una sorgente debole in D5 che si sposta di circa un pixel in tutti i dati. La vista differenza la mostra come un punto scuro e uno chiaro uno accanto all’altro. Epsilon Indi A, a 6,7 primi d’arco, condivide lo stesso moto.",
+    "look.WISE0855": "Una sorgente debole in D6 che manca o è molto debole da D1 a D4, e si muove di circa 1,3 pixel l’anno verso ovest. È vicina a una stella di campo, quindi il blink è il modo per distinguerle. Passa da un rivelatore all’altro per vederla comparire.",
+    "look.RWAur": "Una stella che resta sullo stesso pixel mentre la sua luminosità cambia da un passaggio all’altro. Le due stelle della binaria sono una sola macchia alla risoluzione di SPHEREx.",
+    "look.RDra": "Una stella luminosa che resta ferma e cambia luminosità da un passaggio all’altro. La lunghezza d’onda sulla stella è diversa in ogni esposizione, quindi confronta i passaggi e non le singole esposizioni.",
+    "best": "migliore",
     query: "Chiedo a IRSA quali esposizioni coprono questo punto",
     dl: "Scarico il ritaglio {a} di {b}",
     slow: "La prima volta un campo nuovo scarica tutti i ritagli, e ci vuole qualche minuto. Dopo si apre subito.",
@@ -112,8 +145,8 @@ const PAGE = {
     lede: "Pilih sebuah bintang dan lihat ia berjalan. Alat ini memutar gambar SPHEREx publik dari satu petak kecil langit, lintasan demi lintasan, sehingga apa pun yang cukup dekat untuk bergerak langsung terlihat di depan bintang-bintang di belakangnya.",
     "c.target": "target", "c.show": "yang ditampilkan", "c.view": "tampilan", "c.blink": "kedip", "c.diff": "selisih",
     "c.per": "satu gambar per", "c.pass": "lintasan", "c.exp": "pengamatan",
-    "c.keys": "spasi putar atau jeda · panah melangkah · d selisih · m penanda · g Gaia · f layar penuh",
-    "c.own": "posisimu sendiri", "c.epoch": "epoch (tahun)", "c.size": "medan (detik busur)", "c.det": "detektor",
+    "c.keys": "spasi putar atau jeda · panah melangkah · 1 sampai 6 detektor · d selisih · m penanda · g Gaia · f layar penuh",
+    "c.own": "posisimu sendiri", "c.epoch": "epoch (tahun)", "c.size": "medan (detik busur)", "c.det": "detektor", "c.tinfo": "target ini", "c.look4": "yang dicari",
     "c.go": "tampilkan medan ini",
     "c.hint": "Masukkan posisi pada epoch, lalu gerak diri memindahkannya ke tanggal tiap pengamatan. Di situs ini kelima target langsung terbuka. Posisi lain bertanya ke arsip langsung, yang butuh server dari repo GitHub berjalan di komputermu.",
     "c.look": "tampilan gambar", "c.speed": "kedip tiap (ms)", "c.contrast": "kontras (%)", "c.stretch": "skala",
@@ -151,8 +184,8 @@ const PAGE = {
     lede: "Scegli una stella e guardala camminare. Questo strumento mostra le immagini pubbliche di SPHEREx di una piccola zona di cielo, un passaggio dopo l’altro, così tutto ciò che è abbastanza vicino da muoversi salta all’occhio sulle stelle dietro.",
     "c.target": "oggetto", "c.show": "cosa mostrare", "c.view": "vista", "c.blink": "blink", "c.diff": "differenza",
     "c.per": "un’immagine per", "c.pass": "passaggio", "c.exp": "esposizione",
-    "c.keys": "spazio avvia o ferma · frecce un passo · d differenza · m segno · g Gaia · f schermo intero",
-    "c.own": "la tua posizione", "c.epoch": "epoca (anno)", "c.size": "campo (arcsec)", "c.det": "rivelatore",
+    "c.keys": "spazio avvia o ferma · frecce un passo · da 1 a 6 rivelatore · d differenza · m segno · g Gaia · f schermo intero",
+    "c.own": "la tua posizione", "c.epoch": "epoca (anno)", "c.size": "campo (arcsec)", "c.det": "rivelatore", "c.tinfo": "questo oggetto", "c.look4": "cosa cercare",
     "c.go": "mostra questo campo",
     "c.hint": "Inserisci la posizione all’epoca, e il moto proprio la sposta alla data di ogni esposizione. Su questo sito i cinque oggetti si aprono subito. Ogni altra posizione interroga l’archivio, e serve il server del repo GitHub acceso sul tuo computer.",
     "c.look": "aspetto", "c.speed": "blink ogni (ms)", "c.contrast": "contrasto (%)", "c.stretch": "scala",
@@ -217,7 +250,7 @@ function applyLang(l) {
   document.querySelectorAll("[data-i18n]").forEach((n) => { const v = d[n.dataset.i18n]; if (v != null) n.innerHTML = v; });
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  buildTargets(); nowLine(); exSync(); exTargets();
+  buildTargets(); nowLine(); targetInfo(); exSync(); exTargets();
   if (lastStatus) lastStatus();
   if (data) { buildViews(); draw(); }
 }
@@ -227,7 +260,9 @@ document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("cli
 }));
 
 // ---------- URL <-> settings ----------
-const presetFor = () => Object.keys(PRESETS).find((k) => DATA_KEYS.every((d) => String(PRESETS[k][d]) === S[d]));
+// a preset is the position and field, whatever detector is chosen, since every target ships in all six
+const POS_KEYS = DATA_KEYS.filter((k) => k !== "band");
+const presetFor = () => Object.keys(PRESETS).find((k) => POS_KEYS.every((d) => String(PRESETS[k][d]) === S[d]));
 
 function readURL() {
   const q = new URLSearchParams(location.search);
@@ -241,7 +276,10 @@ function writeURL() {
   const q = new URLSearchParams(), t = presetFor();
   if (t) q.set("target", t);
   for (const k of Object.keys(DEFAULTS)) {
-    if (t && DATA_KEYS.includes(k)) continue;
+    if (t && DATA_KEYS.includes(k)) {
+      if (k === "band" && S.band !== PRESETS[t].band) q.set("band", S.band);   // another detector of a target
+      continue;
+    }
     if (S[k] !== DEFAULTS[k]) q.set(k, S[k]);
   }
   history.replaceState(null, "", (q.toString() ? "?" + q : location.pathname) + location.hash);
@@ -255,6 +293,11 @@ function syncUI() {
   document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.view === S.view)));
   document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.mode === S.mode)));
   const t = presetFor();
+  document.querySelectorAll("[data-band]").forEach((b) => {
+    b.setAttribute("aria-checked", String(b.dataset.band === S.band));
+    b.classList.toggle("best", !!t && b.dataset.band === PRESETS[t].band);
+  });
+  targetInfo();
   document.querySelectorAll("#targets button").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.key === t)));
   const sign = +S.dec >= 0 ? "+" : "";
   $("where").textContent = `ra ${(+S.ra).toFixed(4)} · dec ${sign}${(+S.dec).toFixed(4)} · ${S.band}`;
@@ -290,11 +333,17 @@ async function load() {
   try {
     let j = null;
     // the five targets ship as static files, so they open at once on plain static hosting
+    // every target in all six detectors sits in data/bands/, the best detector also in data/
     if (t && S.size === String(PRESETS[t].size)) {
-      try {
-        const r = await fetch(`data/${t}${S.mask === "1" ? "_mask" : ""}.json`);
-        if (r.ok) j = await r.json();
-      } catch { /* fall through to the server */ }
+      const m = S.mask === "1" ? "_mask" : "";
+      const files = [`data/bands/${t}_${S.band}${m}.json`];
+      if (S.band === PRESETS[t].band) files.push(`data/${t}${m}.json`);
+      for (const f of files) {
+        try {
+          const r = await fetch(f);
+          if (r.ok) { j = await r.json(); break; }
+        } catch { /* try the next file, then the server */ }
+      }
     }
     if (!j) {
       let r;
@@ -520,7 +569,7 @@ function buildTargets() {
     b.addEventListener("click", () => choose(key));
     seg.appendChild(b);
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td><button type="button">${p.label}</button></td><td>${T("why." + key)}</td><td>${p.band}</td>`;
+    tr.innerHTML = `<td><button type="button">${p.label}</button></td><td>${T("long." + key)}</td><td>${p.band}</td>`;
     tr.querySelector("button").addEventListener("click", () => { choose(key); $("tool").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }); });
     tb.appendChild(tr);
   }
@@ -531,11 +580,44 @@ function choose(key) {
   for (const k of DATA_KEYS) S[k] = String(p[k]);
   writeURL(); syncUI(); load();
 }
+function setBand(b) {
+  if (b === S.band) return;
+  S.band = b; form.elements.band.value = b;
+  writeURL(); syncUI(); load();
+}
+
+// the panel under the target list: what to look for, and the numbers behind it (data/targets.json)
+let FACTS = null;
+fetch("data/targets.json").then((r) => (r.ok ? r.json() : null)).then((j) => {
+  if (!j) return;
+  FACTS = Object.fromEntries(j.targets.map((x) => [x.id, x.numbers]));
+  targetInfo();
+}).catch(() => { /* the panel just shows the words */ });
+
+function targetInfo() {
+  const box = $("tinfo");
+  if (!box) return;
+  const t = presetFor();
+  box.hidden = !t;
+  if (!t) return;
+  const num = (v, d) => Number(v).toLocaleString(lang, { maximumFractionDigits: d });
+  $("tinfoLook").textContent = T("look." + t);
+  const f = FACTS && FACTS[t], bits = [];
+  if (f) {
+    if (f.distance_pc) bits.push(`${num(f.distance_pc, 2)} pc`);
+    if (f.pm_total_arcsec_yr != null) bits.push(`${num(f.pm_total_arcsec_yr, 3)}″/yr`);
+    if (f.pm_px_yr != null) bits.push(`${num(f.pm_px_yr, 3)} px/yr`);
+  }
+  bits.push(`${T("best")} ${PRESETS[t].band}`);
+  $("tinfoFacts").textContent = bits.join(" · ");
+}
+
 function setView(v) { S.view = v; writeURL(); syncUI(); draw(); }
 function setMode(m) { S.mode = m; writeURL(); syncUI(); if (data) { buildViews(); idx = 0; draw(); if (playing) start(); } }
 
 document.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
 document.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+document.querySelectorAll("[data-band]").forEach((b) => b.addEventListener("click", () => setBand(b.dataset.band)));
 $("play").addEventListener("click", () => setPlaying(!playing));
 $("scrub").addEventListener("input", (e) => { setPlaying(false); idx = +e.target.value; draw(); });
 
@@ -567,6 +649,7 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "d") setView(S.view === "diff" ? "blink" : "diff");
   else if (e.key === "g") { S.gaia = S.gaia === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
   else if (e.key === "m") { S.marker = S.marker === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
+  else if (/^[1-6]$/.test(e.key)) setBand("D" + e.key);
 });
 addEventListener("resize", () => { if (data) draw(); });
 
