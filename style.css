@@ -130,6 +130,29 @@ button, input, select { font: inherit; color: inherit; }
 .mini { min-height: 26px; padding: 0 9px; border: 1px solid var(--blue); background: transparent; color: var(--blue); font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; cursor: pointer; }
 .mini:hover { background: var(--blue-soft); }
 .check.mini { border: 0; padding: 0; margin: 0; font: 400 12px var(--mono); }
+/* what the marks on the map mean */
+.ex-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin: 0; font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+.ex-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.ex-legend i { display: inline-block; flex: none; }
+.lg-target { width: 11px; height: 11px; border: 2px solid #7a82ff; border-radius: 50%; }
+.lg-known { width: 8px; height: 8px; border: 1.5px solid currentColor; }
+.lg-sun { width: 11px; height: 11px; border: 2px solid #ff8a3d; border-radius: 50%; }
+.lg-ecl { width: 18px; border-top: 2px dashed #ff8a3d; }
+.ex-legend.no-known > span:not(:first-child) { display: none; }
+.explore[data-world="earth"] .ex-legend { display: none; }
+/* the card for a known object: over the map's top left on wide screens, under the map on phones */
+.explore > .panel { position: relative; }
+.ex-card { position: absolute; left: 12px; top: var(--k-top, 52px); z-index: 7; width: min(340px, calc(100% - 84px)); max-height: calc(100% - var(--k-top, 52px) - 12px); overflow: auto; padding: 14px 16px 14px; background: var(--panel); color: var(--blue); box-shadow: 0 0 0 1px var(--blue), 0 10px 30px rgba(0, 0, 0, .35); font-size: 15px; line-height: 1.5; }
+.ex-card[hidden] { display: none; }
+.ex-card p { margin: 0 0 10px; }
+.ex-card-type { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
+.ex-card-name { margin: 0 32px 8px 0; font: 400 26px/1.05 var(--display); text-transform: uppercase; letter-spacing: .01em; }
+.ex-card-note { font: 400 12px/1.45 var(--mono); opacity: .8; padding-top: 8px; border-top: 1px solid var(--blue-line); }
+.ex-card-x { position: absolute; right: 8px; top: 6px; width: 32px; height: 32px; border: 0; background: none; color: var(--blue); font: 400 24px/1 var(--display); cursor: pointer; }
+.ex-card-x:hover { background: var(--blue-soft); }
+@media (max-width: 720px) {
+    .ex-card { position: relative; left: auto; top: auto; width: auto; max-height: none; box-shadow: none; border-top: 1px solid var(--blue-line); }
+}
 
 @media (max-width: 640px) {
     .ex-stage { aspect-ratio: 4 / 3; }
@@ -137,6 +160,9 @@ button, input, select { font: inherit; color: inherit; }
     .explore[data-shape="map"] .ex-stage, .explore[data-world="earth"] .ex-stage { aspect-ratio: 2 / 1; }
     .shapes button { font-size: 15px; }
     .ex-row .seg { min-width: 0; width: 100%; }
+    /* on a short phone map the four buttons go in one row along the top, so they cover less of the sky */
+    .ex-zoom { right: 8px; top: 8px; grid-auto-flow: column; gap: 4px; }
+    .ex-zoom button { width: 30px; height: 30px; }
 }
 
 /* ---------- the two steps of the page ---------- */

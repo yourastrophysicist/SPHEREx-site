@@ -154,7 +154,7 @@ const PAGE = {
     "c.look": "tampilan gambar", "c.speed": "kedip tiap (ms)", "c.contrast": "kontras (%)", "c.stretch": "skala",
     "c.marker": "tandai posisi target", "c.invert": "balik warna", "c.mask": "kosongkan piksel yang ditandai buruk oleh SPHEREx",
     "c.copy": "salin tautan tampilan ini", "c.pick": "pilih posisi",
-    "lens.btn": "lensa", "lens.use": "pakai titik ini", "ex.centre": "pusat · ICRS", "ex.copy": "salin", "ex.cross": "garis silang",
+    "lens.btn": "lensa", "lens.use": "pakai titik ini", "ex.centre": "pusat · ICRS", "ex.copy": "salin", "ex.cross": "garis silang", "ex.known": "objek terkenal", "lg.t": "lima target", "lg.k": "objek terkenal, klik salah satunya", "lg.s": "Matahari hari ini", "lg.e": "jalur tahunannya, ekliptika", knownnote: "Kotak putih adalah 29 benda langit yang banyak orang pernah dengar, dari Sirius sampai Galaksi Andromeda, supaya kamu selalu tahu sedang di mana. Empat belas tampak di seluruh langit, sisanya muncul saat kamu memperbesar. Klik salah satunya untuk kartu singkat. Lingkaran jingga adalah Matahari hari ini, dihitung dengan rumus buku teks, di jalur tahunannya mengelilingi langit.",
     "ex.hint": "klik langitnya, lalu geser untuk bergerak · gulir atau + dan − untuk zoom", "ex.load": "memuat seluruh langit", "ex.map": "peta", "ex.outside": "dari luar", "ex.inside": "dari dalam", "ex.sky": "langit", "ex.earth": "Bumi", "ex.day": "siang", "ex.night": "malam", "ex.lambda": "panjang gelombang", "ex.about": "tentang peta", mapnote: "Kotaknya adalah medan SPHEREx di layar, dan cincinnya mengikuti target dari bingkai ke bingkai. Survei di peta lebih tua, jadi bintang cepat seperti Barnard tampak di selatan cincin, di tempatnya saat 2MASS (1999) dan AllWISE (2010) memotretnya.", "c.cat": "katalog di atas gambar", "c.gaia": "bintang Gaia DR3, digeser dengan gerak dirinya", "c.catwise": "sumber CatWISE2020, untuk yang terlalu dingin bagi Gaia", "c.gmag": "Gaia sampai G", "c.wmag": "CatWISE sampai W2",
     "am.label": "tentang peta", "am.h": "Seluruh langit",
     "a1.t": "tiga bentuk", "a1.d": "Peta meratakan seluruh langit menjadi oval dengan Bima Sakti melintang di tengah, seperti cara para astronom menggambarnya. Dari luar menaruh langit yang sama di bola yang kamu lihat dari luar, berputar pelan. Dari dalam menaruhmu di pusatnya, seperti langit yang terlihat dari tanah.",
@@ -166,7 +166,7 @@ const PAGE = {
     "cr.t3": "katalog", "cr.d3": "Gaia DR3 dan CatWISE2020 (Marocco dkk. 2021), keduanya melalui NASA/IPAC IRSA.",
     "cr.t4": "peta langit", "cr.d4": "Aladin Lite (CDS, Strasbourg), dengan 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA.",
     "cr.t5": "Bumi", "cr.d5": "Blue Marble dan Black Marble, NASA, melalui NASA GIBS.",
-    "cr.t6": "ide", "cr.d6": "Kedipnya mengikuti WiseView karya Caselden dan rekan. Tata letak seluruh langit mengikuti peta langit ultraungu Brice Menard. Lensa, garis silang, dan Home yang tetap berasal dari Time Lens rekan setim kami.",
+    "cr.t6": "ide", "cr.d6": "Kedipnya mengikuti WiseView karya Caselden dan rekan. Tata letak seluruh langit mengikuti peta langit ultraungu Brice Menard. Lensa, garis silang, Home yang tetap, dan daftar objek terkenal berasal dari Time Lens rekan setim kami.",
     "cr.t7": "dibuat oleh", "cr.d7": "Observationally Speaking, di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian kode ditulis dengan bantuan Claude (Anthropic).",
     "how.label": "cara kerjanya", "how.h": "Alatnya",
     "p1.t": "teleskopnya", "p1.d": "SPHEREx adalah teleskop survei inframerah seluruh langit milik NASA, diluncurkan pada Maret 2025. Ia memetakan seluruh langit setiap enam bulan dalam 102 warna antara 0,75 dan 5 mikron, sehingga setiap petak langit terlihat berulang kali.",
@@ -195,7 +195,7 @@ const PAGE = {
     "c.look": "aspetto", "c.speed": "blink ogni (ms)", "c.contrast": "contrasto (%)", "c.stretch": "scala",
     "c.marker": "segna dove dovrebbe essere l’oggetto", "c.invert": "inverti", "c.mask": "nascondi i pixel che SPHEREx segnala come difettosi",
     "c.copy": "copia il link di questa vista", "c.pick": "scegli una posizione",
-    "lens.btn": "lente", "lens.use": "usa questo punto", "ex.centre": "centro · ICRS", "ex.copy": "copia", "ex.cross": "mirino",
+    "lens.btn": "lente", "lens.use": "usa questo punto", "ex.centre": "centro · ICRS", "ex.copy": "copia", "ex.cross": "mirino", "ex.known": "oggetti noti", "lg.t": "i cinque oggetti", "lg.k": "oggetti noti, cliccane uno", "lg.s": "il Sole oggi", "lg.e": "il suo percorso annuale, l’eclittica", knownnote: "I quadratini bianchi sono 29 oggetti di cui molti hanno sentito parlare, da Sirio alla Galassia di Andromeda, così sai sempre dove ti trovi. Quattordici si vedono su tutto il cielo, gli altri quando ingrandisci. Cliccane uno per una breve scheda. Il cerchio arancione è il Sole di oggi, calcolato con una formula da manuale, sul suo percorso annuale attorno al cielo.",
     "ex.hint": "clicca il cielo, poi trascina per muoverti · rotella o + e − per lo zoom", "ex.load": "carico tutto il cielo", "ex.map": "mappa", "ex.outside": "da fuori", "ex.inside": "da dentro", "ex.sky": "cielo", "ex.earth": "Terra", "ex.day": "giorno", "ex.night": "notte", "ex.lambda": "lunghezza d’onda", "ex.about": "sulla mappa", mapnote: "Il riquadro è il campo SPHEREx sullo schermo, e l’anello segue l’oggetto fotogramma per fotogramma. Le survey della mappa sono più vecchie, quindi una stella veloce come quella di Barnard appare a sud dell’anello, dove si trovava quando 2MASS (1999) e AllWISE (2010) l’hanno fotografata.", "c.cat": "cataloghi sopra l’immagine", "c.gaia": "stelle Gaia DR3, spostate col loro moto proprio", "c.catwise": "sorgenti CatWISE2020, per ciò che è troppo freddo per Gaia", "c.gmag": "Gaia fino a G", "c.wmag": "CatWISE fino a W2",
     "am.label": "sulla mappa", "am.h": "Tutto il cielo",
     "a1.t": "tre forme", "a1.d": "La mappa appiattisce tutto il cielo in un ovale con la Via Lattea al centro, come la disegnano gli astronomi. Da fuori mette lo stesso cielo su una sfera vista dall’esterno, che gira piano. Da dentro ti mette al centro, come il cielo visto da terra.",
@@ -207,7 +207,7 @@ const PAGE = {
     "cr.t3": "cataloghi", "cr.d3": "Gaia DR3 e CatWISE2020 (Marocco et al. 2021), entrambi tramite NASA/IPAC IRSA.",
     "cr.t4": "mappe del cielo", "cr.d4": "Aladin Lite (CDS, Strasburgo), con 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA.",
     "cr.t5": "Terra", "cr.d5": "Blue Marble e Black Marble, NASA, tramite NASA GIBS.",
-    "cr.t6": "idee", "cr.d6": "Il blink segue WiseView di Caselden e collaboratori. La disposizione di tutto il cielo segue la mappa del cielo ultravioletto di Brice Menard. La lente, il mirino e la Home fissa vengono dal Time Lens del nostro compagno di squadra.",
+    "cr.t6": "idee", "cr.d6": "Il blink segue WiseView di Caselden e collaboratori. La disposizione di tutto il cielo segue la mappa del cielo ultravioletto di Brice Menard. La lente, il mirino, la Home fissa e l’elenco degli oggetti noti vengono dal Time Lens del nostro compagno di squadra.",
     "cr.t7": "fatto da", "cr.d7": "Observationally Speaking, a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Parte del codice è stata scritta con l’aiuto di Claude (Anthropic).",
     "how.label": "come funziona", "how.h": "Lo strumento",
     "p1.t": "il telescopio", "p1.d": "SPHEREx è il telescopio della NASA che osserva tutto il cielo nell’infrarosso, lanciato a marzo 2025. Mappa l’intero cielo ogni sei mesi in 102 colori tra 0,75 e 5 micron, quindi ogni zona del cielo viene vista più e più volte.",
@@ -227,7 +227,7 @@ const DEFAULTS = {
   ra: "", dec: "", size: "360", band: "D1", pmra: "0", pmdec: "0", epoch: "2016.0",
   view: "blink", mode: "frames", speed: "500", stretch: "asinh", contrast: "99.5",
   invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
-  shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1",
+  shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1", known: "1",
   read: "curious",
 };
 const DATA_KEYS = ["ra", "dec", "size", "band", "pmra", "pmdec", "epoch"];
@@ -255,7 +255,7 @@ function applyLang(l) {
   document.querySelectorAll("[data-i18n]").forEach((n) => { const v = d[n.dataset.i18n]; if (v != null) n.innerHTML = v; });
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  buildTargets(); nowLine(); targetInfo(); exSync(); exTargets();
+  buildTargets(); nowLine(); targetInfo(); exSync(); exTargets(); exKnown(); knownCard(knownOpen);
   if (typeof renderStory === "function") renderStory();
   if (lastStatus) lastStatus();
   if (data) { buildViews(); draw(); }
@@ -691,6 +691,7 @@ const LAMBDA = [0.753,0.771,0.790,0.809,0.828,0.848,0.868,0.889,0.910,0.932,0.95
 const SHAPES = { map: { proj: "MOL", fov: 360 }, outside: { proj: "SIN", fov: 180 }, inside: { proj: "STG", fov: 140 } };
 const EX = { shape: "map", world: "sky", layer: "spherex", frame: 20, earth: "night" };
 let aladin = null, boxLayer = null, ringLayer = null, pickLayer = null, targetCat = null;
+let knownCats = null, eclLayer = null, knownOpen = null;
 let aladinLoading = false, spinT = 0, spinLon = 0, lastTouch = 0, lensOn = false, lensXY = null;
 // Home is fixed for good: the whole sky, centred on the middle of the Milky Way. No preset, URL or saved state moves it.
 const HOME = Object.freeze({ l: 0, b: 0 });
@@ -803,7 +804,7 @@ function spin() {
 function exTargets() {
   if (!aladin) return;
   if (targetCat) targetCat.removeAll(); else {
-    targetCat = A.catalog({ name: "targets", shape: "circle", sourceSize: 16, color: "#7a82ff", displayLabel: $("sky3").clientWidth > 560, labelColumn: "name", labelColor: "#f2f2f2", labelFont: "12px JetBrains Mono, monospace" });
+    targetCat = A.catalog({ name: "targets", shape: "circle", sourceSize: 16, color: "#7a82ff", selectionColor: "#ffb000", hoverColor: "#ffb000", displayLabel: $("sky3").clientWidth > 560, labelColumn: "name", labelColor: "#f2f2f2", labelFont: "12px JetBrains Mono, monospace" });
     aladin.addCatalog(targetCat);
   }
   const cur = presetFor();
@@ -812,6 +813,73 @@ function exTargets() {
     return A.source(ra, dec, { name: (key === cur ? "▸ " : "") + p.label, key });
   }));
 }
+
+// ---------- known objects: bright stars, clusters, nebulae and galaxies, the Sun and the ecliptic (known.js) ----------
+function knownSource(o, ra, dec) {
+  return A.source(ra, dec, { name: knownName(o, lang), kid: o.key });
+}
+function exKnown() {
+  if (!aladin) return;
+  const wide = $("sky3").clientWidth > 560;
+  if (!knownCats) {
+    const base = { shape: "square", color: "#f2f2f2", selectionColor: "#ffb000", hoverColor: "#ffb000", labelColor: "#d9d9d9", labelColumn: "name", labelFont: "11px Inter Tight, sans-serif" };
+    eclLayer = A.graphicOverlay({ name: "ecliptic", color: "#ff8a3d", lineWidth: 1.5, lineDash: [6, 5] });
+    aladin.addOverlay(eclLayer);
+    for (const run of eclipticRuns()) eclLayer.add(A.polyline(run));
+    knownCats = {
+      1: A.catalog({ ...base, name: "known objects", sourceSize: 8, displayLabel: wide }),
+      2: A.catalog({ ...base, name: "known objects, zoomed", sourceSize: 7, displayLabel: true }),
+      sun: A.catalog({ name: "the Sun", shape: "circle", sourceSize: 18, color: "#ff8a3d", selectionColor: "#ffb000", hoverColor: "#ffb000", displayLabel: true, labelColumn: "name", labelColor: "#ff8a3d", labelFont: "12px Inter Tight, sans-serif" }),
+    };
+    for (const c of Object.values(knownCats)) aladin.addCatalog(c);
+  }
+  for (const c of Object.values(knownCats)) c.removeAll();
+  knownCats[1].addSources(KNOWN.filter((o) => o.k === 1).map((o) => knownSource(o, o.ra, o.dec)));
+  knownCats[2].addSources(KNOWN.filter((o) => o.k === 2).map((o) => knownSource(o, o.ra, o.dec)));
+  knownCats.sun.addSources([knownSource(KNOWN_SUN, ...sunNow())]);
+  knownTier();
+}
+// tier 2 waits for a zoom below 70 degrees; the checkbox hides the whole layer, the ecliptic with it
+function knownTier() {
+  if (!knownCats) return;
+  const on = S.known !== "0", fov = aladin.getFoV()[0];
+  const vis = (c, v) => { if (v) c.show(); else c.hide(); };
+  vis(knownCats[1], on); vis(knownCats.sun, on); vis(knownCats[2], on && fov < KNOWN_TIER2_FOV);
+  if (eclLayer) { if (on) eclLayer.show(); else eclLayer.hide(); }
+  $("exLegend").classList.toggle("no-known", !on);
+}
+function knownFind(id) { return id === "sun" ? KNOWN_SUN : KNOWN.find((o) => o.key === id); }
+function knownCard(id) {
+  const card = $("kCard"), o = id && knownFind(id);
+  knownOpen = o ? id : null;
+  if (!o) { card.hidden = true; return; }
+  const W = KNOWN_WORDS[lang] || KNOWN_WORDS.en;
+  $("kType").textContent = (KNOWN_TYPES[o.t] || {})[lang] || KNOWN_TYPES[o.t].en;
+  $("kName").textContent = knownName(o, lang);
+  $("kText").textContent = o[lang] || o.en;
+  $("kNote").textContent = o.t === "sun" ? W.sunNote : W.note;
+  $("kZoom").textContent = W.zoom;
+  $("kClose").setAttribute("aria-label", W.close);
+  const stage = card.parentElement.querySelector(".ex-stage");
+  card.style.setProperty("--k-top", stage.offsetTop + 12 + "px");
+  card.hidden = false;
+}
+$("kClose").addEventListener("click", () => knownCard(null));
+$("kZoom").addEventListener("click", () => {
+  const o = knownOpen && knownFind(knownOpen);
+  if (!o || !aladin) return;
+  lastTouch = performance.now();
+  const [ra, dec] = o.t === "sun" ? sunNow() : [o.ra, o.dec];
+  if (EX.shape === "outside") { cancelAnimationFrame(spinT); }
+  aladin.gotoRaDec(ra, dec);
+  aladin.setFoV(Math.min(SHAPES[EX.shape].fov, o.fov));
+  $("exShield").hidden = true;
+});
+$("knownChk").addEventListener("change", (e) => {
+  S.known = e.target.checked ? "1" : "0"; writeURL(); knownTier();
+  if (!e.target.checked) knownCard(null);
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && knownOpen && !fullEl) knownCard(null); });
 
 function loadAladin() {
   if (aladin || aladinLoading) return;
@@ -832,8 +900,10 @@ function loadAladin() {
       pickLayer = A.graphicOverlay({ color: "#ffb000", lineWidth: 2 });
       aladin.addOverlay(boxLayer); aladin.addOverlay(ringLayer); aladin.addOverlay(pickLayer);
       applySlice();
+      exKnown();
       exTargets();
       aladin.on("objectClicked", (o) => {
+        if (o && o.data && o.data.kid) { knownCard(o.data.kid); return; }
         const key = o && o.data && o.data.key;
         if (!key) return;
         choose(key);
@@ -841,7 +911,7 @@ function loadAladin() {
       });
       aladin.on("click", () => { lastTouch = performance.now(); });
       aladin.on("positionChanged", centreOut);
-      aladin.on("zoomChanged", () => { centreOut(); lensRead(); });
+      aladin.on("zoomChanged", () => { centreOut(); lensRead(); knownTier(); });
       for (const ev of ["pointerdown", "wheel", "touchstart"]) $("sky3").addEventListener(ev, () => { lastTouch = performance.now(); }, { passive: true });
       $("exLoad").hidden = true;
       if (EX.shape !== "map") { aladin.gotoPosition(spinLon, 0); spin(); }
@@ -873,7 +943,8 @@ function mapMarker() {
 function centreOut() {
   if (!aladin) return;
   const [ra, dec] = aladin.getRaDec();
-  $("centreOut").textContent = `RA ${ra.toFixed(4)}° · Dec ${dec >= 0 ? "+" : ""}${dec.toFixed(4)}°`;
+  const dd = dec.toFixed(4) === "-0.0000" ? "0.0000" : dec.toFixed(4);        // no minus zero on the equator
+  $("centreOut").textContent = `RA ${ra.toFixed(4)}° · Dec ${dd.startsWith("-") ? "" : "+"}${dd}°`;
   lensRead();
 }
 $("copyCentre").addEventListener("click", async () => {
@@ -1028,7 +1099,7 @@ EX.shape = SHAPES[S.shape] ? S.shape : "map"; EX.world = S.world === "earth" ? "
 EX.layer = SURVEYS[S.layer] ? S.layer : "spherex"; EX.frame = Math.max(0, Math.min(101, parseInt(S.frame, 10) || 20));
 EX.earth = S.earth === "day" ? "day" : "night";
 if (EX.world === "earth") EX.shape = "map";
-$("crossChk").checked = S.cross !== "0"; $("explore").classList.toggle("no-cross", S.cross === "0");
+$("crossChk").checked = S.cross !== "0"; $("knownChk").checked = S.known !== "0"; $("explore").classList.toggle("no-cross", S.cross === "0");
 applyLang(startLang);
 if (!presetFor()) $("ownPanel").open = true;     // a shared custom link opens with its position showing
 writeURL(); syncUI(); setPlaying(playing); load();

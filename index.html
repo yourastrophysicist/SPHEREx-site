@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=31">
+    <link rel="stylesheet" href="style.css?v=34">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -70,6 +70,14 @@
                         <button type="button" id="zAll" aria-label="Home, the whole sky" title="Home"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="8" ry="5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
                     </div>
                 </div>
+                <aside class="ex-card" id="kCard" hidden aria-live="polite">
+                    <button type="button" class="ex-card-x" id="kClose" aria-label="Close">&times;</button>
+                    <p class="ex-card-type" id="kType"></p>
+                    <h3 class="ex-card-name" id="kName"></h3>
+                    <p id="kText"></p>
+                    <p class="ex-card-note" id="kNote"></p>
+                    <button type="button" class="mini" id="kZoom">zoom in here</button>
+                </aside>
                 <div class="ex-dock">
                     <div class="shapes" role="radiogroup" aria-label="Shape of the sky">
                         <button type="button" role="radio" data-shape="map" title="The whole sky flattened into an oval"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="8.5" ry="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span data-i18n="ex.map">map</span></button>
@@ -104,11 +112,13 @@
                     <div class="ex-centre">
                         <button class="mini" id="lensBtn" type="button" aria-pressed="false"><span data-i18n="lens.btn">lens</span> <span id="lensState">off</span></button>
                         <label class="check mini"><input id="crossChk" type="checkbox" checked> <span data-i18n="ex.cross">crosshair</span></label>
+                        <label class="check mini"><input id="knownChk" type="checkbox" checked> <span data-i18n="ex.known">known objects</span></label>
                         <span class="label" data-i18n="ex.centre">centre · ICRS</span>
                         <output id="centreOut">&ndash;</output>
                         <button type="button" class="mini" id="copyCentre" data-i18n="ex.copy">copy</button>
                     </div>
                     <p class="ex-now" id="exNow" aria-live="polite"></p>
+                    <p class="ex-legend" id="exLegend"><span><i class="lg-target"></i><span data-i18n="lg.t">the five targets</span></span><span><i class="lg-known"></i><span data-i18n="lg.k">known objects, click one</span></span><span><i class="lg-sun"></i><span data-i18n="lg.s">the Sun today</span></span><span><i class="lg-ecl"></i><span data-i18n="lg.e">its yearly path, the ecliptic</span></span></p>
                     <div class="ex-next">
                         <a class="btn" id="goBlink" href="#step2"></a>
                         <a class="ex-about" href="#about-map" data-i18n="ex.about">about the map</a>
@@ -265,6 +275,7 @@
                     <p data-i18n="a3.d">SPHEREx DR1 is the mission's first all-sky release, in 102 colours from 0.75 to 5 microns, and the slider steps through them. 2MASS, AllWISE and DSS2 show the same sky years or decades earlier, so a fast star like Barnard's sits in a different place on each.</p>
                 </div>
             </div>
+            <p class="note" data-i18n="knownnote">The white squares are 29 things many people have heard of, from Sirius to the Andromeda Galaxy, so you always know where you are. Fourteen show on the whole sky, the rest once you zoom in. Click one for a short card. The orange circle is the Sun today, worked out from a textbook formula, on its yearly path around the sky.</p>
         </section>
 
         <section class="sec">
@@ -319,7 +330,7 @@
                     <dt data-i18n="cr.t3">catalogues</dt><dd data-i18n="cr.d3">Gaia DR3 and CatWISE2020 (Marocco et al. 2021), both through NASA/IPAC IRSA.</dd>
                     <dt data-i18n="cr.t4">sky maps</dt><dd data-i18n="cr.d4">Aladin Lite (CDS, Strasbourg), with 2MASS and AllWISE through IRSA and DSS2 through ESA.</dd>
                     <dt data-i18n="cr.t5">Earth</dt><dd data-i18n="cr.d5">Blue Marble and Black Marble, NASA, through NASA GIBS.</dd>
-                    <dt data-i18n="cr.t6">ideas</dt><dd data-i18n="cr.d6">The blink follows WiseView by Caselden and collaborators. The whole-sky layout follows Brice Menard's ultraviolet sky map. The lens, the crosshair and the fixed Home come from our teammate's Time Lens.</dd>
+                    <dt data-i18n="cr.t6">ideas</dt><dd data-i18n="cr.d6">The blink follows WiseView by Caselden and collaborators. The whole-sky layout follows Brice Menard's ultraviolet sky map. The lens, the crosshair, the fixed Home and the list of known objects come from our teammate's Time Lens.</dd>
                     <dt data-i18n="cr.t8">pictures</dt><dd data-i18n="cr.d8">The photographs in the story come from Wikimedia Commons, by NASA, ESA, JPL-Caltech, Webb, Hubble, WISE and Lowell Observatory. Each one is credited under it with a link to its licence.</dd>
                     <dt data-i18n="cr.t7">made by</dt><dd data-i18n="cr.d7">Observationally Speaking, at NASA Space Apps Milano, 14 and 15 November 2026, building on our own prep scripts of 10 November. Parts of the code were written with help from Claude (Anthropic).</dd>
                 </dl>
@@ -339,7 +350,8 @@
 
     <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="app.js?v=29"></script>
+<script src="known.js?v=2"></script>
+<script src="app.js?v=32"></script>
 <script src="figs.js?v=4"></script>
 <script src="story.js?v=4"></script>
 <script src="story-i18n.js?v=1"></script>
