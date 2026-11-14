@@ -423,7 +423,7 @@ function buildViews() {
   const n = data.npix * data.npix;
   if (S.mode === "frames") {
     views = data.frames.map((f) => ({
-      image: f.image, target: f.target_xy, year: f.year,
+      image: f.image, target: f.target_xy, year: f.year, pass: f.pass_index,
       when: f.year.toFixed(3), lambda: `${f.wavelength_um.toFixed(2)} µm`,
     }));
   } else {
@@ -535,7 +535,11 @@ function draw() {
 
   $("pillWhen").textContent = diff ? `${v.when} − ${T("median")}` : v.when;
   $("pillLambda").textContent = v.lambda;
-  $("count").textContent = `${idx + 1} / ${views.length}`;
+  // both counts, always: which sky pass, and how many exposures behind it
+  const nExp = data.frames.length, nPass = new Set(data.frames.map((f) => f.pass_index)).size;
+  $("count").textContent = S.mode === "frames"
+    ? `${T("exp")} ${idx + 1} / ${nExp} · ${T("pass")} ${v.pass + 1} / ${nPass}`
+    : `${T("pass")} ${idx + 1} / ${nPass} · ${nExp} ${T("exp")}`;
   const leg = [];
   if (S.gaia === "1" && ov.gaia) leg.push(`<span class="key k-gaia"></span>Gaia DR3, G \u2264 ${S.gmag}, ${T("moved")}`);
   if (S.catwise === "1" && ov.catwise) leg.push(`<span class="key k-cw"></span>CatWISE2020, W2 \u2264 ${S.wmag}`);
