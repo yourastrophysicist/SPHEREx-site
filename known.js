@@ -1,3 +1,5 @@
+// AI disclosure: written with Claude (Anthropic) during NASA Space Apps Milano 2026, from the team's instructions,
+// and checked by the team. See README, "AI use".
 // Known objects on the whole-sky map: 29 bright stars, clusters, nebulae and galaxies, plus the Sun and the ecliptic.
 // The list and the first English text are our teammate's (review sheet, 14 November 2026); the text was fact-checked
 // and corrected the same day. Positions are SIMBAD J2000 (ICRS), checked against SIMBAD on 14 November 2026.

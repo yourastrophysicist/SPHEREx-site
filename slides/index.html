@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ai-disclosure" content="Code and text written with Claude (Anthropic) during NASA Space Apps Milano 2026, from the team's instructions, and checked by the team.">
     <script>try{var t=localStorage.getItem("yas-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
     <script>if(location.hostname==="yourastrophysicist.github.io"){location.replace("https://www.yourastro.space/SPHEREx/slides/"+location.hash);}</script>
     <title>SPHEREx Blink · slides</title>
@@ -133,12 +134,12 @@
     </section>
 
     <!-- 05 any position -->
-    <section class="slide two" aria-label="Slide 5 of 7" data-notes="The challenge says users enter a position. So the live page takes any position, not only the five. This is Kapteyn's Star, one of the fastest stars on the sky and not one of the five. We typed in its Gaia position and motion, and the page fetched all 39 SPHEREx exposures from NASA's archive in about half a minute. You can also drag the lens on the map, or pick one of 29 well-known objects and press blink it in SPHEREx.">
+    <section class="slide two" aria-label="Slide 5 of 7" data-notes="The challenge says users enter a position. So the live page takes any position, not only the five. This is Kapteyn's Star, one of the fastest stars on the sky and not one of the five. We typed in its Gaia position and motion, and the page fetched all 39 SPHEREx exposures from NASA's archive in about half a minute. The orange dots are where the star really is in each sky pass: it moves 8.3 arcseconds a year in the SPHEREx images, and Gaia says 8.6. You can also drag the lens on the map, or pick one of 29 well-known objects and press blink it in SPHEREx.">
         <div>
             <p class="kicker">any position</p>
             <h2 class="h">Not just five stars</h2>
             <p class="lead">Type an RA and Dec, drag the lens, or pick one of 29 well-known objects. The page asks NASA's archive for every SPHEREx exposure of that spot and lines them up, in about half a minute.</p>
-            <p class="meta" style="margin-top:28px">Kapteyn's Star, not one of the five<br>Gaia DR3 position and motion typed in · 39 exposures · D1</p>
+            <p class="meta" style="margin-top:28px">Kapteyn's Star, not one of the five<br>Gaia DR3 position and motion typed in · 39 exposures · D1<br><b>measured in SPHEREx 8.3″/yr · Gaia 8.6″/yr</b></p>
             <a class="explore-url" href="../?ra=77.959937&dec=-45.043813&pmra=6491.2&pmdec=-5708.6&epoch=2016.0" target="_blank" rel="noopener">open it live</a>
         </div>
         <figure class="live hero-live" data-live="Kapteyn" data-src="data/Kapteyn_D1.json" data-mode="frames" style="margin:0"><canvas width="590" height="590"></canvas><span class="tag"></span><span class="tag2">Kapteyn's Star · D1</span></figure>
@@ -184,7 +185,7 @@
 </main>
 
 <script>let lang = "en";</script>
-<script src="../figs.js?v=5"></script>
+<script src="../figs.js?v=6"></script>
 <script>
 "use strict";
 // ---------- live SPHEREx blinks from the same static files the page uses ----------
@@ -216,7 +217,50 @@ function views(j, mode) {
     return { img, xy, label: `pass ${passes.indexOf(p) + 1} · ${y.toFixed(2)}` };
   });
 }
-function paint(cv, v, N) {
+// the measured track, as on the page: centroid of each sky-pass median, or the centre of a saturated blank core
+function centroid(img, N, xy) {
+  let [cx, cy] = xy;
+  const blank = [];
+  for (let y = Math.floor(cy - 5); y <= Math.ceil(cy + 5); y++) for (let x = Math.floor(cx - 5); x <= Math.ceil(cx + 5); x++)
+    if (x >= 0 && y >= 0 && x < N && y < N && Math.hypot(x - cx, y - cy) <= 5 && isNaN(img[y * N + x])) blank.push([x, y]);
+  if (blank.filter(([x, y]) => Math.hypot(x - cx, y - cy) <= 2).length >= 3) return [blank.reduce((s, b) => s + b[0], 0) / blank.length, blank.reduce((s, b) => s + b[1], 0) / blank.length];
+  for (let it = 0; it < 2; it++) {
+    const ring = [];
+    for (let y = Math.floor(cy - 7); y <= Math.ceil(cy + 7); y++) for (let x = Math.floor(cx - 7); x <= Math.ceil(cx + 7); x++) {
+      const r = Math.hypot(x - cx, y - cy), val = (x >= 0 && y >= 0 && x < N && y < N) ? img[y * N + x] : NaN;
+      if (r >= 4 && r <= 7 && !isNaN(val)) ring.push(val);
+    }
+    const bg = median(ring) || 0;
+    let sx = 0, sy = 0, sw = 0;
+    for (let y = Math.floor(cy - 3); y <= Math.ceil(cy + 3); y++) for (let x = Math.floor(cx - 3); x <= Math.ceil(cx + 3); x++) {
+      if (x < 0 || y < 0 || x >= N || y >= N || Math.hypot(x - cx, y - cy) > 3) continue;
+      const val = img[y * N + x]; if (isNaN(val)) continue;
+      const w = Math.max(0, val - bg); sx += w * x; sy += w * y; sw += w;
+    }
+    if (!sw) return null;
+    cx = sx / sw; cy = sy / sw;
+  }
+  return [cx, cy];
+}
+function trackOf(j) {
+  const n = j.npix * j.npix, imgs = j.frames.map((f) => decode(f, n)), pts = [];
+  for (const p of [...new Set(j.frames.map((f) => f.pass_index))]) {
+    const ids = j.frames.map((f, i) => (f.pass_index === p ? i : -1)).filter((i) => i >= 0);
+    const img = new Float32Array(n);
+    for (let k = 0; k < n; k++) img[k] = median(ids.map((i) => imgs[i][k]));
+    const g = [0, 1].map((a) => ids.reduce((s, i) => s + j.frames[i].target_xy[a], 0) / ids.length);
+    const c = centroid(img, j.npix, g);
+    if (c && Math.hypot(c[0] - g[0], c[1] - g[1]) < 3) pts.push({ x: c[0], y: c[1], yr: ids.reduce((s, i) => s + j.frames[i].year, 0) / ids.length });
+  }
+  let speed = 0;
+  if (pts.length > 1) {
+    const t = pts.map((p) => p.yr), mt = t.reduce((a, b) => a + b) / t.length;
+    const sl = (k) => { const m = pts.reduce((s, p) => s + p[k], 0) / pts.length; let a = 0, b = 0; pts.forEach((p, i) => { a += (t[i] - mt) * (p[k] - m); b += (t[i] - mt) ** 2; }); return a / b; };
+    speed = Math.hypot(sl("x"), sl("y")) * 6.15;
+  }
+  return { pts, speed };
+}
+function paint(cv, v, N, tr) {
   const ctx = cv.getContext("2d"), fin = Array.from(v.img).filter((x) => !isNaN(x)).sort((a, b) => a - b);
   const pct = (p) => fin[Math.min(fin.length - 1, Math.round(p / 100 * (fin.length - 1)))];
   const med = pct(50), mad = 1.4826 * median(Array.from(fin, (x) => Math.abs(x - med))) || 1e-3;
@@ -234,15 +278,24 @@ function paint(cv, v, N) {
   ctx.beginPath();
   for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { ctx.moveTo(cx + dx * 3 * s, cy + dy * 3 * s); ctx.lineTo(cx + dx * 5 * s, cy + dy * 5 * s); }
   ctx.stroke();
+  if (tr && tr.pts.length > 1) {
+    const at = (p) => [(p.x + 0.5) * s, (N - 1 - p.y + 0.5) * s];
+    ctx.strokeStyle = ctx.fillStyle = "#ffb000"; ctx.lineWidth = Math.max(1.5, s / 4);
+    ctx.beginPath(); tr.pts.forEach((p, k) => { const [x, y] = at(p); if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y); }); ctx.stroke();
+    for (const p of tr.pts) { const [x, y] = at(p); ctx.beginPath(); ctx.arc(x, y, Math.max(2.5, s / 3), 0, 2 * Math.PI); ctx.fill(); }
+  }
 }
-const timers = [];
+const timers = [], tracks = {};
 async function startLive(slide) {
   for (const fig of slide.querySelectorAll("[data-live]")) {
     const t = fig.dataset.live, cv = fig.querySelector("canvas"), tag = fig.querySelector(".tag");
     tag.textContent = "loading SPHEREx data";
     const j = await load(t), vs = views(j, fig.dataset.mode || "pass");
+    const tr = tracks[t] || (tracks[t] = trackOf(j)), tag2 = fig.querySelector(".tag2");
+    if (tag2 && !tag2.dataset.base) tag2.dataset.base = tag2.textContent;
+    if (tag2 && tr.speed > 2) tag2.textContent = `${tag2.dataset.base} · ${tr.speed.toFixed(1)}″/yr measured`;
     let i = 0;
-    const step = () => { paint(cv, vs[i], j.npix); tag.textContent = vs[i].label; i = (i + 1) % vs.length; };
+    const step = () => { paint(cv, vs[i], j.npix, tr); tag.textContent = vs[i].label; i = (i + 1) % vs.length; };
     step(); timers.push(setInterval(step, fig.dataset.mode === "frames" ? 220 : 650));
   }
 }

@@ -1,3 +1,5 @@
+# AI disclosure: written with Claude (Anthropic) for NASA Space Apps Milano 2026, from the team's instructions,
+# and checked by the team. See README, "AI use".
 """Data path for the SPHEREx blink tool (NASA Space Apps Milano 2026, step 9).
 
 One call, get_frames(), takes a sky position (with an optional proper motion) and a detector,

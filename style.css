@@ -1,3 +1,5 @@
+/* AI disclosure: written with Claude (Anthropic) during NASA Space Apps Milano 2026, from the team's instructions,
+   and checked by the team. See README, "AI use". */
 /* SPHEREx Blink on yourastro.space. Same system as the main site:
    light grey ground, one electric blue, compressed capitals, mono labels, flat square shapes.
    The sky itself stays plain greyscale, as astronomers read it. */
@@ -296,6 +298,22 @@ details.panel[open] > summary .plus::before { content: '\2212'; }
 .check { display: flex; align-items: center; gap: 10px; margin: 8px 0 0; font-size: 15px; cursor: pointer; }
 .check input { accent-color: var(--blue); width: 16px; height: 16px; margin: 0; }
 .hint { font-size: 14px; margin: 10px 0 0; }
+/* the spectrum: one dot per exposure, coloured by sky pass */
+.spec-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+.spec-plot .ax { stroke: var(--blue-line); stroke-width: 1; }
+.spec-plot .tk { fill: var(--blue); font: 400 9px var(--mono); }
+.spec-plot .lb { fill: var(--blue); font: 400 9px var(--mono); letter-spacing: .03em; }
+.spec-plot .win { fill: rgba(255, 176, 0, .22); }
+.spec-plot .pt { fill: var(--blue); opacity: .35; cursor: default; }
+.spec-plot .pt.mine { opacity: .85; cursor: pointer; }
+.spec-plot .pt.p1 { fill: #7a82ff; } .spec-plot .pt.p2 { fill: #0a10a8; } .spec-plot .pt.p3 { fill: #5d5d8a; }
+.spec-plot .pt.on { fill: #ffb000; opacity: 1; stroke: var(--blue); stroke-width: 1; }
+.spec-plot .pt.dim { opacity: .12; }
+#wlC { width: 100%; accent-color: #ffb000; margin: 4px 0 0; }
+#wlC:disabled { opacity: .35; }
+.spec-line { margin: 4px 0 10px; font: 400 12px/1.5 var(--mono); }
+.spec-note { margin: 10px 0 0; font-size: 13px; line-height: 1.5; opacity: .85; }
+.key.k-tr { background: #ffb000; border-radius: 50%; border: 0; }
 .keys { font: 400 11px/1.7 var(--mono); text-transform: uppercase; letter-spacing: .05em; margin: 12px 0 0; }
 
 .btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 0; }
@@ -464,3 +482,5 @@ details.chapter[open] .sfig { margin-top: 18px; }
 .tcard .fig-btn { width: 100%; margin-top: 2px; }
 .tinfo-pic { margin: 0 0 12px; }
 .tinfo-pic .tmedia { aspect-ratio: 16 / 10; }
+.spec-plot .pt.wing { fill: none !important; stroke: var(--blue); stroke-width: 1.2; }
+.spec-plot .pt.wing.on { stroke: #ffb000; stroke-width: 2; }

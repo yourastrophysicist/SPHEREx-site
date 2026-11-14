@@ -1,3 +1,5 @@
+# AI disclosure: written with Claude (Anthropic) for NASA Space Apps Milano 2026, from the team's instructions,
+# and checked by the team. See README, "AI use".
 """Write the five preset views as static JSON, so the page works on plain static hosting.
 
     python export_static.py            # writes ../data/<preset>.json and ../data/<preset>_mask.json

@@ -1,3 +1,5 @@
+// AI disclosure: written with Claude (Anthropic) during NASA Space Apps Milano 2026, from the team's instructions,
+// and checked by the team. See README, "AI use".
 // The story under the viewer, told three ways: for someone new to all of this, for a student,
 // and for a scientist. Written from our own study notes and the papers listed in REFS, every
 // arXiv number checked against arXiv on 14 November 2026. The reading level lives in the URL
@@ -76,7 +78,7 @@ const STORY = {
         student: `<p>The steps are a query, a cutout and a reprojection. An ADQL query to IRSA lists every exposure whose footprint holds the position. Gaia positions are for the year 2016, so each star is moved with its proper motion to the date of each exposure before the cutout is taken. The zodiacal light model is subtracted, flagged pixels are marked, and every cutout is resampled onto one fixed north-up grid.</p>
 <p>You can show one median image per six-month pass, which beats the noise, or every exposure. The difference view subtracts the median of all images, so what never changes turns grey and a mover leaves a bright spot where it is and a dark one where it was. Gaia DR3 and CatWISE2020 sources are drawn on top, each moved to the date on screen [5, 6].</p>`,
         scientist: `<p>Each cutout is sampled bilinearly onto a TAN grid fixed at the mean epoch, 59 × 59 pixels of 6.15″. Passes are split at gaps over 60 days, and polar fields are capped at 40 exposures per pass. Images are stretched per frame with arsinh, using the median and 1.4826 MAD as sky and noise, and travel as int16 with a quantisation error of 1/65534 of the frame range.</p>
-<p>Known limits. Proper motion is linear, with no parallax. There is no PSF matching before differencing, so bright stars leave residuals. The wavelength drift within a detector is reported but not corrected. The five targets ship as static files in all six detectors. Any other position runs the same steps live, through a small function on yourastro.space that fetches each cutout from IRSA. Every view is a URL, so every figure on this page can be reproduced.</p>`,
+<p>Known limits. Proper motion is linear, with no parallax. There is no PSF matching before differencing, so bright stars leave residuals. Each exposure sees the target at its own wavelength; the spectrum panel shows it, and blinking one colour only compares like with like. The five targets ship as static files in all six detectors. Any other position runs the same steps live, through a small function on yourastro.space that fetches each cutout from IRSA. Every view is a URL, so every figure on this page can be reproduced.</p>`,
       },
       {
         h: "Five test stars, five questions", fig: "targets", hook: "Five objects, five questions. Pick one and watch it.",

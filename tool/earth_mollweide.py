@@ -1,3 +1,5 @@
+# AI disclosure: written with Claude (Anthropic) for NASA Space Apps Milano 2026, from the team's instructions,
+# and checked by the team. See README, "AI use".
 """Earth maps for the sky / Earth switch, in the same Mollweide oval as the sky map.
 
     python earth_mollweide.py BlueMarble.jpg earth_day.webp

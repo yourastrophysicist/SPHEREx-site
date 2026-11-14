@@ -1,3 +1,5 @@
+# AI disclosure: written with Claude (Anthropic) for NASA Space Apps Milano 2026, from the team's instructions,
+# and checked by the team. See README, "AI use".
 """Demo server for the SPHEREx blink tool (NASA Space Apps Milano 2026, step 10).
 
 Serves the page in web/ and one JSON endpoint, /api/frames, that wraps get_frames().

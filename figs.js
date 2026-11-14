@@ -1,3 +1,5 @@
+// AI disclosure: written with Claude (Anthropic) during NASA Space Apps Milano 2026, from the team's instructions,
+// and checked by the team. See README, "AI use".
 // Interactive figures for the story, one per chapter. Plain SVG drawn in the site's own colours
 // (CSS classes in style.css), so they follow the light and dark theme without redrawing.
 // Each builder gets an empty <figure> and fills it. No libraries.

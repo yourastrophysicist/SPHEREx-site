@@ -18,7 +18,7 @@
 \usepackage[hidelinks]{hyperref}
 
 % ---------------------------------------------------------------- release facts
-\newcommand{\Version}{v1.1.0}
+\newcommand{\Version}{v1.2.0}
 \newcommand{\ReleaseDate}{15 November 2026}
 \newcommand{\TeamName}{Observationally Speaking}
 \newcommand{\Members}{Jessica Syafaq Muthmaina \\ Joowon Sohn}
@@ -344,6 +344,23 @@ the ecliptic. Fourteen show on the whole sky and the rest below a \ang{70} field
 short card in three languages with a button that blinks that spot in SPHEREx. In full screen the
 map fills the window, with the settings in a panel over it and the legend on the map.
 
+\subsection{Colour, spectrum and measured track}
+SPHEREx sees through a linear variable filter, so one target is seen at a different wavelength in
+every exposure: R Draconis in D3 anywhere from \SI{1.62}{\micro\metre} to \SI{2.41}{\micro\metre},
+right across its water bands. Read as a movie, that mixes colour with time. Three tools answer it.
+\begin{itemize}
+  \item \textbf{Spectrum.} The light in a 2-pixel aperture, minus the median of a 4 to 7 pixel
+        annulus, against the wavelength at the target, one point per exposure, in mJy. The other
+        five detectors can be added for 0.75 to \SI{5}{\micro\metre}. A saturated star has a blank
+        core in Level 2; it is then measured from its wings (4 to 6 pixels), shown as hollow points,
+        a relative measure only. This is the spectrum on the fly the challenge asked for, made from
+        the same exposures as the movie.
+  \item \textbf{One colour only.} Keeps exposures within $\lambda/R$ of a chosen wavelength
+        ($R \approx 41$ in D1 to D4, 110 in D5 and D6), so frames compare like with like.
+  \item \textbf{Measured track.} The centroid of each sky-pass median near the predicted position,
+        or the centre of the blank patch of a saturated star, fitted against time.
+\end{itemize}
+
 \subsection{Step 02, the blink viewer}
 The viewer draws the frames on a canvas, pixel for pixel, with no smoothing.
 
@@ -465,6 +482,27 @@ R Draconis       & 248.167378 &  66.755007 & 2016.0  &  $-20.6$ &    6.1 & D3 \\
 \label{tab:targets}
 \end{table}
 
+\subsection{Measured against expected motion}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}llrrl@{}}
+\toprule
+Target & det. & measured & expected & note \\
+ & & \multicolumn{2}{c}{(\si{arcsec.yr^{-1}})} & \\
+\midrule
+Barnard's Star   & D1 & 10.4 & 10.4 & saturated, blank-core centre \\
+Epsilon Indi B   & D5 & 4.6 & 4.7 & \\
+WISE 0855$-$0714 & D6 & 11.2 & 8.2 & very faint \\
+RW Aurigae       & D1 & 0.2 & 0.0 & \\
+R Draconis       & D3 & 2.1 & 0.0 & saturated \\
+Kapteyn's Star   & D1 & 8.3 & 8.6 & any position, through the relay \\
+\bottomrule
+\end{tabular}
+\caption{The measured track of the page against the catalogue motion.}
+\label{tab:track}
+\end{table}
+
 \subsection{What the data hold}
 Table~\ref{tab:counts} gives the number of exposures and sky passes in each of the 60 views, as
 exported on 14 November 2026. Every view has data, and in every view the wavelength at the
@@ -537,8 +575,11 @@ variable stars, in the infrared and on the whole sky.
 \paragraph{Known limits of \Version.}
 \begin{itemize}
   \item Linear proper motion only, no parallax.
-  \item One detector at a time. The wavelength changes slightly between exposures because of the
-        linear variable filter. It is reported, not corrected.
+  \item One detector at a time in the movie. The wavelength changes between exposures because of
+        the linear variable filter; \emph{one colour only} keeps like with like, at the cost of
+        fewer frames.
+  \item Aperture photometry, not PSF fitting. Saturated stars are measured from their wings, a
+        relative measure, and a faint target next to a star shows the star.
   \item On the live site any position opens, but a new one takes about half a minute because
         every exposure comes from IRSA live, and the field is limited to 600 arcsec.
   \item CatWISE2020 comes only from IRSA's TAP service. When that service is down the CatWISE
@@ -558,9 +599,11 @@ may be used. It is kept apart in the \texttt{prep/} folder of the repository, wi
 and guide. The lens, the crosshair, the fixed Home and the list of known objects of the whole-sky map come
 from Joowon Sohn's Time Lens prototype.
 
-\paragraph{AI.} Parts of the code and of this document were written with help from Claude
-(Anthropic). The team chose the method, checked the results against the archive and the expected
-motions, and is responsible for the content.
+\paragraph{AI.} Most of the code and much of the text of this release, and of this document,
+were written with Claude (Anthropic) during the event, from the team's instructions; the Time Lens
+prototype was written with Codex (OpenAI). The team set the goals and the design, decided what to
+keep, checked the results against the archive, Gaia and SIMBAD, and is responsible for the content.
+Every code file says so in its first lines, and the page carries an \texttt{ai-disclosure} meta tag.
 
 % =================================================================
 \section{Credits and data use}

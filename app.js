@@ -1,4 +1,6 @@
 // SPHEREx Blink on yourastro.space. Every setting lives in the URL, so one link is one view (as in WiseView).
+// AI disclosure: written with Claude (Anthropic) during NASA Space Apps Milano 2026, from the team's instructions,
+// and checked by the team. See README, "AI use".
 "use strict";
 
 // position at epoch (deg), proper motion (mas/yr), best detector; same table as the prep notebook
@@ -13,6 +15,12 @@ const PRESETS = {
 // ---------- words, in the three languages of the site ----------
 const WORDS = {
   en: {
+    "sp.title": "spectrum", "sp.x": "wavelength (µm)", "sp.y": "light in the aperture (mJy)",
+    "sp.one": "blink one colour only", "sp.all": "add the other five detectors", "sp.load": "loading {b}", "sp.done": "all six detectors",
+    "sp.note": "Each dot is one exposure: the target's light inside 2 pixels, at the wavelength the filter passed at that spot. This is how SPHEREx makes spectra. The aperture holds whatever sits in it, so a faint target next to a star shows the star. A star bright enough to saturate has a blank core. Its dots are hollow and use the light of its wings, which shows how it changes but not its true brightness.",
+    "sp.win": "{c} ± {h} µm · {n} of {m} exposures", "sp.none": "No exposure at this colour. Move the slider.",
+    "sp.why": "Every exposure sees the target at a different wavelength, so a change between frames can be colour, not time. One colour only compares like with like.",
+    "tr.leg": "measured track {m}″/yr · expected {e}″/yr", "c.track": "measured track, one dot per sky pass",
     "why.Barnard": "the fastest star on the sky, about 10 arcsec a year",
     "why.EpsIndB": "a nearby brown dwarf pair that moves about one pixel in total",
     "why.WISE0855": "the coldest known brown dwarf, too faint to see in one frame",
@@ -54,6 +62,12 @@ const WORDS = {
     "cap.earth.night": "The planet SPHEREx circles, at night, lit by its cities|Black Marble, NASA via GIBS",
   },
   id: {
+    "sp.title": "spektrum", "sp.x": "panjang gelombang (µm)", "sp.y": "cahaya di dalam apertur (mJy)",
+    "sp.one": "kedipkan satu warna saja", "sp.all": "tambahkan lima detektor lainnya", "sp.load": "memuat {b}", "sp.done": "keenam detektor",
+    "sp.note": "Setiap titik adalah satu pengamatan: cahaya target di dalam 2 piksel, pada panjang gelombang yang diloloskan filter di titik itu. Begitulah SPHEREx membuat spektrum. Apertur memuat apa pun yang ada di dalamnya, jadi target redup di samping bintang menampilkan bintang itu. Bintang yang cukup terang untuk jenuh punya inti kosong. Titiknya berongga dan memakai cahaya sayapnya, yang menunjukkan perubahannya tetapi bukan terang sebenarnya.",
+    "sp.win": "{c} ± {h} µm · {n} dari {m} pengamatan", "sp.none": "Tidak ada pengamatan di warna ini. Geser penggesernya.",
+    "sp.why": "Setiap pengamatan melihat target pada panjang gelombang yang berbeda, jadi perubahan antarbingkai bisa karena warna, bukan waktu. Satu warna saja membandingkan yang setara.",
+    "tr.leg": "jejak terukur {m}″/tahun · perkiraan {e}″/tahun", "c.track": "jejak terukur, satu titik per lintasan langit",
     "why.Barnard": "bintang tercepat di langit, sekitar 10 detik busur per tahun",
     "why.EpsIndB": "pasangan katai cokelat dekat yang bergeser sekitar satu piksel",
     "why.WISE0855": "katai cokelat terdingin yang diketahui, terlalu redup untuk satu bingkai",
@@ -95,6 +109,12 @@ const WORDS = {
     "cap.earth.night": "Planet yang dikelilingi SPHEREx, pada malam hari, diterangi kota-kotanya|Black Marble, NASA melalui GIBS",
   },
   it: {
+    "sp.title": "spettro", "sp.x": "lunghezza d’onda (µm)", "sp.y": "luce nell’apertura (mJy)",
+    "sp.one": "blink di un solo colore", "sp.all": "aggiungi gli altri cinque rivelatori", "sp.load": "carico {b}", "sp.done": "tutti e sei i rivelatori",
+    "sp.note": "Ogni punto è un’esposizione: la luce dell’oggetto entro 2 pixel, alla lunghezza d’onda che il filtro lasciava passare in quel punto. È così che SPHEREx fa gli spettri. L’apertura contiene tutto ciò che vi cade dentro, quindi un oggetto debole accanto a una stella mostra la stella. Una stella abbastanza brillante da saturare ha il nucleo vuoto. I suoi punti sono cavi e usano la luce delle ali, che mostra come cambia ma non la sua vera luminosità.",
+    "sp.win": "{c} ± {h} µm · {n} di {m} esposizioni", "sp.none": "Nessuna esposizione a questo colore. Sposta il cursore.",
+    "sp.why": "Ogni esposizione vede l’oggetto a una lunghezza d’onda diversa, quindi un cambiamento tra i fotogrammi può essere colore, non tempo. Un solo colore confronta cose uguali.",
+    "tr.leg": "traccia misurata {m}″/anno · attesa {e}″/anno", "c.track": "traccia misurata, un punto per passaggio",
     "why.Barnard": "la stella più veloce del cielo, circa 10 secondi d’arco l’anno",
     "why.EpsIndB": "una coppia di nane brune vicine che si sposta di circa un pixel",
     "why.WISE0855": "la nana bruna più fredda che si conosca, troppo debole in un solo fotogramma",
@@ -145,7 +165,7 @@ const PAGE = {
     lede: "Pilih sebuah bintang dan lihat ia berjalan. Alat ini memutar gambar SPHEREx publik dari satu petak kecil langit, lintasan demi lintasan, sehingga apa pun yang cukup dekat untuk bergerak langsung terlihat di depan bintang-bintang di belakangnya.",
     "c.target": "target", "c.show": "yang ditampilkan", "c.view": "tampilan", "c.blink": "kedip", "c.diff": "selisih",
     "c.per": "satu gambar per", "c.pass": "lintasan", "c.exp": "pengamatan",
-    "c.keys": "spasi putar atau jeda · panah melangkah · 1 sampai 6 detektor · d selisih · m penanda · g Gaia · f layar penuh",
+    "c.keys": "spasi putar atau jeda · panah melangkah · 1 sampai 6 detektor · d selisih · m penanda · t jejak · g Gaia · f layar penuh",
     "src.label": "rujukan", "src.sum": "18 makalah dan katalog, dengan tautan",
     "cr.t8": "gambar", "cr.d8": "Foto-foto dalam cerita berasal dari Wikimedia Commons, karya NASA, ESA, JPL-Caltech, Webb, Hubble, WISE, dan Lowell Observatory. Masing-masing diberi kredit di bawahnya dengan tautan ke lisensinya.",
     "c.own": "posisimu sendiri", "c.epoch": "epoch (tahun)", "c.size": "medan (detik busur)", "c.det": "detektor", "c.tinfo": "target ini", "c.look4": "yang dicari",
@@ -167,7 +187,7 @@ const PAGE = {
     "cr.t4": "peta langit", "cr.d4": "Aladin Lite (CDS, Strasbourg), dengan 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA.",
     "cr.t5": "Bumi", "cr.d5": "Blue Marble dan Black Marble, NASA, melalui NASA GIBS.",
     "cr.t6": "ide", "cr.d6": "Kedipnya mengikuti WiseView karya Caselden dan rekan. Tata letak seluruh langit mengikuti peta langit ultraungu Brice Menard. Lensa, garis silang, Home yang tetap, dan daftar objek terkenal berasal dari Time Lens rekan setim kami.",
-    "cr.t7": "dibuat oleh", "cr.d7": "Observationally Speaking, di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian kode ditulis dengan bantuan Claude (Anthropic).",
+    "cr.t7": "dibuat oleh", "cr.d7": "Observationally Speaking, di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian besar kode dan banyak teks ditulis dengan Claude (Anthropic) selama acara, dari arahan tim, dan prototipe Time Lens dengan Codex (OpenAI). Tim menetapkan tujuan dan desain, memilih apa yang dipakai, memeriksa hasilnya terhadap arsip dan Gaia, dan bertanggung jawab atas isinya.",
     "how.label": "cara kerjanya", "how.h": "Alatnya",
     "p1.t": "teleskopnya", "p1.d": "SPHEREx adalah teleskop survei inframerah seluruh langit milik NASA, diluncurkan pada Maret 2025. Ia memetakan seluruh langit setiap enam bulan dalam 102 warna antara 0,75 dan 5 mikron, sehingga setiap petak langit terlihat berulang kali.",
     "p2.t": "gambarnya", "p2.d": "Untuk tiap petak, alat ini meminta semua pengamatan SPHEREx ke NASA/IPAC IRSA, memotong kotak kecil, menghapus cahaya debu di tata surya kita sendiri, lalu menaruh semua potongan pada satu kisi tetap dengan utara di atas. Bintang jauh diam di tempat. Bintang yang dekat dengan kita berjalan.",
@@ -176,7 +196,7 @@ const PAGE = {
     "tg.label": "lima target", "tg.h": "Para target", "th.t": "target", "th.w": "kenapa ada di sini", "th.d": "detektor",
     planetx: "Tantangannya, Planet X and SPHEREx, juga bertanya apakah SPHEREx bisa menangkap Planet X yang jauh. Bagian dari proyek ini adalah menjawab dengan jujur, dengan angka, seberapa redup yang sudah terlalu redup.",
     "cr.label": "kredit", "cr.h": "Terima kasih",
-    "cr.d": "Data dari gambar SPHEREx Level 2, NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA. Posisi dan gerak dari Gaia DR3 (ESA/DPAC), dan untuk WISE 0855 dari AllWISE dengan gerak dari Kirkpatrick dkk. 2021. Lapisan katalognya Gaia DR3 dan CatWISE2020 (Marocco dkk. 2021), keduanya melalui NASA/IPAC IRSA. Peta langitnya Aladin Lite (CDS, Strasbourg) dengan survei warna 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA, ide dari prototipe Time Lens rekan setim kami. Peta seluruh langitnya menampilkan kubus seluruh langit SPHEREx DR1 dari NASA/IPAC IRSA, dan Buminya dari Blue Marble dan Black Marble NASA melalui NASA GIBS. Tata letaknya mengikuti peta langit ultraungu Brice Menard. Ide kedipnya mengikuti WiseView karya Caselden dan rekan. Dibuat oleh Observationally Speaking di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian kode ditulis dengan bantuan Claude (Anthropic).",
+    "cr.d": "Data dari gambar SPHEREx Level 2, NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA. Posisi dan gerak dari Gaia DR3 (ESA/DPAC), dan untuk WISE 0855 dari AllWISE dengan gerak dari Kirkpatrick dkk. 2021. Lapisan katalognya Gaia DR3 dan CatWISE2020 (Marocco dkk. 2021), keduanya melalui NASA/IPAC IRSA. Peta langitnya Aladin Lite (CDS, Strasbourg) dengan survei warna 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA, ide dari prototipe Time Lens rekan setim kami. Peta seluruh langitnya menampilkan kubus seluruh langit SPHEREx DR1 dari NASA/IPAC IRSA, dan Buminya dari Blue Marble dan Black Marble NASA melalui NASA GIBS. Tata letaknya mengikuti peta langit ultraungu Brice Menard. Ide kedipnya mengikuti WiseView karya Caselden dan rekan. Dibuat oleh Observationally Speaking di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian besar kode dan banyak teks ditulis dengan Claude (Anthropic) selama acara, dari arahan tim, dan prototipe Time Lens dengan Codex (OpenAI). Tim menetapkan tujuan dan desain, memilih apa yang dipakai, memeriksa hasilnya terhadap arsip dan Gaia, dan bertanggung jawab atas isinya.",
     "b.nasa": "SPHEREx di NASA", "b.irsa": "datanya di IRSA", "b.code": "kodenya di GitHub", "b.home": "kembali ke yourastro.space",
     foot: 'Padova, Italia · 45,4° LU, 11,9° BT · bagian dari <a href="/">yourastro.space</a>',
   },
@@ -186,7 +206,7 @@ const PAGE = {
     lede: "Scegli una stella e guardala camminare. Questo strumento mostra le immagini pubbliche di SPHEREx di una piccola zona di cielo, un passaggio dopo l’altro, così tutto ciò che è abbastanza vicino da muoversi salta all’occhio sulle stelle dietro.",
     "c.target": "oggetto", "c.show": "cosa mostrare", "c.view": "vista", "c.blink": "blink", "c.diff": "differenza",
     "c.per": "un’immagine per", "c.pass": "passaggio", "c.exp": "esposizione",
-    "c.keys": "spazio avvia o ferma · frecce un passo · da 1 a 6 rivelatore · d differenza · m segno · g Gaia · f schermo intero",
+    "c.keys": "spazio avvia o ferma · frecce un passo · da 1 a 6 rivelatore · d differenza · m segno · t traccia · g Gaia · f schermo intero",
     "src.label": "riferimenti", "src.sum": "18 articoli e cataloghi, con i link",
     "cr.t8": "immagini", "cr.d8": "Le fotografie della storia vengono da Wikimedia Commons, opera di NASA, ESA, JPL-Caltech, Webb, Hubble, WISE e Lowell Observatory. Ognuna è accreditata sotto, con il link alla sua licenza.",
     "c.own": "la tua posizione", "c.epoch": "epoca (anno)", "c.size": "campo (arcsec)", "c.det": "rivelatore", "c.tinfo": "questo oggetto", "c.look4": "cosa cercare",
@@ -208,7 +228,7 @@ const PAGE = {
     "cr.t4": "mappe del cielo", "cr.d4": "Aladin Lite (CDS, Strasburgo), con 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA.",
     "cr.t5": "Terra", "cr.d5": "Blue Marble e Black Marble, NASA, tramite NASA GIBS.",
     "cr.t6": "idee", "cr.d6": "Il blink segue WiseView di Caselden e collaboratori. La disposizione di tutto il cielo segue la mappa del cielo ultravioletto di Brice Menard. La lente, il mirino, la Home fissa e l’elenco degli oggetti noti vengono dal Time Lens del nostro compagno di squadra.",
-    "cr.t7": "fatto da", "cr.d7": "Observationally Speaking, a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Parte del codice è stata scritta con l’aiuto di Claude (Anthropic).",
+    "cr.t7": "fatto da", "cr.d7": "Observationally Speaking, a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Gran parte del codice e molti testi sono stati scritti con Claude (Anthropic) durante l’evento, su indicazione della squadra, e il prototipo Time Lens con Codex (OpenAI). La squadra ha fissato obiettivi e design, ha scelto cosa tenere, ha verificato i risultati con l’archivio e Gaia, ed è responsabile dei contenuti.",
     "how.label": "come funziona", "how.h": "Lo strumento",
     "p1.t": "il telescopio", "p1.d": "SPHEREx è il telescopio della NASA che osserva tutto il cielo nell’infrarosso, lanciato a marzo 2025. Mappa l’intero cielo ogni sei mesi in 102 colori tra 0,75 e 5 micron, quindi ogni zona del cielo viene vista più e più volte.",
     "p2.t": "le immagini", "p2.d": "Per ogni zona lo strumento chiede a NASA/IPAC IRSA tutte le esposizioni SPHEREx, ritaglia un piccolo quadrato, toglie il bagliore della polvere del nostro sistema solare e mette ogni ritaglio su una griglia fissa con il nord in alto. Le stelle lontane restano ferme. Una stella vicina cammina.",
@@ -217,7 +237,7 @@ const PAGE = {
     "tg.label": "i cinque oggetti", "tg.h": "Gli oggetti", "th.t": "oggetto", "th.w": "perché è qui", "th.d": "rivelatore",
     planetx: "La sfida, Planet X and SPHEREx, chiede anche se SPHEREx potrebbe vedere un Pianeta X lontano. Parte del progetto è dire con onestà, con i numeri, quanto debole è troppo debole.",
     "cr.label": "crediti", "cr.h": "Grazie",
-    "cr.d": "Dati dalle immagini SPHEREx Level 2, NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA. Posizioni e moti da Gaia DR3 (ESA/DPAC), e per WISE 0855 da AllWISE con il moto di Kirkpatrick et al. 2021. I cataloghi sopra l’immagine sono Gaia DR3 e CatWISE2020 (Marocco et al. 2021), entrambi tramite NASA/IPAC IRSA. La mappa del cielo è Aladin Lite (CDS, Strasburgo) con le survey a colori 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA, un’idea dal prototipo Time Lens del nostro compagno di squadra. La mappa di tutto il cielo mostra il cubo SPHEREx DR1 di NASA/IPAC IRSA, e la Terra viene da Blue Marble e Black Marble della NASA tramite NASA GIBS. La disposizione segue la mappa del cielo ultravioletto di Brice Menard. L’idea del blink segue WiseView di Caselden e collaboratori. Fatto da Observationally Speaking a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Parte del codice è stata scritta con l’aiuto di Claude (Anthropic).",
+    "cr.d": "Dati dalle immagini SPHEREx Level 2, NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA. Posizioni e moti da Gaia DR3 (ESA/DPAC), e per WISE 0855 da AllWISE con il moto di Kirkpatrick et al. 2021. I cataloghi sopra l’immagine sono Gaia DR3 e CatWISE2020 (Marocco et al. 2021), entrambi tramite NASA/IPAC IRSA. La mappa del cielo è Aladin Lite (CDS, Strasburgo) con le survey a colori 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA, un’idea dal prototipo Time Lens del nostro compagno di squadra. La mappa di tutto il cielo mostra il cubo SPHEREx DR1 di NASA/IPAC IRSA, e la Terra viene da Blue Marble e Black Marble della NASA tramite NASA GIBS. La disposizione segue la mappa del cielo ultravioletto di Brice Menard. L’idea del blink segue WiseView di Caselden e collaboratori. Fatto da Observationally Speaking a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Gran parte del codice e molti testi sono stati scritti con Claude (Anthropic) durante l’evento, su indicazione della squadra, e il prototipo Time Lens con Codex (OpenAI). La squadra ha fissato obiettivi e design, ha scelto cosa tenere, ha verificato i risultati con l’archivio e Gaia, ed è responsabile dei contenuti.",
     "b.nasa": "SPHEREx alla NASA", "b.irsa": "i dati su IRSA", "b.code": "il codice su GitHub", "b.home": "torna a yourastro.space",
     foot: 'Padova, Italia · 45,4° N, 11,9° E · una pagina di <a href="/">yourastro.space</a>',
   },
@@ -228,7 +248,7 @@ const DEFAULTS = {
   view: "blink", mode: "frames", speed: "500", stretch: "asinh", contrast: "99.5",
   invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
   shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1", known: "1",
-  read: "curious",
+  read: "curious", wl: "", track: "1",
 };
 const DATA_KEYS = ["ra", "dec", "size", "band", "pmra", "pmdec", "epoch"];
 const PIX_ARCSEC = 6.15;
@@ -252,10 +272,13 @@ document.querySelectorAll("[data-i18n]").forEach((n) => { if (!(n.dataset.i18n i
 function applyLang(l) {
   lang = l === "id" || l === "it" ? l : "en";
   const d = lang === "en" ? EN : PAGE[lang];
-  document.querySelectorAll("[data-i18n]").forEach((n) => { const v = d[n.dataset.i18n]; if (v != null) n.innerHTML = v; });
+  document.querySelectorAll("[data-i18n]").forEach((n) => {
+    const k = n.dataset.i18n, v = d[k] ?? (lang !== "en" ? WORDS[lang][k] : undefined);   // newer strings live in WORDS
+    if (v != null) n.innerHTML = v;
+  });
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  buildTargets(); nowLine(); targetInfo(); exSync(); exTargets(); exKnown(); knownCard(knownOpen);
+  buildTargets(); nowLine(); targetInfo(); exSync(); exTargets(); exKnown(); knownCard(knownOpen); renderSpec();
   if (typeof renderStory === "function") renderStory();
   if (lastStatus) lastStatus();
   if (data) { buildViews(); draw(); }
@@ -296,6 +319,7 @@ function syncUI() {
   $("speed").value = S.speed; $("contrast").value = S.contrast; $("stretch").value = S.stretch;
   $("marker").checked = S.marker === "1"; $("invert").checked = S.invert === "1"; $("mask").checked = S.mask === "1";
   $("gaia").checked = S.gaia === "1"; $("catwise").checked = S.catwise === "1"; $("gmag").value = S.gmag; $("wmag").value = S.wmag;
+  $("track").checked = S.track === "1";
   document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.view === S.view)));
   document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.mode === S.mode)));
   const t = presetFor();
@@ -342,10 +366,10 @@ async function relayJSON(params) {
   if (!r.ok) throw new Error(j.error || r.statusText);
   return j;
 }
-async function loadRelay(seq) {
-  const ra = +S.ra, dec = +S.dec, epoch = +S.epoch, pmra = +S.pmra, pmdec = +S.pmdec, band = S.band;
+async function loadRelay(seq, band = S.band, onProg = null, withCats = true) {
+  const ra = +S.ra, dec = +S.dec, epoch = +S.epoch, pmra = +S.pmra, pmdec = +S.pmdec;
   const fov = +S.size / 3600, npix = Math.round(fov / PIX_DEG) | 1;
-  showLoading(() => [T("query")]);
+  if (!onProg) showLoading(() => [T("query")]);
   const [fra, fdec] = posAt(2026.0, ra, dec, epoch, pmra, pmdec);
   const found = await relayJSON({ op: "find", ra: fra.toFixed(6), dec: fdec.toFixed(6), band });
   if (found === null) return null;
@@ -370,7 +394,8 @@ async function loadRelay(seq) {
 
   const got = new Array(rows.length);
   let next = 0, done = 0;
-  showLoading(() => [T("dl", { a: 0, b: rows.length })], 0);
+  const prog = onProg || ((a, b) => showLoading(() => [T("dl", { a, b })], b ? a / b : 0));
+  prog(0, rows.length);
   const worker = async () => {
     while (next < rows.length) {
       const i = next++;
@@ -382,7 +407,7 @@ async function loadRelay(seq) {
         try { got[i] = await relayJSON(q); } catch { /* one stubborn exposure should not sink the view */ }
       }
       done++;
-      if (seq === loadSeq) showLoading(() => [T("dl", { a: done, b: rows.length })], done / rows.length);
+      if (seq === loadSeq) prog(done, rows.length);
     }
   };
   await Promise.all(Array.from({ length: RELAY_PARALLEL }, worker));
@@ -400,6 +425,7 @@ async function loadRelay(seq) {
   // and each catalogue is drawn when it arrives
   const overlays = {}, r = Math.round(npix * PIX_DEG * 0.75 * 1e4) / 1e4;
   const result = { ...empty, frames, grid, overlays };
+  if (!withCats) return result;
   const CAT = { gaia: { epoch: 2016.0, pm: 1 }, catwise: { epoch: 2015.4, pm: 1000 } };
   Object.entries(CAT).forEach(async ([kind, c]) => {
     try {
@@ -533,15 +559,16 @@ function stackMedian(images, n) {
 }
 
 function buildViews() {
-  const n = data.npix * data.npix;
+  const n = data.npix * data.npix, frames = frameSet();
+  buildTrack();
   if (S.mode === "frames") {
-    views = data.frames.map((f) => ({
+    views = frames.map((f) => ({
       image: f.image, target: f.target_xy, year: f.year, pass: f.pass_index,
       when: f.year.toFixed(3), lambda: Number.isFinite(f.wavelength_um) ? `${f.wavelength_um.toFixed(2)} µm` : S.band,
     }));
   } else {
     const groups = new Map();
-    for (const f of data.frames) {
+    for (const f of frames) {
       if (!groups.has(f.pass_index)) groups.set(f.pass_index, []);
       groups.get(f.pass_index).push(f);
     }
@@ -555,6 +582,8 @@ function buildViews() {
       };
     });
   }
+  views.forEach((v, i) => { if (S.mode === "frames") v.frame = frames[i]; });
+  if (!views.length) { $("scrub").max = 0; idx = 0; return; }
   // difference view: each image minus the median of all of them, so whatever never changes cancels
   const ref = stackMedian(views.map((v) => v.image), n);
   for (const v of views) v.diff = v.image.map((x, p) => (x === null || ref[p] === null ? null : x - ref[p]));
@@ -569,6 +598,8 @@ function draw() {
   if (!data || !views.length) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     $("pillWhen").textContent = ""; $("pillLambda").textContent = ""; $("count").textContent = "0 / 0";
+    if (data && S.wl) $("pillWhen").textContent = T("sp.none");
+    renderSpec();
     return;
   }
   const N = data.npix, v = views[idx], diff = S.view === "diff";
@@ -634,6 +665,14 @@ function draw() {
     for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { ctx.moveTo(cx + dx * a, cy + dy * a); ctx.lineTo(cx + dx * b, cy + dy * b); }
     ctx.stroke();
   }
+  // the measured track: where the target really is in each sky pass, centroid of the pass median
+  if (S.track === "1" && track && track.pts.length > 1) {
+    const at = (p) => [(p.x + 0.5) * scale, (N - 1 - p.y + 0.5) * scale];
+    ctx.strokeStyle = "#ffb000"; ctx.fillStyle = "#ffb000"; ctx.lineWidth = Math.max(1, 1.2 * u);
+    ctx.beginPath(); track.pts.forEach((p, k) => { const [x, y] = at(p); if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y); }); ctx.stroke();
+    const curPass = v.pass !== undefined ? v.pass : (S.mode === "pass" ? idx : -1);
+    for (const p of track.pts) { const [x, y] = at(p), r = Math.max(2, (p.pass === curPass ? 0.45 : 0.25) * scale); ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fill(); }
+  }
   ctx.strokeStyle = ink; ctx.fillStyle = ink;
   ctx.font = `600 ${Math.round(11 * u)}px "JetBrains Mono", monospace`;
   // compass, bottom left: north up, east left
@@ -649,17 +688,186 @@ function draw() {
   $("pillWhen").textContent = diff ? `${v.when} − ${T("median")}` : v.when;
   $("pillLambda").textContent = v.lambda;
   // both counts, always: which sky pass, and how many exposures behind it
-  const nExp = data.frames.length, nPass = new Set(data.frames.map((f) => f.pass_index)).size;
+  const fs = frameSet(), nExp = fs.length, nPass = new Set(fs.map((f) => f.pass_index)).size;
   $("count").textContent = S.mode === "frames"
-    ? `${T("exp")} ${idx + 1} / ${nExp} · ${T("pass")} ${v.pass + 1} / ${nPass}`
+    ? `${T("exp")} ${idx + 1} / ${nExp} · ${T("pass")} ${[...new Set(fs.map((f) => f.pass_index))].indexOf(v.pass) + 1} / ${nPass}`
     : `${T("pass")} ${idx + 1} / ${nPass} · ${nExp} ${T("exp")}`;
   const leg = [];
   if (S.gaia === "1" && ov.gaia) leg.push(`<span class="key k-gaia"></span>Gaia DR3, G \u2264 ${S.gmag}, ${T("moved")}`);
   if (S.catwise === "1" && ov.catwise) leg.push(`<span class="key k-cw"></span>CatWISE2020, W2 \u2264 ${S.wmag}`);
+  if (S.track === "1" && track && track.pts.length > 1) leg.push(`<span class="key k-tr"></span>${T("tr.leg", { m: track.measured.toFixed(1), e: track.expected.toFixed(1) })}`);
   $("legend").innerHTML = leg.join(" &nbsp;\u00b7&nbsp; ");
   mapMarker();
   $("scrub").value = idx;
+  renderSpec();
 }
+
+// ---------- colour: the target's spectrum from its own exposures, and blinking one colour only ----------
+// SPHEREx has a linear variable filter: each exposure sees the target at its own wavelength. Read across all
+// exposures, that is a spectrum; read as a movie, it mixes colour with time unless the colour is held fixed.
+const MJY_PER_PIX = (PIX_ARCSEC / 206264.806) ** 2 * 1e9;      // MJy/sr over one pixel -> mJy
+const resolving = (band) => (band === "D5" || band === "D6" ? 110 : 41);   // SPHEREx R, about
+function frameSet() {
+  if (!data) return [];
+  if (!S.wl) return data.frames;
+  const c = +S.wl, h = c / resolving(data.band || S.band);
+  return data.frames.filter((f) => Number.isFinite(f.wavelength_um) && Math.abs(f.wavelength_um - c) <= h);
+}
+// light in a 2-pixel aperture minus the median of a 4 to 7 pixel annulus. A saturated star has a blank
+// core, so then the light of its wings is used instead (4 to 6 pixels, background 7 to 9): a relative
+// measure only, marked wing = true. Null when neither works.
+function ringSum(img, N, cx, cy, r0, r1, b0, b1) {
+  const bg = []; let sum = 0, n = 0, holes = 0;
+  for (let y = Math.floor(cy - b1); y <= Math.ceil(cy + b1); y++) for (let x = Math.floor(cx - b1); x <= Math.ceil(cx + b1); x++) {
+    if (x < 0 || y < 0 || x >= N || y >= N) continue;
+    const r = Math.hypot(x - cx, y - cy), v = img[y * N + x];
+    if (r >= r0 && r <= r1) { if (v === null) holes++; else { sum += v; n++; } }
+    else if (r >= b0 && r <= b1 && v !== null) bg.push(v);
+  }
+  return { sum, n, holes, bg: bg.length >= 8 ? median(bg) : null };
+}
+function aperture(img, N, xy) {
+  const [cx, cy] = xy;
+  const a = ringSum(img, N, cx, cy, 0, 2, 4, 7);
+  if (!a.holes && a.n && a.bg !== null) return { fl: (a.sum - a.n * a.bg) * MJY_PER_PIX, wing: false };
+  const w = ringSum(img, N, cx, cy, 4, 6, 7, 9);
+  if (w.n && w.holes <= 0.2 * (w.n + w.holes) && w.bg !== null) return { fl: (w.sum / w.n - w.bg) * (w.n + w.holes) * MJY_PER_PIX, wing: true };
+  return null;
+}
+// flux-weighted centre within 3 pixels of a guess, background off, twice. A saturated star is a blank
+// patch, so then the centre of that patch is the position.
+function centroid(img, N, xy) {
+  let [cx, cy] = xy;
+  const blank = [];
+  for (let y = Math.floor(cy - 5); y <= Math.ceil(cy + 5); y++) for (let x = Math.floor(cx - 5); x <= Math.ceil(cx + 5); x++)
+    if (x >= 0 && y >= 0 && x < N && y < N && Math.hypot(x - cx, y - cy) <= 5 && img[y * N + x] === null) blank.push([x, y]);
+  if (blank.filter(([x, y]) => Math.hypot(x - cx, y - cy) <= 2).length >= 3) return [mean(blank.map((b) => b[0])), mean(blank.map((b) => b[1]))];
+  for (let it = 0; it < 2; it++) {
+    const ring = [];
+    for (let y = Math.floor(cy - 7); y <= Math.ceil(cy + 7); y++) for (let x = Math.floor(cx - 7); x <= Math.ceil(cx + 7); x++) {
+      const r = Math.hypot(x - cx, y - cy), v = (x >= 0 && y >= 0 && x < N && y < N) ? img[y * N + x] : null;
+      if (r >= 4 && r <= 7 && v !== null) ring.push(v);
+    }
+    const bg = ring.length ? median(ring) : 0;
+    let sx = 0, sy = 0, sw = 0;
+    for (let y = Math.floor(cy - 3); y <= Math.ceil(cy + 3); y++) for (let x = Math.floor(cx - 3); x <= Math.ceil(cx + 3); x++) {
+      if (x < 0 || y < 0 || x >= N || y >= N || Math.hypot(x - cx, y - cy) > 3) continue;
+      const v = img[y * N + x]; if (v === null) continue;
+      const w = Math.max(0, v - bg); sx += w * x; sy += w * y; sw += w;
+    }
+    if (!sw) return null;
+    cx = sx / sw; cy = sy / sw;
+  }
+  return [cx, cy];
+}
+const slope = (t, v) => { const mt = mean(t), mv = mean(v); let a = 0, b = 0; t.forEach((x, i) => { a += (x - mt) * (v[i] - mv); b += (x - mt) ** 2; }); return b ? a / b : 0; };
+let track = null;
+function buildTrack() {
+  track = null;
+  const n = data.npix * data.npix, groups = new Map();
+  for (const f of frameSet()) { if (!groups.has(f.pass_index)) groups.set(f.pass_index, []); groups.get(f.pass_index).push(f); }
+  const pts = [];
+  for (const [pass, fs] of groups) {
+    const guess = [mean(fs.map((f) => f.target_xy[0])), mean(fs.map((f) => f.target_xy[1]))];
+    const c = centroid(stackMedian(fs.map((f) => f.image), n), data.npix, guess);
+    if (c && Math.hypot(c[0] - guess[0], c[1] - guess[1]) < 3) pts.push({ pass, x: c[0], y: c[1], gx: guess[0], gy: guess[1], year: mean(fs.map((f) => f.year)) });
+  }
+  if (pts.length < 2) { track = { pts, measured: 0, expected: 0 }; return; }
+  const yr = pts.map((p) => p.year), as = (vx, vy) => Math.hypot(vx, vy) * PIX_ARCSEC;
+  track = { pts, measured: as(slope(yr, pts.map((p) => p.x)), slope(yr, pts.map((p) => p.y))),
+    expected: as(slope(yr, pts.map((p) => p.gx)), slope(yr, pts.map((p) => p.gy))) };
+}
+
+// the spectrum panel: dots for this detector, and the other five on request
+let spec = { key: "", own: [], extra: {} }, specBusy = false;
+function specKey() { return [S.ra, S.dec, S.size, S.pmra, S.pmdec, S.epoch, S.mask].join(","); }
+function pointsOf(j) {
+  const N = j.npix, out = [];
+  j.frames.forEach((f, i) => {
+    if (!Number.isFinite(f.wavelength_um)) return;
+    const a = aperture(f.image, N, f.target_xy);
+    if (a !== null) out.push({ wl: f.wavelength_um, fl: a.fl, wing: a.wing, pass: f.pass_index, i });
+  });
+  return out;
+}
+function renderSpec() {
+  const box = $("specPlot");
+  if (!box) return;
+  if (!data || !data.frames.length) { box.innerHTML = ""; $("wlLine").textContent = ""; return; }
+  const key = specKey();
+  if (spec.key !== key) spec = { key, own: [], extra: {} };
+  if (spec.ownOf !== data) { spec.own = pointsOf(data); spec.ownOf = data; spec.extra[data.band || S.band] = spec.own; }
+  const all = Object.entries(spec.extra).flatMap(([b, ps]) => ps.map((p) => ({ ...p, band: b })));
+  const wls = data.frames.map((f) => f.wavelength_um).filter(Number.isFinite);
+  // the one-colour slider follows this detector's range
+  const sl = $("wlC");
+  if (wls.length) { sl.min = Math.min(...wls).toFixed(3); sl.max = Math.max(...wls).toFixed(3); }
+  if (S.wl) sl.value = S.wl;
+  $("wlOn").checked = !!S.wl; sl.disabled = !S.wl;
+  if (S.wl) {
+    const c = +S.wl, h = c / resolving(data.band || S.band);
+    $("wlLine").textContent = T("sp.win", { c: c.toFixed(3), h: h.toFixed(3), n: frameSet().length, m: data.frames.length });
+  } else $("wlLine").textContent = T("sp.why");
+  if (!all.length) { box.innerHTML = ""; return; }
+  const W = 320, H = 190, L = 44, R = 8, Tp = 8, B = 30;
+  const xs = all.map((p) => p.wl), ys = all.map((p) => p.fl).filter((v) => v > 0);
+  const x0 = Math.min(...xs) * 0.97, x1 = Math.max(...xs) * 1.03;
+  const logY = ys.length && Math.max(...ys) / Math.max(Math.min(...ys), 1e-6) > 20;
+  const yv = (v) => (logY ? Math.log10(Math.max(v, Math.min(...ys) / 2)) : v);
+  const yAll = all.map((p) => yv(p.fl)), y0 = Math.min(...yAll), y1 = Math.max(...yAll), pad = (y1 - y0 || 1) * 0.08;
+  const X = (v) => L + (v - x0) / (x1 - x0) * (W - L - R), Y = (v) => H - B - (yv(v) - (y0 - pad)) / (y1 - y0 + 2 * pad) * (H - B - Tp);
+  const cur = views[idx] && views[idx].frame;
+  let g = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${T("sp.title")}">`;
+  g += `<line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" class="ax"/><line x1="${L}" y1="${Tp}" x2="${L}" y2="${H - B}" class="ax"/>`;
+  if (S.wl) { const c = +S.wl, h = c / resolving(data.band || S.band); g += `<rect x="${X(c - h)}" y="${Tp}" width="${Math.max(2, X(c + h) - X(c - h))}" height="${H - B - Tp}" class="win"/>`; }
+  const ticks = (a, b, n) => { const st = Math.pow(10, Math.floor(Math.log10((b - a) / n))); const m = [1, 2, 5, 10].find((k) => (b - a) / (k * st) <= n) * st; const out = []; for (let t = Math.ceil(a / m) * m; t <= b; t += m) out.push(+t.toFixed(6)); return out; };
+  for (const t of ticks(x0, x1, 5)) g += `<text x="${X(t)}" y="${H - B + 13}" class="tk" text-anchor="middle">${t}</text>`;
+  const yt = logY ? ticks(y0 - pad, y1 + pad, 4).filter((t) => Number.isInteger(t)) : ticks(y0 - pad, y1 + pad, 4);
+  for (const t of yt) { const v = logY ? 10 ** t : t; g += `<text x="${L - 4}" y="${Y(v) + 3}" class="tk" text-anchor="end">${logY ? (v >= 1 ? v.toFixed(0) : v.toPrecision(1)) : +v.toPrecision(3)}</text>`; }
+  g += `<text x="${(L + W - R) / 2}" y="${H - 2}" class="lb" text-anchor="middle">${T("sp.x")}</text>`;
+  g += `<text x="10" y="${(Tp + H - B) / 2}" class="lb" text-anchor="middle" transform="rotate(-90 10 ${(Tp + H - B) / 2})">${T("sp.y")}</text>`;
+  const own = data.band || S.band;
+  for (const p of all) {
+    const mine = p.band === own, on = mine && cur && data.frames[p.i] === cur, inWin = !S.wl || Math.abs(p.wl - +S.wl) <= +S.wl / resolving(p.band);
+    g += `<circle cx="${X(p.wl).toFixed(1)}" cy="${Y(p.fl).toFixed(1)}" r="${on ? 4.5 : 2.6}" class="pt p${p.pass % 4}${mine ? " mine" : ""}${on ? " on" : ""}${inWin ? "" : " dim"}${p.wing ? " wing" : ""}" data-i="${mine ? p.i : ""}" data-wl="${p.wl}"/>`;
+  }
+  box.innerHTML = g + "</svg>";
+}
+$("specPlot").addEventListener("click", (e) => {
+  const c = e.target.closest("circle"); if (!c) return;
+  if (S.wl) { S.wl = (+c.dataset.wl).toFixed(3); writeURL(); buildViews(); draw(); return; }
+  if (c.dataset.i === "") return;
+  if (S.mode !== "frames") { S.mode = "frames"; writeURL(); syncUI(); buildViews(); }
+  const k = views.findIndex((v) => v.frame === data.frames[+c.dataset.i]);
+  if (k >= 0) { setPlaying(false); idx = k; draw(); }
+});
+$("wlOn").addEventListener("change", (e) => {
+  if (!data) return;
+  const wls = data.frames.map((f) => f.wavelength_um).filter(Number.isFinite).sort((a, b) => a - b);
+  S.wl = e.target.checked && wls.length ? wls[wls.length >> 1].toFixed(3) : "";
+  writeURL(); idx = 0; buildViews(); draw();
+});
+$("wlC").addEventListener("input", (e) => { S.wl = (+e.target.value).toFixed(3); writeURL(); idx = 0; buildViews(); draw(); });
+$("track").addEventListener("change", (e) => { S.track = e.target.checked ? "1" : "0"; writeURL(); draw(); });
+$("specAll").addEventListener("click", async () => {
+  if (specBusy || !data) return;
+  specBusy = true; const btn = $("specAll"), seq = loadSeq, key = spec.key, t = presetFor();
+  try {
+    for (const b of ["D1", "D2", "D3", "D4", "D5", "D6"]) {
+      if (spec.extra[b]) continue;
+      btn.textContent = T("sp.load", { b });
+      let j = null;
+      if (t && S.size === String(PRESETS[t].size)) {
+        try { const r = await fetch(`data/bands/${t}_${b}${S.mask === "1" ? "_mask" : ""}.json`); if (r.ok) j = await r.json(); } catch { /* the relay will try */ }
+      }
+      if (!j) j = await loadRelay(seq, b, (a, n) => { btn.textContent = `${T("sp.load", { b })} · ${a}/${n}`; }, false);
+      if (seq !== loadSeq || spec.key !== key) return;
+      if (j && j.frames) { decode(j); spec.extra[b] = pointsOf(j); renderSpec(); }
+    }
+    btn.textContent = T("sp.done");
+  } catch { btn.textContent = T("sp.all"); }
+  finally { specBusy = false; }
+});
 
 // ---------- playback ----------
 function start() { stop(); if (views.length > 1) timer = setInterval(() => step(1), Math.max(100, parseInt(S.speed, 10) || 500)); }
@@ -699,7 +907,7 @@ function choose(key) {
 }
 function setBand(b) {
   if (b === S.band) return;
-  S.band = b; form.elements.band.value = b;
+  S.band = b; form.elements.band.value = b; S.wl = "";      // another detector, another range of colours
   writeURL(); syncUI(); load();
 }
 
@@ -778,6 +986,7 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "d") setView(S.view === "diff" ? "blink" : "diff");
   else if (e.key === "g") { S.gaia = S.gaia === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
   else if (e.key === "m") { S.marker = S.marker === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
+  else if (e.key === "t") { S.track = S.track === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
   else if (/^[1-6]$/.test(e.key)) setBand("D" + e.key);
 });
 addEventListener("resize", () => { if (data) draw(); });

@@ -1,3 +1,5 @@
+# AI disclosure: written with Claude (Anthropic) for NASA Space Apps Milano 2026, from the team's instructions,
+# and checked by the team. See README, "AI use".
 """Every preset target in all six SPHEREx detectors, as static JSON for the page.
 
     python export_all_bands.py                  # all targets

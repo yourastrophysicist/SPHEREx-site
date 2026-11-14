@@ -47,6 +47,16 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
 - **Gaia DR3** and **CatWISE2020** circles on top, each star moved to the date of the frame on
   screen with its own proper motion.
 - Five targets: Barnard's Star, Epsilon Indi B, WISE 0855-0714, RW Aurigae and R Draconis.
+- A **spectrum** of the target from its own exposures. SPHEREx's filter passes a different
+  wavelength at every spot of the detector, so each exposure sees the target at its own colour.
+  The panel plots the light in a 2-pixel aperture against that wavelength, one dot per exposure,
+  and *add the other five detectors* fills in 0.75 to 5 µm. A saturated star is measured from its
+  wings, drawn as hollow dots (relative only). Click a dot to jump to that exposure.
+- **Blink one colour only**: keeps the exposures within one or two resolution elements of a chosen
+  wavelength, so a change between frames is time and not colour. Without it, R Draconis in D3 is
+  seen anywhere from 1.62 to 2.41 µm, right across its water bands. In the URL as `wl`.
+- A **measured track**: the target's centroid in each sky pass (the centre of the blank core for a
+  saturated star), drawn as orange dots, with the measured motion next to the expected one.
 - **Any other position**: type RA and Dec (with a proper motion if you like) under *your own
   position*, drag the lens on the map, or press *blink it in SPHEREx* on a known object. The page
   fetches every SPHEREx DR1 exposure of that spot live from IRSA, which takes about half a minute.
@@ -159,6 +169,20 @@ slides, `n` shows the speaker notes and `f` goes full screen.
 | ![Slide 7, could it find Planet X?](docs/img/slide-7.png) | |
 | **7.** Could it find Planet X? | |
 
+## Does it measure the right thing?
+
+The measured track, on the five targets in their best detector (14 November 2026). Expected is the
+proper motion of Table 2 in the release document.
+
+| Target | Detector | Measured | Expected | Note |
+|---|---|---|---|---|
+| Barnard's Star | D1 | 10.4″/yr | 10.4″/yr | saturated core, centre of the blank patch |
+| Epsilon Indi B | D5 | 4.6″/yr | 4.7″/yr | |
+| WISE 0855-0714 | D6 | 11.2″/yr | 8.2″/yr | very faint, noisiest |
+| RW Aurigae | D1 | 0.2″/yr | 0.0″/yr | does not move |
+| R Draconis | D3 | 2.1″/yr | 0.0″/yr | saturated, does not move |
+| Kapteyn's Star (any position) | D1 | 8.3″/yr | 8.6″/yr | through the relay, not one of the five |
+
 ## The challenge, and where we stand
 
 Our teammate's reading of the *Planet X and SPHEREx* brief, with what the page does today. P0 is
@@ -179,8 +203,8 @@ different times.
 | P1 | New SPHEREx releases | Optional | Any position is fetched live, so new DR1 exposures appear by themselves. A new release is one name in the relay, and the export workflow rebuilds the five targets |
 | P2 | Gaia and WISE overlays | Optional | Done, Gaia DR3 and CatWISE2020 moved to each frame's date |
 | P2 | Shareable coordinate URLs | Optional | Done, every setting lives in the URL |
-| P2 | Quality and contamination flags | Optional | Flagged pixels can be masked. Per-frame flags are not shown yet |
-| P2 | Spectra made on the fly | Optional, advanced | Not done |
+| P2 | Quality and contamination flags | Optional | Flagged pixels can be masked. Saturated cores are detected and measured from the wings. Per-frame flag counts are not shown yet |
+| P2 | Spectra made on the fly | Optional, advanced | Done, from the exposures themselves, in one detector or all six, for the five targets and for any position |
 | | Use existing software | Suggested | Astropy for the data path, Aladin Lite for the sky map |
 
 The priority is a reliable viewer that lets anyone pick a patch of sky and see what changed, ahead
@@ -208,5 +232,11 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
   The lens, the crosshair and the fixed Home come from our teammate's Time Lens.
 - **Team:** Observationally Speaking, [yourastrophysicist](https://github.com/yourastrophysicist)
   and [sohnjoo1-collab](https://github.com/sohnjoo1-collab).
-- **AI use:** parts of the code and of the text were written with help from Claude (Anthropic),
-  and the Time Lens prototype with help from Codex (OpenAI).
+- **AI use:** most of the code and much of the text in this repository, and the relay
+  `api/spherex.js` in the main site's repository, were written with Claude (Anthropic) during the
+  event, from the team's instructions, and the Time Lens prototype with Codex (OpenAI). The team set
+  the goals and the design, decided what to keep, checked the results against IRSA and Gaia (the
+  measured tracks, the relay against the Python path, the known-object facts against SIMBAD), and is
+  responsible for the content. Every code file says so in its first lines, and the page and the
+  slides carry an `ai-disclosure` meta tag. The prep scripts of 10 November in `prep/` were made
+  before the event, partly with Claude, and are used with the Local Lead's agreement.
