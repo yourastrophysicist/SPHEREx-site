@@ -29,6 +29,13 @@ embeds the existing viewer and preserves its scientific features.
 
 The public integration uses static presets. Arbitrary RA/Dec positions
 require the live server described in tool/README.md.
+
+Since 14 November the Time Lens idea also lives inside the main page, in the
+sky map panel: Aladin Lite 3.8.2 around the SPHEREx field, with the exact
+footprint from the grid in `data/*.json`, a ring that follows the target frame
+by frame, a choice of 2MASS, AllWISE (both through IRSA) or DSS2 (through ESA)
+as background, and a button to pick a custom position on the map.
+
 ## prep/
 
 The `prep/` folder holds the test notebook and two scripts I made on 10 November 2026 to check

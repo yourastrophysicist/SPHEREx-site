@@ -15,11 +15,11 @@ from server import frames_json  # noqa: E402
 
 # keep in step with PRESETS in app.js
 PRESETS = {
-    "Barnard":  dict(ra=269.44850252544, dec=4.73942005111, epoch=2016.0, pmra=-801.551, pmdec=10362.394, band="D1", size=108),
-    "EpsIndB":  dict(ra=331.07645259656, dec=-56.79381206688, epoch=2016.0, pmra=3981.977, pmdec=-2466.832, band="D5", size=108),
-    "WISE0855": dict(ra=133.7947597, dec=-7.2451456, epoch=2010.56, pmra=-8123.7, pmdec=673.2, band="D6", size=216),
-    "RWAur":    dict(ra=76.95608119553, dec=30.40120458910, epoch=2016.0, pmra=2.641, pmdec=-27.398, band="D1", size=108),
-    "RDra":     dict(ra=248.16737836729, dec=66.75500674547, epoch=2016.0, pmra=-20.643, pmdec=6.149, band="D3", size=108),
+    "Barnard":  dict(ra=269.44850252544, dec=4.73942005111, epoch=2016.0, pmra=-801.551, pmdec=10362.394, band="D1", size=360),
+    "EpsIndB":  dict(ra=331.07645259656, dec=-56.79381206688, epoch=2016.0, pmra=3981.977, pmdec=-2466.832, band="D5", size=360),
+    "WISE0855": dict(ra=133.7947597, dec=-7.2451456, epoch=2010.56, pmra=-8123.7, pmdec=673.2, band="D6", size=360),
+    "RWAur":    dict(ra=76.95608119553, dec=30.40120458910, epoch=2016.0, pmra=2.641, pmdec=-27.398, band="D1", size=360),
+    "RDra":     dict(ra=248.16737836729, dec=66.75500674547, epoch=2016.0, pmra=-20.643, pmdec=6.149, band="D3", size=360),
 }
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")

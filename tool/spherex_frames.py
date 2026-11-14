@@ -116,7 +116,8 @@ def make_grid(ra, dec, fov):
 
 
 def get_frames(ra, dec, band="D1", fov=0.03, epoch=2016.0, pmra=0.0, pmdec=0.0,
-               name="target", data_dir=DATA_DIR, workers=4, mask=True, progress=None):
+               name="target", data_dir=DATA_DIR, workers=int(os.environ.get("SPHEREX_WORKERS", 4)), mask=True, progress=None,
+               max_per_pass=None):
     """Aligned SPHEREx frames of one sky patch.
 
     ra, dec, epoch, pmra, pmdec: position in degrees at epoch (decimal year) and proper motion
@@ -125,6 +126,8 @@ def get_frames(ra, dec, band="D1", fov=0.03, epoch=2016.0, pmra=0.0, pmdec=0.0,
     mask: set flagged pixels to NaN (default). False keeps every value, which is what a viewer
     wants for bright stars, whose saturated core is flagged.
     progress: optional callback progress(stage, done, total), stage "query" or "download".
+    max_per_pass: keep at most this many exposures per six-month pass, evenly spread in time.
+    Fields near the ecliptic poles are seen on almost every orbit and have hundreds.
 
     Returns (frames, grid). grid is the common astropy WCS. frames is a list, oldest first, of
     dicts with keys image (zodi subtracted, bad pixels NaN, on grid), variance, mjd, year,
@@ -138,6 +141,15 @@ def get_frames(ra, dec, band="D1", fov=0.03, epoch=2016.0, pmra=0.0, pmdec=0.0,
     if not rows:
         return [], None
     mjd = np.array([float(r["time_bounds_lower"]) for r in rows])
+    if max_per_pass:
+        pid = np.cumsum(np.r_[0, np.diff(mjd)] > 60)
+        pick = []
+        for p in np.unique(pid):
+            idx = np.flatnonzero(pid == p)
+            if len(idx) > max_per_pass:
+                idx = idx[np.round(np.linspace(0, len(idx) - 1, max_per_pass)).astype(int)]
+            pick.extend(idx.tolist())
+        rows, mjd = [rows[i] for i in pick], mjd[pick]
     years = Time(mjd, format="mjd").decimalyear
 
     # the grid is fixed on the sky at the mean date, so the target walks across it
@@ -199,6 +211,53 @@ def get_frames(ra, dec, band="D1", fov=0.03, epoch=2016.0, pmra=0.0, pmdec=0.0,
     for f, p in zip(frames, np.cumsum(gaps)):
         f["pass_index"] = int(p)
     return frames, grid
+
+
+# catalogues for the overlay, both through the same IRSA TAP service
+CATALOGS = {
+    # Gaia DR3: positions at 2016.0, motions in mas/yr
+    "gaia": dict(epoch=2016.0, pm_scale=1.0, query=(
+        "SELECT TOP 2000 ra, dec, pmra, pmdec, phot_g_mean_mag AS mag FROM gaia_dr3_source "
+        "WHERE 1 = CONTAINS(POINT('ICRS', ra, dec), CIRCLE('ICRS', {ra}, {dec}, {r})) "
+        "ORDER BY phot_g_mean_mag")),
+    # CatWISE2020: positions ra_pm, dec_pm at MJD 57170 (2015.4), motions in arcsec/yr, W2 in Vega
+    "catwise": dict(epoch=2015.4, pm_scale=1000.0, query=(
+        "SELECT TOP 2000 ra_pm AS ra, dec_pm AS dec, pmra, pmdec, w2mpro AS mag FROM catwise_2020 "
+        "WHERE 1 = CONTAINS(POINT('ICRS', ra, dec), CIRCLE('ICRS', {ra}, {dec}, {r})) "
+        "ORDER BY w2mpro")),
+}
+
+
+def catalog_overlay(grid, kind, data_dir=DATA_DIR):
+    """Sources of one catalogue on the grid, as [x, y, vx, vy, mag] with x, y the pixel at the
+    catalogue epoch and vx, vy the motion in pixels per year, so a viewer can put each source where
+    it was on any date. Kept for a week in data_dir."""
+    c = CATALOGS[kind]
+    ra0, dec0 = (float(v) for v in grid.wcs.crval)
+    npix = grid.pixel_shape[0]
+    r = round(npix * PIX_DEG * 0.75, 4)          # a circle that covers the square field
+    path = os.path.join(data_dir, f"cat_{kind}_{ra0:.5f}_{dec0:+.5f}_{r}.json")
+    if os.path.exists(path) and time.time() - os.path.getmtime(path) < 7 * 86400:
+        with open(path) as f:
+            rows = json.load(f)
+    else:
+        rows = tap(c["query"].format(ra=ra0, dec=dec0, r=r))
+        with open(path, "w") as f:
+            json.dump(rows, f)
+    out = []
+    for row in rows:
+        try:
+            ra, dec, mag = float(row["ra"]), float(row["dec"]), float(row["mag"] or "nan")
+        except (TypeError, ValueError):
+            continue
+        pmra = float(row["pmra"] or 0) * c["pm_scale"]
+        pmdec = float(row["pmdec"] or 0) * c["pm_scale"]
+        x0, y0 = grid.world_to_pixel_values(ra, dec)
+        x1, y1 = grid.world_to_pixel_values(*position(c["epoch"] + 1, ra, dec, c["epoch"], pmra, pmdec))
+        if -2 <= x0 <= npix + 1 and -2 <= y0 <= npix + 1:
+            out.append([round(float(x0), 3), round(float(y0), 3), round(float(x1 - x0), 4),
+                        round(float(y1 - y0), 4), None if not np.isfinite(mag) else round(mag, 2)])
+    return dict(epoch=c["epoch"], sources=out)
 
 
 if __name__ == "__main__":

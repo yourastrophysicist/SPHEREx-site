@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=25">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -46,8 +46,80 @@
             <p class="lede" data-i18n="lede">Pick a star and watch it walk. This tool plays the public SPHEREx images of one small patch of sky, one sky pass after another, so anything close enough to move jumps out against the stars behind it.</p>
         </div>
 
+        <h2 class="step"><span>01</span><span data-i18n="step1">find it on the whole sky</span></h2>
+        <section class="explore" id="explore" aria-label="The whole sky" data-shape="map" data-world="sky">
+            <div class="panel">
+                <div class="panel-bar"><span id="exTitle">the whole sky</span><span data-i18n="ex.hint">click the sky, then drag to move · scroll or + and − to zoom</span></div>
+                <div class="ex-stage">
+                    <div id="sky3" class="ex-sky" role="img" aria-label="The whole sky, interactive"></div>
+                    <img id="earthImg" class="ex-earth" alt="" hidden width="2400" height="1200">
+                    <p class="ex-load" id="exLoad" data-i18n="ex.load">loading the whole sky</p>
+                    <div class="ex-cross" id="exCross" aria-hidden="true"></div>
+                    <div class="ex-shield" id="exShield"><span data-i18n="ex.shield">click or tap the sky to explore it</span></div>
+                    <div class="lens" id="lens" hidden>
+                        <div class="lens-bar" id="lensBar" tabindex="0" role="button" aria-label="Drag the lens, or move it with the arrow keys">
+                            <span id="lensXY">lens</span>
+                            <button type="button" id="lensClose" aria-label="Turn the lens off">&times;</button>
+                        </div>
+                        <button type="button" class="lens-use" id="lensUse" data-i18n="lens.use">use this spot</button>
+                    </div>
+                    <div class="ex-zoom">
+                        <button type="button" id="zIn" aria-label="Zoom in" title="Zoom in">+</button>
+                        <button type="button" id="zOut" aria-label="Zoom out" title="Zoom out">&minus;</button>
+                        <button type="button" class="fs-btn" id="fsSky" data-fs="explore" aria-label="Full screen" title="Full screen"><svg class="i-open" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><svg class="i-close" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3v5H3M17 8h-5V3M12 17v-5h5M3 12h5v5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
+                        <button type="button" id="zAll" aria-label="Home, the whole sky" title="Home"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="8" ry="5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+                    </div>
+                </div>
+                <div class="ex-dock">
+                    <div class="shapes" role="radiogroup" aria-label="Shape of the sky">
+                        <button type="button" role="radio" data-shape="map" title="The whole sky flattened into an oval"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="8.5" ry="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span data-i18n="ex.map">map</span></button>
+                        <button type="button" role="radio" data-shape="outside" title="The sky on a turning sphere, seen from outside"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="10" cy="10" rx="3.5" ry="7.5" fill="none" stroke="currentColor" stroke-width="1"/></svg><span data-i18n="ex.outside">outside</span></button>
+                        <button type="button" role="radio" data-shape="inside" title="The sky around you, seen from inside"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="1.6" fill="currentColor"/></svg><span data-i18n="ex.inside">inside</span></button>
+                    </div>
+                    <div class="ex-row">
+                        <div class="world" id="world" role="radiogroup" aria-label="Sky or Earth">
+                            <button type="button" class="wtrack" id="wTrack" aria-label="Switch between the sky and the Earth"></button>
+                            <button type="button" role="radio" data-world="sky" data-i18n="ex.sky">sky</button>
+                            <button type="button" role="radio" data-world="earth" data-i18n="ex.earth">Earth</button>
+                        </div>
+                        <div class="seg seg4" id="skyLayers" role="radiogroup" aria-label="Survey">
+                            <button type="button" role="radio" data-layer="spherex">SPHEREx</button>
+                            <button type="button" role="radio" data-layer="2mass">2MASS</button>
+                            <button type="button" role="radio" data-layer="allwise">AllWISE</button>
+                            <button type="button" role="radio" data-layer="dss2">DSS2</button>
+                        </div>
+                        <div class="seg" id="earthLayers" role="radiogroup" aria-label="Earth" hidden>
+                            <button type="button" role="radio" data-earth="day" data-i18n="ex.day">day</button>
+                            <button type="button" role="radio" data-earth="night" data-i18n="ex.night">night</button>
+                        </div>
+                    </div>
+                    <div class="ex-lambda" id="lambdaRow">
+                        <div class="seg seg6" id="detectors" role="radiogroup" aria-label="SPHEREx detector">
+                            <button type="button" role="radio" data-det="1">D1</button><button type="button" role="radio" data-det="2">D2</button><button type="button" role="radio" data-det="3">D3</button><button type="button" role="radio" data-det="4">D4</button><button type="button" role="radio" data-det="5">D5</button><button type="button" role="radio" data-det="6">D6</button>
+                        </div>
+                        <label class="label" for="lambda" data-i18n="ex.lambda">wavelength</label>
+                        <input id="lambda" type="range" min="0" max="101" step="1">
+                        <output id="lambdaVal" for="lambda"></output>
+                    </div>
+                    <div class="ex-centre">
+                        <button class="mini" id="lensBtn" type="button" aria-pressed="false"><span data-i18n="lens.btn">lens</span> <span id="lensState">off</span></button>
+                        <label class="check mini"><input id="crossChk" type="checkbox" checked> <span data-i18n="ex.cross">crosshair</span></label>
+                        <span class="label" data-i18n="ex.centre">centre · ICRS</span>
+                        <output id="centreOut">&ndash;</output>
+                        <button type="button" class="mini" id="copyCentre" data-i18n="ex.copy">copy</button>
+                    </div>
+                    <p class="ex-now" id="exNow" aria-live="polite"></p>
+                    <div class="ex-next">
+                        <a class="btn" id="goBlink" href="#step2"></a>
+                        <a class="ex-about" href="#about-map" data-i18n="ex.about">about the map</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="step" id="step2"><span>02</span><span data-i18n="step2">watch it move</span></h2>
         <main id="tool" class="tool">
-            <section class="panel viewer" aria-label="Sky viewer">
+            <section class="panel viewer" id="viewer" aria-label="Sky viewer">
                 <div class="panel-bar"><span id="where">ra · dec</span><span id="count">0 / 0</span></div>
                 <div class="band"><div class="stage">
                     <canvas id="sky" width="760" height="760" role="img" aria-label="SPHEREx images of the chosen patch of sky"></canvas>
@@ -65,7 +137,9 @@
                         <svg id="icoPlay" viewBox="0 0 14 14" aria-hidden="true" hidden><path d="M3 1v12l10-6z"/></svg>
                     </button>
                     <input id="scrub" type="range" min="0" max="0" value="0" step="1" aria-label="Frame">
+                    <button type="button" class="play fs-btn" id="fsView" data-fs="viewer" aria-label="Full screen" title="Full screen"><svg class="i-open" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><svg class="i-close" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3v5H3M17 8h-5V3M12 17v-5h5M3 12h5v5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
                 </div>
+                <p class="legend" id="legend"></p>
                 <p class="now" id="now" aria-live="polite"></p>
             </section>
 
@@ -88,7 +162,7 @@
                             <button type="button" role="radio" data-mode="pass" data-i18n="c.pass">sky pass</button>
                             <button type="button" role="radio" data-mode="frames" data-i18n="c.exp">exposure</button>
                         </div>
-                        <p class="keys" data-i18n="c.keys">space plays or pauses · arrows step · d difference · m marker</p>
+                        <p class="keys" data-i18n="c.keys">space plays or pauses · arrows step · d difference · m marker · g Gaia · f full screen</p>
                     </div>
                 </section>
 
@@ -127,6 +201,13 @@
                         <label class="check"><input id="marker" type="checkbox"> <span data-i18n="c.marker">mark where the target should be</span></label>
                         <label class="check"><input id="invert" type="checkbox"> <span data-i18n="c.invert">invert</span></label>
                         <label class="check"><input id="mask" type="checkbox"> <span data-i18n="c.mask">blank the pixels SPHEREx flags as bad</span></label>
+                        <span class="label" style="margin-top:16px" data-i18n="c.cat">catalogues on top</span>
+                        <label class="check"><input id="gaia" type="checkbox"> <span data-i18n="c.gaia">Gaia DR3 stars, moved with their proper motion</span></label>
+                        <label class="check"><input id="catwise" type="checkbox"> <span data-i18n="c.catwise">CatWISE2020 sources, for what is too cold for Gaia</span></label>
+                        <div class="grid2" style="margin-top:10px">
+                            <label class="field"><span data-i18n="c.gmag">Gaia down to G</span><input id="gmag" type="number" min="5" max="21" step="0.5"></label>
+                            <label class="field"><span data-i18n="c.wmag">CatWISE down to W2</span><input id="wmag" type="number" min="5" max="18" step="0.5"></label>
+                        </div>
                     </div>
                 </details>
 
@@ -136,6 +217,25 @@
     </div>
 
     <div class="page">
+        <section class="sec" id="about-map">
+            <p class="eyebrow" data-i18n="am.label">about the map</p>
+            <h2 class="giant" data-i18n="am.h">The whole sky</h2>
+            <div class="grid">
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="a1.t">three shapes</span><span>01</span></div>
+                    <p data-i18n="a1.d">Map flattens the whole sky into an oval with the Milky Way across the middle, the way astronomers draw it. Outside puts the same sky on a sphere you look at from outside, turning slowly. Inside puts you at the centre, the way the sky looks from the ground.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="a2.t">sky and Earth</span><span>02</span></div>
+                    <p data-i18n="a2.d">The Earth side shows the planet SPHEREx circles, by day and at night, in the same oval. Every picture of the sky is taken from somewhere, and this is where.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="a3.t">the surveys</span><span>03</span></div>
+                    <p data-i18n="a3.d">SPHEREx DR1 is the mission's first all-sky release, in 102 colours from 0.75 to 5 microns, and the slider steps through them. 2MASS, AllWISE and DSS2 show the same sky years or decades earlier, so a fast star like Barnard's sits in a different place on each.</p>
+                </div>
+            </div>
+        </section>
+
         <section class="sec">
             <p class="eyebrow" data-i18n="how.label">how it works</p>
             <h2 class="giant" data-i18n="how.h">The tool</h2>
@@ -158,7 +258,7 @@
 
         <section class="sec">
             <p class="eyebrow" data-i18n="tg.label">the five targets</p>
-            <h2 class="giant" data-i18n="tg.h">Start here</h2>
+            <h2 class="giant" data-i18n="tg.h">The targets</h2>
             <div class="panel">
                 <table class="targets">
                     <thead><tr><th data-i18n="th.t">target</th><th data-i18n="th.w">why it is here</th><th data-i18n="th.d">detector</th></tr></thead>
@@ -171,7 +271,17 @@
         <section class="sec" id="credits">
             <p class="eyebrow" data-i18n="cr.label">credits</p>
             <h2 class="giant" data-i18n="cr.h">Thanks</h2>
-            <p class="sub" data-i18n="cr.d">Data from SPHEREx Level 2 images, NASA/JPL-Caltech/IPAC, through NASA/IPAC IRSA. Positions and motions from Gaia DR3 (ESA/DPAC), and for WISE 0855 from AllWISE with the motion of Kirkpatrick et al. 2021. The blink idea follows WiseView by Caselden and collaborators. Made by Observationally Speaking at NASA Space Apps Milano, 14 and 15 November 2026, building on our own prep scripts of 10 November. Parts of the code were written with help from Claude (Anthropic).</p>
+            <div class="panel credits">
+                <dl>
+                    <dt data-i18n="cr.t1">images</dt><dd data-i18n="cr.d1">SPHEREx Level 2 images and the DR1 all-sky cube, NASA/JPL-Caltech/IPAC, through NASA/IPAC IRSA.</dd>
+                    <dt data-i18n="cr.t2">positions</dt><dd data-i18n="cr.d2">Gaia DR3 (ESA/DPAC) for positions and motions, and for WISE 0855 AllWISE with the motion of Kirkpatrick et al. 2021.</dd>
+                    <dt data-i18n="cr.t3">catalogues</dt><dd data-i18n="cr.d3">Gaia DR3 and CatWISE2020 (Marocco et al. 2021), both through NASA/IPAC IRSA.</dd>
+                    <dt data-i18n="cr.t4">sky maps</dt><dd data-i18n="cr.d4">Aladin Lite (CDS, Strasbourg), with 2MASS and AllWISE through IRSA and DSS2 through ESA.</dd>
+                    <dt data-i18n="cr.t5">Earth</dt><dd data-i18n="cr.d5">Blue Marble and Black Marble, NASA, through NASA GIBS.</dd>
+                    <dt data-i18n="cr.t6">ideas</dt><dd data-i18n="cr.d6">The blink follows WiseView by Caselden and collaborators. The whole-sky layout follows Brice Menard's ultraviolet sky map. The lens, the crosshair and the fixed Home come from our teammate's Time Lens.</dd>
+                    <dt data-i18n="cr.t7">made by</dt><dd data-i18n="cr.d7">Observationally Speaking, at NASA Space Apps Milano, 14 and 15 November 2026, building on our own prep scripts of 10 November. Parts of the code were written with help from Claude (Anthropic).</dd>
+                </dl>
+            </div>
             <p class="btns">
                 <a class="btn btn-grey" href="https://science.nasa.gov/mission/spherex/" data-i18n="b.nasa">SPHEREx at NASA</a>
                 <a class="btn btn-grey" href="https://irsa.ipac.caltech.edu/Missions/spherex.html" data-i18n="b.irsa">the data at IRSA</a>
@@ -187,7 +297,7 @@
 
     <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=23"></script>
 <script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
 </body>
 </html>

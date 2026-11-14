@@ -3,11 +3,11 @@
 
 // position at epoch (deg), proper motion (mas/yr), best detector; same table as the prep notebook
 const PRESETS = {
-  Barnard:  { label: "Barnard's Star", ra: 269.44850252544, dec: 4.73942005111, epoch: 2016.0, pmra: -801.551, pmdec: 10362.394, band: "D1", size: 108 },
-  EpsIndB:  { label: "Epsilon Indi B", ra: 331.07645259656, dec: -56.79381206688, epoch: 2016.0, pmra: 3981.977, pmdec: -2466.832, band: "D5", size: 108 },
-  WISE0855: { label: "WISE 0855-0714", ra: 133.7947597, dec: -7.2451456, epoch: 2010.56, pmra: -8123.7, pmdec: 673.2, band: "D6", size: 216 },
-  RWAur:    { label: "RW Aurigae", ra: 76.95608119553, dec: 30.40120458910, epoch: 2016.0, pmra: 2.641, pmdec: -27.398, band: "D1", size: 108 },
-  RDra:     { label: "R Draconis", ra: 248.16737836729, dec: 66.75500674547, epoch: 2016.0, pmra: -20.643, pmdec: 6.149, band: "D3", size: 108 },
+  Barnard:  { label: "Barnard's Star", ra: 269.44850252544, dec: 4.73942005111, epoch: 2016.0, pmra: -801.551, pmdec: 10362.394, band: "D1", size: 360 },
+  EpsIndB:  { label: "Epsilon Indi B", ra: 331.07645259656, dec: -56.79381206688, epoch: 2016.0, pmra: 3981.977, pmdec: -2466.832, band: "D5", size: 360 },
+  WISE0855: { label: "WISE 0855-0714", ra: 133.7947597, dec: -7.2451456, epoch: 2010.56, pmra: -8123.7, pmdec: 673.2, band: "D6", size: 360 },
+  RWAur:    { label: "RW Aurigae", ra: 76.95608119553, dec: 30.40120458910, epoch: 2016.0, pmra: 2.641, pmdec: -27.398, band: "D1", size: 360 },
+  RDra:     { label: "R Draconis", ra: 248.16737836729, dec: 66.75500674547, epoch: 2016.0, pmra: -20.643, pmdec: 6.149, band: "D3", size: 360 },
 };
 
 // ---------- words, in the three languages of the site ----------
@@ -27,7 +27,20 @@ const WORDS = {
     none: "SPHEREx has not observed this spot on this detector yet.", noned: "Try another detector.",
     fail: "Could not load this field.",
     copied: "link copied", copyfail: "copy failed, the link is in the address bar",
-    exp: "exp", median: "median", pass: "pass", of: "of",
+    exp: "exp", median: "median", pass: "pass", of: "of", moved: "moved to this date",
+    picking: "now click the sky", picked: "position set in your own position, press show this field",
+    blinkit: "blink", thisfield: "this field",
+    "fs.enter": "full screen", "fs.exit": "exit full screen",
+    "lens.on": "on", "lens.off": "off", "lens.off.sky": "outside the sky, move the lens",
+    mapfail: "The sky map could not load. The viewer works without it.",
+    "ex.title": "the whole sky", "ex.title.earth": "the Earth, in the same oval",
+    "ex.shape.map": "map", "ex.shape.outside": "outside", "ex.shape.inside": "inside",
+    "cap.spherex": "SPHEREx at {l}, one of its 102 colours of infrared|SPHEREx DR1, NASA/JPL-Caltech/IPAC via IRSA",
+    "cap.2mass": "The near-infrared sky in J, H and K, photographed from 1997 to 2001|2MASS, IRSA mirror of CDS",
+    "cap.allwise": "Warm dust and cool stars in the mid-infrared, W1, W2 and W4|AllWISE, IRSA mirror of CDS",
+    "cap.dss2": "The visible sky on photographic plates, from the 1950s to the 1990s|DSS2 colour, ESA",
+    "cap.earth.day": "The planet SPHEREx circles, by day|Blue Marble Next Generation, NASA via GIBS",
+    "cap.earth.night": "The planet SPHEREx circles, at night, lit by its cities|Black Marble, NASA via GIBS",
   },
   id: {
     "why.Barnard": "bintang tercepat di langit, sekitar 10 detik busur per tahun",
@@ -44,7 +57,20 @@ const WORDS = {
     none: "SPHEREx belum mengamati titik ini dengan detektor ini.", noned: "Coba detektor lain.",
     fail: "Medan ini gagal dimuat.",
     copied: "tautan disalin", copyfail: "gagal menyalin, tautannya ada di bilah alamat",
-    exp: "eksp", median: "median", pass: "lintasan", of: "dari",
+    exp: "eksp", median: "median", pass: "lintasan", of: "dari", moved: "digeser ke tanggal ini",
+    picking: "sekarang klik langitnya", picked: "posisi dipilih, tekan tampilkan medan ini",
+    blinkit: "kedipkan", thisfield: "medan ini",
+    "fs.enter": "layar penuh", "fs.exit": "keluar dari layar penuh",
+    "lens.on": "nyala", "lens.off": "mati", "lens.off.sky": "di luar langit, geser lensanya",
+    mapfail: "Peta langit gagal dimuat. Penampilnya tetap jalan tanpa peta.",
+    "ex.title": "seluruh langit", "ex.title.earth": "Bumi, dalam oval yang sama",
+    "ex.shape.map": "peta", "ex.shape.outside": "dari luar", "ex.shape.inside": "dari dalam",
+    "cap.spherex": "SPHEREx pada {l}, satu dari 102 warna inframerahnya|SPHEREx DR1, NASA/JPL-Caltech/IPAC melalui IRSA",
+    "cap.2mass": "Langit inframerah dekat dalam J, H, dan K, dipotret 1997 sampai 2001|2MASS, cermin IRSA dari CDS",
+    "cap.allwise": "Debu hangat dan bintang dingin dalam inframerah tengah, W1, W2, dan W4|AllWISE, cermin IRSA dari CDS",
+    "cap.dss2": "Langit kasatmata di pelat fotografi, dari 1950-an sampai 1990-an|DSS2 berwarna, ESA",
+    "cap.earth.day": "Planet yang dikelilingi SPHEREx, pada siang hari|Blue Marble Next Generation, NASA melalui GIBS",
+    "cap.earth.night": "Planet yang dikelilingi SPHEREx, pada malam hari, diterangi kota-kotanya|Black Marble, NASA melalui GIBS",
   },
   it: {
     "why.Barnard": "la stella più veloce del cielo, circa 10 secondi d’arco l’anno",
@@ -61,7 +87,20 @@ const WORDS = {
     none: "SPHEREx non ha ancora osservato questo punto con questo rivelatore.", noned: "Prova un altro rivelatore.",
     fail: "Impossibile caricare questo campo.",
     copied: "link copiato", copyfail: "copia non riuscita, il link è nella barra degli indirizzi",
-    exp: "esp", median: "mediana", pass: "passaggio", of: "di",
+    exp: "esp", median: "mediana", pass: "passaggio", of: "di", moved: "spostate a questa data",
+    picking: "ora clicca sul cielo", picked: "posizione scelta, premi mostra questo campo",
+    blinkit: "fai il blink di", thisfield: "questo campo",
+    "fs.enter": "schermo intero", "fs.exit": "esci dallo schermo intero",
+    "lens.on": "acceso", "lens.off": "spento", "lens.off.sky": "fuori dal cielo, sposta la lente",
+    mapfail: "La mappa del cielo non si è caricata. Il visore funziona anche senza.",
+    "ex.title": "tutto il cielo", "ex.title.earth": "la Terra, nello stesso ovale",
+    "ex.shape.map": "mappa", "ex.shape.outside": "da fuori", "ex.shape.inside": "da dentro",
+    "cap.spherex": "SPHEREx a {l}, uno dei suoi 102 colori dell’infrarosso|SPHEREx DR1, NASA/JPL-Caltech/IPAC tramite IRSA",
+    "cap.2mass": "Il cielo nel vicino infrarosso in J, H e K, fotografato dal 1997 al 2001|2MASS, copia IRSA di CDS",
+    "cap.allwise": "Polvere tiepida e stelle fredde nel medio infrarosso, W1, W2 e W4|AllWISE, copia IRSA di CDS",
+    "cap.dss2": "Il cielo visibile sulle lastre fotografiche, dagli anni ’50 agli anni ’90|DSS2 a colori, ESA",
+    "cap.earth.day": "Il pianeta attorno a cui gira SPHEREx, di giorno|Blue Marble Next Generation, NASA tramite GIBS",
+    "cap.earth.night": "Il pianeta attorno a cui gira SPHEREx, di notte, illuminato dalle sue città|Black Marble, NASA tramite GIBS",
   },
 };
 
@@ -73,22 +112,36 @@ const PAGE = {
     lede: "Pilih sebuah bintang dan lihat ia berjalan. Alat ini memutar gambar SPHEREx publik dari satu petak kecil langit, lintasan demi lintasan, sehingga apa pun yang cukup dekat untuk bergerak langsung terlihat di depan bintang-bintang di belakangnya.",
     "c.target": "target", "c.show": "yang ditampilkan", "c.view": "tampilan", "c.blink": "kedip", "c.diff": "selisih",
     "c.per": "satu gambar per", "c.pass": "lintasan", "c.exp": "pengamatan",
-    "c.keys": "spasi putar atau jeda · panah melangkah · d selisih · m penanda",
+    "c.keys": "spasi putar atau jeda · panah melangkah · d selisih · m penanda · g Gaia · f layar penuh",
     "c.own": "posisimu sendiri", "c.epoch": "epoch (tahun)", "c.size": "medan (detik busur)", "c.det": "detektor",
     "c.go": "tampilkan medan ini",
     "c.hint": "Masukkan posisi pada epoch, lalu gerak diri memindahkannya ke tanggal tiap pengamatan. Di situs ini kelima target langsung terbuka. Posisi lain bertanya ke arsip langsung, yang butuh server dari repo GitHub berjalan di komputermu.",
     "c.look": "tampilan gambar", "c.speed": "kedip tiap (ms)", "c.contrast": "kontras (%)", "c.stretch": "skala",
     "c.marker": "tandai posisi target", "c.invert": "balik warna", "c.mask": "kosongkan piksel yang ditandai buruk oleh SPHEREx",
-    "c.copy": "salin tautan tampilan ini",
+    "c.copy": "salin tautan tampilan ini", "c.pick": "pilih posisi",
+    "lens.btn": "lensa", "lens.use": "pakai titik ini", "ex.centre": "pusat · ICRS", "ex.copy": "salin", "ex.cross": "garis silang",
+    "ex.hint": "klik langitnya, lalu geser untuk bergerak · gulir atau + dan − untuk zoom", "ex.load": "memuat seluruh langit", "ex.map": "peta", "ex.outside": "dari luar", "ex.inside": "dari dalam", "ex.sky": "langit", "ex.earth": "Bumi", "ex.day": "siang", "ex.night": "malam", "ex.lambda": "panjang gelombang", "ex.about": "tentang peta", mapnote: "Kotaknya adalah medan SPHEREx di layar, dan cincinnya mengikuti target dari bingkai ke bingkai. Survei di peta lebih tua, jadi bintang cepat seperti Barnard tampak di selatan cincin, di tempatnya saat 2MASS (1999) dan AllWISE (2010) memotretnya.", "c.cat": "katalog di atas gambar", "c.gaia": "bintang Gaia DR3, digeser dengan gerak dirinya", "c.catwise": "sumber CatWISE2020, untuk yang terlalu dingin bagi Gaia", "c.gmag": "Gaia sampai G", "c.wmag": "CatWISE sampai W2",
+    "am.label": "tentang peta", "am.h": "Seluruh langit",
+    "a1.t": "tiga bentuk", "a1.d": "Peta meratakan seluruh langit menjadi oval dengan Bima Sakti melintang di tengah, seperti cara para astronom menggambarnya. Dari luar menaruh langit yang sama di bola yang kamu lihat dari luar, berputar pelan. Dari dalam menaruhmu di pusatnya, seperti langit yang terlihat dari tanah.",
+    "a2.t": "langit dan Bumi", "a2.d": "Sisi Bumi menampilkan planet yang dikelilingi SPHEREx, siang dan malam, dalam oval yang sama. Setiap gambar langit diambil dari suatu tempat, dan inilah tempatnya.",
+    "a3.t": "surveinya", "a3.d": "SPHEREx DR1 adalah rilis seluruh langit pertama misi ini, dalam 102 warna dari 0,75 sampai 5 mikron, dan penggesernya melangkah di antara warna-warna itu. 2MASS, AllWISE, dan DSS2 menampilkan langit yang sama bertahun-tahun atau berpuluh tahun lebih awal, jadi bintang cepat seperti Barnard ada di tempat berbeda di tiap survei.",
+    step1: "temukan di seluruh langit", step2: "lihat ia bergerak", "ex.shield": "klik atau ketuk langit untuk menjelajah",
+    "cr.t1": "gambar", "cr.d1": "Gambar SPHEREx Level 2 dan kubus seluruh langit DR1, NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA.",
+    "cr.t2": "posisi", "cr.d2": "Gaia DR3 (ESA/DPAC) untuk posisi dan gerak, dan untuk WISE 0855 AllWISE dengan gerak dari Kirkpatrick dkk. 2021.",
+    "cr.t3": "katalog", "cr.d3": "Gaia DR3 dan CatWISE2020 (Marocco dkk. 2021), keduanya melalui NASA/IPAC IRSA.",
+    "cr.t4": "peta langit", "cr.d4": "Aladin Lite (CDS, Strasbourg), dengan 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA.",
+    "cr.t5": "Bumi", "cr.d5": "Blue Marble dan Black Marble, NASA, melalui NASA GIBS.",
+    "cr.t6": "ide", "cr.d6": "Kedipnya mengikuti WiseView karya Caselden dan rekan. Tata letak seluruh langit mengikuti peta langit ultraungu Brice Menard. Lensa, garis silang, dan Home yang tetap berasal dari Time Lens rekan setim kami.",
+    "cr.t7": "dibuat oleh", "cr.d7": "Observationally Speaking, di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian kode ditulis dengan bantuan Claude (Anthropic).",
     "how.label": "cara kerjanya", "how.h": "Alatnya",
     "p1.t": "teleskopnya", "p1.d": "SPHEREx adalah teleskop survei inframerah seluruh langit milik NASA, diluncurkan pada Maret 2025. Ia memetakan seluruh langit setiap enam bulan dalam 102 warna antara 0,75 dan 5 mikron, sehingga setiap petak langit terlihat berulang kali.",
     "p2.t": "gambarnya", "p2.d": "Untuk tiap petak, alat ini meminta semua pengamatan SPHEREx ke NASA/IPAC IRSA, memotong kotak kecil, menghapus cahaya debu di tata surya kita sendiri, lalu menaruh semua potongan pada satu kisi tetap dengan utara di atas. Bintang jauh diam di tempat. Bintang yang dekat dengan kita berjalan.",
     "p3.t": "pengujiannya", "p3.d": "Kami mengujinya pada objek yang sudah kami kenal. Di 60 pengamatannya, Bintang Barnard rata-rata jatuh kurang dari sepersepuluh piksel dari posisi yang diramalkan Gaia. Kalau alat ini menunjukkan apa yang kami tahu memang ada, kami bisa memercayai apa yang ditunjukkannya di tempat lain.",
     diffnote: "Tampilan selisih mengurangkan median semua gambar dari tiap gambar. Apa pun yang tidak pernah berubah menjadi abu-abu rata. Sesuatu yang bergerak meninggalkan titik terang di tempatnya sekarang dan titik gelap di tempatnya dulu.",
-    "tg.label": "lima target", "tg.h": "Mulai di sini", "th.t": "target", "th.w": "kenapa ada di sini", "th.d": "detektor",
+    "tg.label": "lima target", "tg.h": "Para target", "th.t": "target", "th.w": "kenapa ada di sini", "th.d": "detektor",
     planetx: "Tantangannya, Planet X and SPHEREx, juga bertanya apakah SPHEREx bisa menangkap Planet X yang jauh. Bagian dari proyek ini adalah menjawab dengan jujur, dengan angka, seberapa redup yang sudah terlalu redup.",
     "cr.label": "kredit", "cr.h": "Terima kasih",
-    "cr.d": "Data dari gambar SPHEREx Level 2, NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA. Posisi dan gerak dari Gaia DR3 (ESA/DPAC), dan untuk WISE 0855 dari AllWISE dengan gerak dari Kirkpatrick dkk. 2021. Ide kedipnya mengikuti WiseView karya Caselden dan rekan. Dibuat oleh Observationally Speaking di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian kode ditulis dengan bantuan Claude (Anthropic).",
+    "cr.d": "Data dari gambar SPHEREx Level 2, NASA/JPL-Caltech/IPAC, melalui NASA/IPAC IRSA. Posisi dan gerak dari Gaia DR3 (ESA/DPAC), dan untuk WISE 0855 dari AllWISE dengan gerak dari Kirkpatrick dkk. 2021. Lapisan katalognya Gaia DR3 dan CatWISE2020 (Marocco dkk. 2021), keduanya melalui NASA/IPAC IRSA. Peta langitnya Aladin Lite (CDS, Strasbourg) dengan survei warna 2MASS dan AllWISE melalui IRSA serta DSS2 melalui ESA, ide dari prototipe Time Lens rekan setim kami. Peta seluruh langitnya menampilkan kubus seluruh langit SPHEREx DR1 dari NASA/IPAC IRSA, dan Buminya dari Blue Marble dan Black Marble NASA melalui NASA GIBS. Tata letaknya mengikuti peta langit ultraungu Brice Menard. Ide kedipnya mengikuti WiseView karya Caselden dan rekan. Dibuat oleh Observationally Speaking di NASA Space Apps Milano, 14 dan 15 November 2026, berangkat dari skrip persiapan kami sendiri tanggal 10 November. Sebagian kode ditulis dengan bantuan Claude (Anthropic).",
     "b.nasa": "SPHEREx di NASA", "b.irsa": "datanya di IRSA", "b.code": "kodenya di GitHub", "b.home": "kembali ke yourastro.space",
     foot: 'Padova, Italia · 45,4° LU, 11,9° BT · bagian dari <a href="/">yourastro.space</a>',
   },
@@ -98,31 +151,46 @@ const PAGE = {
     lede: "Scegli una stella e guardala camminare. Questo strumento mostra le immagini pubbliche di SPHEREx di una piccola zona di cielo, un passaggio dopo l’altro, così tutto ciò che è abbastanza vicino da muoversi salta all’occhio sulle stelle dietro.",
     "c.target": "oggetto", "c.show": "cosa mostrare", "c.view": "vista", "c.blink": "blink", "c.diff": "differenza",
     "c.per": "un’immagine per", "c.pass": "passaggio", "c.exp": "esposizione",
-    "c.keys": "spazio avvia o ferma · frecce un passo · d differenza · m segno",
+    "c.keys": "spazio avvia o ferma · frecce un passo · d differenza · m segno · g Gaia · f schermo intero",
     "c.own": "la tua posizione", "c.epoch": "epoca (anno)", "c.size": "campo (arcsec)", "c.det": "rivelatore",
     "c.go": "mostra questo campo",
     "c.hint": "Inserisci la posizione all’epoca, e il moto proprio la sposta alla data di ogni esposizione. Su questo sito i cinque oggetti si aprono subito. Ogni altra posizione interroga l’archivio, e serve il server del repo GitHub acceso sul tuo computer.",
     "c.look": "aspetto", "c.speed": "blink ogni (ms)", "c.contrast": "contrasto (%)", "c.stretch": "scala",
     "c.marker": "segna dove dovrebbe essere l’oggetto", "c.invert": "inverti", "c.mask": "nascondi i pixel che SPHEREx segnala come difettosi",
-    "c.copy": "copia il link di questa vista",
+    "c.copy": "copia il link di questa vista", "c.pick": "scegli una posizione",
+    "lens.btn": "lente", "lens.use": "usa questo punto", "ex.centre": "centro · ICRS", "ex.copy": "copia", "ex.cross": "mirino",
+    "ex.hint": "clicca il cielo, poi trascina per muoverti · rotella o + e − per lo zoom", "ex.load": "carico tutto il cielo", "ex.map": "mappa", "ex.outside": "da fuori", "ex.inside": "da dentro", "ex.sky": "cielo", "ex.earth": "Terra", "ex.day": "giorno", "ex.night": "notte", "ex.lambda": "lunghezza d’onda", "ex.about": "sulla mappa", mapnote: "Il riquadro è il campo SPHEREx sullo schermo, e l’anello segue l’oggetto fotogramma per fotogramma. Le survey della mappa sono più vecchie, quindi una stella veloce come quella di Barnard appare a sud dell’anello, dove si trovava quando 2MASS (1999) e AllWISE (2010) l’hanno fotografata.", "c.cat": "cataloghi sopra l’immagine", "c.gaia": "stelle Gaia DR3, spostate col loro moto proprio", "c.catwise": "sorgenti CatWISE2020, per ciò che è troppo freddo per Gaia", "c.gmag": "Gaia fino a G", "c.wmag": "CatWISE fino a W2",
+    "am.label": "sulla mappa", "am.h": "Tutto il cielo",
+    "a1.t": "tre forme", "a1.d": "La mappa appiattisce tutto il cielo in un ovale con la Via Lattea al centro, come la disegnano gli astronomi. Da fuori mette lo stesso cielo su una sfera vista dall’esterno, che gira piano. Da dentro ti mette al centro, come il cielo visto da terra.",
+    "a2.t": "cielo e Terra", "a2.d": "Il lato Terra mostra il pianeta attorno a cui gira SPHEREx, di giorno e di notte, nello stesso ovale. Ogni immagine del cielo è presa da qualche parte, ed ecco da dove.",
+    "a3.t": "le survey", "a3.d": "SPHEREx DR1 è la prima pubblicazione di tutto il cielo della missione, in 102 colori da 0,75 a 5 micron, e il cursore li percorre. 2MASS, AllWISE e DSS2 mostrano lo stesso cielo anni o decenni prima, così una stella veloce come quella di Barnard si trova in un punto diverso in ognuna.",
+    step1: "trovalo in tutto il cielo", step2: "guardalo muoversi", "ex.shield": "clicca o tocca il cielo per esplorarlo",
+    "cr.t1": "immagini", "cr.d1": "Immagini SPHEREx Level 2 e il cubo DR1 di tutto il cielo, NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA.",
+    "cr.t2": "posizioni", "cr.d2": "Gaia DR3 (ESA/DPAC) per posizioni e moti, e per WISE 0855 AllWISE con il moto di Kirkpatrick et al. 2021.",
+    "cr.t3": "cataloghi", "cr.d3": "Gaia DR3 e CatWISE2020 (Marocco et al. 2021), entrambi tramite NASA/IPAC IRSA.",
+    "cr.t4": "mappe del cielo", "cr.d4": "Aladin Lite (CDS, Strasburgo), con 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA.",
+    "cr.t5": "Terra", "cr.d5": "Blue Marble e Black Marble, NASA, tramite NASA GIBS.",
+    "cr.t6": "idee", "cr.d6": "Il blink segue WiseView di Caselden e collaboratori. La disposizione di tutto il cielo segue la mappa del cielo ultravioletto di Brice Menard. La lente, il mirino e la Home fissa vengono dal Time Lens del nostro compagno di squadra.",
+    "cr.t7": "fatto da", "cr.d7": "Observationally Speaking, a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Parte del codice è stata scritta con l’aiuto di Claude (Anthropic).",
     "how.label": "come funziona", "how.h": "Lo strumento",
     "p1.t": "il telescopio", "p1.d": "SPHEREx è il telescopio della NASA che osserva tutto il cielo nell’infrarosso, lanciato a marzo 2025. Mappa l’intero cielo ogni sei mesi in 102 colori tra 0,75 e 5 micron, quindi ogni zona del cielo viene vista più e più volte.",
     "p2.t": "le immagini", "p2.d": "Per ogni zona lo strumento chiede a NASA/IPAC IRSA tutte le esposizioni SPHEREx, ritaglia un piccolo quadrato, toglie il bagliore della polvere del nostro sistema solare e mette ogni ritaglio su una griglia fissa con il nord in alto. Le stelle lontane restano ferme. Una stella vicina cammina.",
     "p3.t": "la verifica", "p3.d": "L’abbiamo provato su oggetti che conosciamo già. Nelle sue 60 esposizioni la Stella di Barnard cade in media entro un decimo di pixel da dove Gaia dice che dovrebbe essere. Se lo strumento mostra ciò che sappiamo esserci, possiamo credere a ciò che mostra altrove.",
     diffnote: "La vista differenza sottrae a ogni immagine la mediana di tutte. Ciò che non cambia mai diventa un grigio uniforme. Qualcosa che si è mosso lascia un punto chiaro dove si trova e uno scuro dove era.",
-    "tg.label": "i cinque oggetti", "tg.h": "Inizia qui", "th.t": "oggetto", "th.w": "perché è qui", "th.d": "rivelatore",
+    "tg.label": "i cinque oggetti", "tg.h": "Gli oggetti", "th.t": "oggetto", "th.w": "perché è qui", "th.d": "rivelatore",
     planetx: "La sfida, Planet X and SPHEREx, chiede anche se SPHEREx potrebbe vedere un Pianeta X lontano. Parte del progetto è dire con onestà, con i numeri, quanto debole è troppo debole.",
     "cr.label": "crediti", "cr.h": "Grazie",
-    "cr.d": "Dati dalle immagini SPHEREx Level 2, NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA. Posizioni e moti da Gaia DR3 (ESA/DPAC), e per WISE 0855 da AllWISE con il moto di Kirkpatrick et al. 2021. L’idea del blink segue WiseView di Caselden e collaboratori. Fatto da Observationally Speaking a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Parte del codice è stata scritta con l’aiuto di Claude (Anthropic).",
+    "cr.d": "Dati dalle immagini SPHEREx Level 2, NASA/JPL-Caltech/IPAC, tramite NASA/IPAC IRSA. Posizioni e moti da Gaia DR3 (ESA/DPAC), e per WISE 0855 da AllWISE con il moto di Kirkpatrick et al. 2021. I cataloghi sopra l’immagine sono Gaia DR3 e CatWISE2020 (Marocco et al. 2021), entrambi tramite NASA/IPAC IRSA. La mappa del cielo è Aladin Lite (CDS, Strasburgo) con le survey a colori 2MASS e AllWISE tramite IRSA e DSS2 tramite ESA, un’idea dal prototipo Time Lens del nostro compagno di squadra. La mappa di tutto il cielo mostra il cubo SPHEREx DR1 di NASA/IPAC IRSA, e la Terra viene da Blue Marble e Black Marble della NASA tramite NASA GIBS. La disposizione segue la mappa del cielo ultravioletto di Brice Menard. L’idea del blink segue WiseView di Caselden e collaboratori. Fatto da Observationally Speaking a NASA Space Apps Milano, il 14 e 15 novembre 2026, partendo dai nostri script di preparazione del 10 novembre. Parte del codice è stata scritta con l’aiuto di Claude (Anthropic).",
     "b.nasa": "SPHEREx alla NASA", "b.irsa": "i dati su IRSA", "b.code": "il codice su GitHub", "b.home": "torna a yourastro.space",
     foot: 'Padova, Italia · 45,4° N, 11,9° E · una pagina di <a href="/">yourastro.space</a>',
   },
 };
 
 const DEFAULTS = {
-  ra: "", dec: "", size: "108", band: "D1", pmra: "0", pmdec: "0", epoch: "2016.0",
+  ra: "", dec: "", size: "360", band: "D1", pmra: "0", pmdec: "0", epoch: "2016.0",
   view: "blink", mode: "pass", speed: "500", stretch: "asinh", contrast: "99.5",
-  invert: "0", marker: "1", mask: "0",
+  invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
+  shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1",
 };
 const DATA_KEYS = ["ra", "dec", "size", "band", "pmra", "pmdec", "epoch"];
 const PIX_ARCSEC = 6.15;
@@ -149,7 +217,7 @@ function applyLang(l) {
   document.querySelectorAll("[data-i18n]").forEach((n) => { const v = d[n.dataset.i18n]; if (v != null) n.innerHTML = v; });
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  buildTargets(); nowLine();
+  buildTargets(); nowLine(); exSync(); exTargets();
   if (lastStatus) lastStatus();
   if (data) { buildViews(); draw(); }
 }
@@ -183,6 +251,7 @@ function syncUI() {
   for (const k of DATA_KEYS) form.elements[k].value = S[k];
   $("speed").value = S.speed; $("contrast").value = S.contrast; $("stretch").value = S.stretch;
   $("marker").checked = S.marker === "1"; $("invert").checked = S.invert === "1"; $("mask").checked = S.mask === "1";
+  $("gaia").checked = S.gaia === "1"; $("catwise").checked = S.catwise === "1"; $("gmag").value = S.gmag; $("wmag").value = S.wmag;
   document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.view === S.view)));
   document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.mode === S.mode)));
   const t = presetFor();
@@ -194,6 +263,8 @@ function syncUI() {
 
 function nowLine() {
   const t = presetFor();
+  const gb = $("goBlink");
+  if (gb) gb.textContent = `${T("blinkit")} ${t ? PRESETS[t].label : T("thisfield")} \u2193`;
   $("now").textContent = t ? `${PRESETS[t].label}, ${T("why." + t)}.` : "";
 }
 
@@ -239,7 +310,9 @@ async function load() {
     }
     if (seq !== loadSeq) return;
     if (!j.frames.length) { data = null; views = []; draw(); showError(() => [T("none"), T("noned")]); return; }
-    data = j; hideLoading(); buildViews(); idx = 0; draw(); if (playing) start();
+    decode(j); data = j; hideLoading(); buildViews(); idx = 0; draw(); if (playing) start();
+    viewerReady = true; if (exVisible) loadAladin();
+    mapSync();
   } catch (e) {
     if (seq === loadSeq) showError(() => [T("fail"), e.message]);
   } finally {
@@ -272,6 +345,21 @@ const median = (a) => {
   return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
 };
 const mean = (a) => a.reduce((s, x) => s + x, 0) / a.length;
+
+// images arrive as int16 in base64: value = lo + scale * (code + 32767), code -32768 is no data
+function decode(j) {
+  if (j.encoding !== "int16-b64") return;
+  for (const f of j.frames) {
+    if (typeof f.image !== "string") continue;
+    const bin = atob(f.image), n = bin.length >> 1, out = new Array(n);
+    for (let i = 0; i < n; i++) {
+      let c = bin.charCodeAt(2 * i) | (bin.charCodeAt(2 * i + 1) << 8);
+      if (c > 32767) c -= 65536;
+      out[i] = c === -32768 ? null : f.lo + f.scale * (c + 32767);
+    }
+    f.image = out;
+  }
+}
 function stackMedian(images, n) {
   const out = new Array(n);
   for (let p = 0; p < n; p++) {
@@ -286,7 +374,7 @@ function buildViews() {
   const n = data.npix * data.npix;
   if (S.mode === "frames") {
     views = data.frames.map((f) => ({
-      image: f.image, target: f.target_xy,
+      image: f.image, target: f.target_xy, year: f.year,
       when: f.year.toFixed(3), lambda: `${f.wavelength_um.toFixed(2)} µm`,
     }));
   } else {
@@ -299,7 +387,7 @@ function buildViews() {
       const wl = fs.map((f) => f.wavelength_um), yr = fs.map((f) => f.year);
       return {
         image: stackMedian(fs.map((f) => f.image), n),
-        target: [mean(fs.map((f) => f.target_xy[0])), mean(fs.map((f) => f.target_xy[1]))],
+        target: [mean(fs.map((f) => f.target_xy[0])), mean(fs.map((f) => f.target_xy[1]))], year: mean(yr),
         when: `${mean(yr).toFixed(2)} · ${fs.length} ${T("exp")}`,
         lambda: `${Math.min(...wl).toFixed(2)}–${Math.max(...wl).toFixed(2)} µm`,
       };
@@ -360,10 +448,26 @@ function draw() {
 
   const W = N * scale, u = W / 380, ink = inv ? "#111" : "#f2f2f2";
   ctx.lineWidth = Math.max(1, 1.6 * u); ctx.lineCap = "square";
+  // catalogue overlay: every source moved to the date of this image with its own proper motion
+  const ov = data.overlays || {};
+  for (const [kind, on, lim, col] of [["catwise", S.catwise, S.wmag, "#ffb000"], ["gaia", S.gaia, S.gmag, inv ? "#141ef0" : "#7a82ff"]]) {
+    if (on !== "1" || !ov[kind]) continue;
+    const dt = v.year - ov[kind].epoch, maxMag = parseFloat(lim) || 99, r = Math.max(3, 1.1 * scale);
+    ctx.strokeStyle = col; ctx.lineWidth = Math.max(1, 1.2 * u);
+    ctx.beginPath();
+    for (const [x0, y0, vx, vy, mag] of ov[kind].sources) {
+      if (mag !== null && mag > maxMag) continue;
+      const cx = (x0 + vx * dt + 0.5) * scale, cy = (N - 1 - (y0 + vy * dt) + 0.5) * scale;
+      if (cx < -r || cy < -r || cx > W + r || cy > W + r) continue;
+      ctx.moveTo(cx + r, cy); ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    }
+    ctx.stroke();
+  }
+  ctx.lineWidth = Math.max(1, 1.6 * u);
   if (S.marker === "1" && v.target) {        // four ticks with a gap, never covering the object
     const cx = (v.target[0] + 0.5) * scale, cy = (N - 1 - v.target[1] + 0.5) * scale;
     const a = Math.max(3 * scale, 10 * u), b = a + Math.max(2 * scale, 8 * u);
-    ctx.strokeStyle = inv ? "#141ef0" : "#7a82ff";    // the site blue, light enough to read on black
+    ctx.strokeStyle = inv ? "#111" : "#ffffff";
     ctx.beginPath();
     for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { ctx.moveTo(cx + dx * a, cy + dy * a); ctx.lineTo(cx + dx * b, cy + dy * b); }
     ctx.stroke();
@@ -383,6 +487,11 @@ function draw() {
   $("pillWhen").textContent = diff ? `${v.when} − ${T("median")}` : v.when;
   $("pillLambda").textContent = v.lambda;
   $("count").textContent = `${idx + 1} / ${views.length}`;
+  const leg = [];
+  if (S.gaia === "1" && ov.gaia) leg.push(`<span class="key k-gaia"></span>Gaia DR3, G \u2264 ${S.gmag}, ${T("moved")}`);
+  if (S.catwise === "1" && ov.catwise) leg.push(`<span class="key k-cw"></span>CatWISE2020, W2 \u2264 ${S.wmag}`);
+  $("legend").innerHTML = leg.join(" &nbsp;\u00b7&nbsp; ");
+  mapMarker();
   $("scrub").value = idx;
 }
 
@@ -441,6 +550,8 @@ $("stretch").addEventListener("change", (e) => { S.stretch = e.target.value; wri
 $("marker").addEventListener("change", (e) => { S.marker = e.target.checked ? "1" : "0"; writeURL(); draw(); });
 $("invert").addEventListener("change", (e) => { S.invert = e.target.checked ? "1" : "0"; writeURL(); draw(); });
 $("mask").addEventListener("change", (e) => { S.mask = e.target.checked ? "1" : "0"; writeURL(); load(); });
+for (const k of ["gaia", "catwise"]) $(k).addEventListener("change", (e) => { S[k] = e.target.checked ? "1" : "0"; writeURL(); draw(); });
+for (const k of ["gmag", "wmag"]) $(k).addEventListener("change", (e) => { S[k] = e.target.value; writeURL(); draw(); });
 $("copy").addEventListener("click", async () => {
   try { await navigator.clipboard.writeText(location.href); toast(T("copied")); }
   catch { toast(T("copyfail")); }
@@ -454,9 +565,351 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "ArrowLeft") { setPlaying(false); step(-1); }
   else if (e.key === "ArrowRight") { setPlaying(false); step(1); }
   else if (e.key === "d") setView(S.view === "diff" ? "blink" : "diff");
+  else if (e.key === "g") { S.gaia = S.gaia === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
   else if (e.key === "m") { S.marker = S.marker === "1" ? "0" : "1"; writeURL(); syncUI(); draw(); }
 });
 addEventListener("resize", () => { if (data) draw(); });
+
+// ---------- the whole sky: one Aladin Lite map with three shapes, sky or Earth ----------
+// The layout follows Brice Menard's ultraviolet sky map; the map beside the viewer was our teammate's Time Lens idea.
+const ALADIN_JS = "https://cdn.jsdelivr.net/npm/aladin-lite@3.8.2/dist/aladin.js";
+// HiPS surveys by URL. SPHEREx DR1 is a 102-frame cube at IRSA; 2MASS and AllWISE from the IRSA mirror of CDS,
+// DSS2 from ESA (the CDS main host was not answering on 14 November 2026).
+const SURVEYS = {
+  spherex: "https://irsa.ipac.caltech.edu/data/hips/SPHEREx/spherex_allsky_cube",
+  "2mass": "https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color",
+  allwise: "https://irsa.ipac.caltech.edu/data/hips/CDS/AllWISE/RGB-W4-W2-W1",
+  dss2: "https://skies.esac.esa.int/DSSColor",
+};
+// wavelength of each SPHEREx DR1 frame (um), from the survey's properties; frames 50 and 51 are blank
+const LAMBDA = [0.753,0.771,0.790,0.809,0.828,0.848,0.868,0.889,0.910,0.932,0.955,0.978,1.001,1.025,1.050,1.075,1.102,1.113,1.139,1.167,1.195,1.224,1.254,1.284,1.315,1.346,1.378,1.412,1.446,1.481,1.517,1.554,1.592,1.631,1.656,1.695,1.735,1.775,1.818,1.861,1.905,1.949,1.995,2.041,2.089,2.139,2.189,2.240,2.292,2.345,2.399,2.445,2.506,2.575,2.646,2.719,2.794,2.871,2.951,3.033,3.118,3.204,3.293,3.383,3.476,3.570,3.667,3.768,3.833,3.867,3.901,3.935,3.970,4.005,4.040,4.076,4.112,4.148,4.184,4.220,4.257,4.294,4.331,4.368,4.405,4.435,4.467,4.500,4.533,4.566,4.600,4.635,4.669,4.704,4.739,4.773,4.808,4.843,4.879,4.915,4.951,4.988];
+const SHAPES = { map: { proj: "MOL", fov: 360 }, outside: { proj: "SIN", fov: 180 }, inside: { proj: "STG", fov: 140 } };
+const EX = { shape: "map", world: "sky", layer: "spherex", frame: 20, earth: "night" };
+let aladin = null, boxLayer = null, ringLayer = null, pickLayer = null, targetCat = null;
+let aladinLoading = false, spinT = 0, spinLon = 0, lastTouch = 0, lensOn = false, lensXY = null;
+// Home is fixed for good: the whole sky, centred on the middle of the Milky Way. No preset, URL or saved state moves it.
+const HOME = Object.freeze({ l: 0, b: 0 });
+
+// pixel on our north-up TAN grid -> RA, Dec (deg); the inverse gnomonic projection
+function gridToSky(x, y) {
+  const g = data.grid, d = Math.PI / 180, P = PIX_ARCSEC / 3600 * d;
+  const xi = -(x - g.crpix0) * P, eta = (y - g.crpix0) * P;     // east is minus x on the grid
+  const rho = Math.hypot(xi, eta), d0 = g.dec * d;
+  if (rho === 0) return [g.ra, g.dec];
+  const c = Math.atan(rho);
+  const ra = g.ra * d + Math.atan2(xi * Math.sin(c), rho * Math.cos(d0) * Math.cos(c) - eta * Math.sin(d0) * Math.sin(c));
+  const dec = Math.asin(Math.cos(c) * Math.sin(d0) + eta * Math.sin(c) * Math.cos(d0) / rho);
+  return [((ra / d) % 360 + 360) % 360, dec / d];
+}
+// a preset moved to mid 2026 with its proper motion, for its marker on the whole sky
+function presetNow(p) {
+  const dt = 2026.5 - p.epoch;
+  return [p.ra + p.pmra / 3.6e6 * dt / Math.cos(p.dec * Math.PI / 180), p.dec + p.pmdec / 3.6e6 * dt];
+}
+
+function exCaption() {
+  const el = $("exNow");
+  let k, extra = "";
+  if (EX.world === "earth") k = "cap.earth." + EX.earth;
+  else { k = "cap." + EX.layer; if (EX.layer === "spherex") extra = `${LAMBDA[EX.frame].toFixed(2)} µm`; }
+  const [what, src] = T(k).split("|");
+  el.innerHTML = `${what.replace("{l}", extra)} <span class="src">· ${src}</span>`;
+  $("exTitle").textContent = EX.world === "earth" ? T("ex.title.earth") : `${T("ex.title")} · ${T("ex.shape." + EX.shape)}`;
+  $("lambdaVal").textContent = `${LAMBDA[EX.frame].toFixed(3)} µm`;
+}
+
+function exSync() {
+  const ex = $("explore");
+  ex.dataset.shape = EX.shape; ex.dataset.world = EX.world;
+  document.querySelectorAll("#explore [data-shape]").forEach((b) => {
+    b.setAttribute("aria-checked", String(b.dataset.shape === EX.shape));
+    const off = EX.world === "earth" && b.dataset.shape !== "map";
+    b.setAttribute("aria-disabled", String(off)); b.tabIndex = off ? -1 : 0;
+  });
+  document.querySelectorAll("#world [data-world]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.world === EX.world)));
+  document.querySelectorAll("[data-layer]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.layer === EX.layer)));
+  document.querySelectorAll("[data-earth]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.earth === EX.earth)));
+  $("skyLayers").hidden = EX.world === "earth"; $("earthLayers").hidden = EX.world !== "earth";
+  $("lambdaRow").hidden = EX.world === "earth" || EX.layer !== "spherex";
+  $("lambda").value = EX.frame;
+  const det = Math.floor(EX.frame / 17) + 1;
+  document.querySelectorAll("[data-det]").forEach((b) => b.setAttribute("aria-checked", String(+b.dataset.det === det)));
+  $("lensState").textContent = lensOn ? T("lens.on") : T("lens.off");
+  const img = $("earthImg");
+  img.hidden = EX.world !== "earth";
+  if (EX.world === "earth") { img.src = `img/earth_${EX.earth}.webp`; img.alt = T("cap.earth." + EX.earth).split("|")[0]; }
+  exCaption();
+}
+
+function exSave() {        // the explorer's state lives in the URL too
+  S.shape = EX.shape; S.world = EX.world; S.layer = EX.layer; S.frame = String(EX.frame); S.earth = EX.earth;
+  writeURL();
+}
+
+function setShape(sh) {
+  if (EX.world === "earth" && sh !== "map") return;
+  EX.shape = sh; exSave(); exSync();
+  if (!aladin) return;
+  aladin.setProjection(SHAPES[sh].proj);
+  aladin.setFoV(SHAPES[sh].fov);
+  if (sh !== "map") aladin.gotoPosition(spinLon, 0);
+  else aladin.gotoPosition(0, 0);
+  spin();
+}
+function setWorld(w) {
+  EX.world = w;
+  if (w === "earth" && EX.shape !== "map") { EX.shape = "map"; if (aladin) { aladin.setProjection("MOL"); aladin.setFoV(360); } }
+  exSave(); exSync(); spin();
+}
+function setLayer(l) {
+  EX.layer = l; exSave(); exSync();
+  if (!aladin) return;
+  aladin.setImageSurvey(SURVEYS[l]);
+  if (l === "spherex") applySlice();
+}
+function setFrame(i) {
+  EX.frame = Math.max(0, Math.min(101, i | 0));
+  if (EX.frame === 50 || EX.frame === 51) EX.frame = 52;      // the two dichroic frames are blank
+  exSave(); exSync();
+  applySlice();
+}
+// the cube layer only takes a slice once Aladin has added it, so keep trying for a few seconds
+let sliceTry = 0;
+function applySlice(n = 0) {
+  clearTimeout(sliceTry);
+  if (!aladin || EX.layer !== "spherex") return;
+  const layer = aladin.getBaseImageLayer();
+  if (layer && layer.added && layer.setSliceNumber) { layer.setSliceNumber(EX.frame); return; }
+  if (n < 40) sliceTry = setTimeout(() => applySlice(n + 1), 250);
+}
+
+// the turning sphere: a slow spin in "outside", paused while someone drags or zooms
+function spin() {
+  cancelAnimationFrame(spinT);
+  if (!aladin || EX.shape !== "outside" || EX.world !== "sky" || reduceMotion) return;
+  let last = performance.now();
+  const step = (t) => {
+    if (t - lastTouch > 4000) { spinLon = (spinLon + (t - last) * 0.004) % 360; aladin.gotoPosition(spinLon, 0); }
+    last = t; spinT = requestAnimationFrame(step);
+  };
+  spinT = requestAnimationFrame(step);
+}
+
+function exTargets() {
+  if (!aladin) return;
+  if (targetCat) targetCat.removeAll(); else {
+    targetCat = A.catalog({ name: "targets", shape: "circle", sourceSize: 16, color: "#7a82ff", displayLabel: $("sky3").clientWidth > 560, labelColumn: "name", labelColor: "#f2f2f2", labelFont: "12px JetBrains Mono, monospace" });
+    aladin.addCatalog(targetCat);
+  }
+  const cur = presetFor();
+  targetCat.addSources(Object.entries(PRESETS).map(([key, p]) => {
+    const [ra, dec] = presetNow(p);
+    return A.source(ra, dec, { name: (key === cur ? "▸ " : "") + p.label, key });
+  }));
+}
+
+function loadAladin() {
+  if (aladin || aladinLoading) return;
+  aladinLoading = true;
+  (async () => {
+    try {
+      window.A = (await import(ALADIN_JS)).default;   // the npm build is an ES module
+      await A.init;
+      aladin = A.aladin("#sky3", {
+        survey: SURVEYS[EX.layer] || SURVEYS.spherex, projection: SHAPES[EX.shape].proj, fov: SHAPES[EX.shape].fov,
+        cooFrame: "galactic", target: "0 0",
+        showReticle: false, showLayersControl: false, showGotoControl: false, showFullscreenControl: false,
+        showFrame: false, showCooLocation: false, showProjectionControl: false, showSettingsControl: false,
+        showShareControl: false, showStatusBar: false, showContextMenu: false, showCooGrid: false, showZoomControl: false,
+      });
+      boxLayer = A.graphicOverlay({ color: "#7a82ff", lineWidth: 2 });
+      ringLayer = A.graphicOverlay({ color: "#ffffff", lineWidth: 2 });
+      pickLayer = A.graphicOverlay({ color: "#ffb000", lineWidth: 2 });
+      aladin.addOverlay(boxLayer); aladin.addOverlay(ringLayer); aladin.addOverlay(pickLayer);
+      applySlice();
+      exTargets();
+      aladin.on("objectClicked", (o) => {
+        const key = o && o.data && o.data.key;
+        if (!key) return;
+        choose(key);
+        $("tool").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      });
+      aladin.on("click", () => { lastTouch = performance.now(); });
+      aladin.on("positionChanged", centreOut);
+      aladin.on("zoomChanged", () => { centreOut(); lensRead(); });
+      for (const ev of ["pointerdown", "wheel", "touchstart"]) $("sky3").addEventListener(ev, () => { lastTouch = performance.now(); }, { passive: true });
+      $("exLoad").hidden = true;
+      if (EX.shape !== "map") { aladin.gotoPosition(spinLon, 0); spin(); }
+      mapSync(); centreOut();
+    } catch (e) {
+      console.warn("sky map:", e);
+      $("exLoad").textContent = T("mapfail");
+    }
+  })();
+}
+
+// the SPHEREx field on screen: its exact footprint, and a ring that follows the target frame by frame
+function mapSync() {
+  if (!aladin || !data || !data.grid) return;
+  const g = data.grid, half = g.npix / 2, c = g.crpix0;
+  boxLayer.removeAll();
+  boxLayer.add(A.polygon([[c - half, c - half], [c + half, c - half], [c + half, c + half], [c - half, c + half]].map(([x, y]) => gridToSky(x, y))));
+  exTargets();
+  mapMarker();
+}
+function mapMarker() {
+  if (!aladin || !ringLayer || !data || !data.grid || !views[idx] || !views[idx].target) return;
+  ringLayer.removeAll();
+  const [ra, dec] = gridToSky(views[idx].target[0], views[idx].target[1]);
+  ringLayer.add(A.circle(ra, dec, 3 * PIX_ARCSEC / 3600));
+}
+
+// ---------- centre readout and crosshair ----------
+function centreOut() {
+  if (!aladin) return;
+  const [ra, dec] = aladin.getRaDec();
+  $("centreOut").textContent = `RA ${ra.toFixed(4)}° · Dec ${dec >= 0 ? "+" : ""}${dec.toFixed(4)}°`;
+  lensRead();
+}
+$("copyCentre").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("centreOut").textContent); toast(T("copied")); } catch { toast(T("copyfail")); }
+});
+$("crossChk").addEventListener("change", (e) => { S.cross = e.target.checked ? "1" : "0"; writeURL(); $("explore").classList.toggle("no-cross", !e.target.checked); });
+
+// ---------- the lens: on or off, dragged over the map, its centre handed to the viewer ----------
+function lensClamp(x, y) {
+  const st = $("lens").parentElement.getBoundingClientRect(), L = $("lens");
+  return [Math.max(0, Math.min(st.width - L.offsetWidth, x)), Math.max(0, Math.min(st.height - L.offsetHeight, y))];
+}
+function lensPlace(x, y) {
+  [x, y] = lensClamp(x, y); lensXY = [x, y];
+  $("lens").style.transform = `translate(${x}px, ${y}px)`;
+  lensRead();
+}
+function lensRead() {
+  if (!lensOn || !aladin || !lensXY) return;
+  const L = $("lens"), cx = lensXY[0] + L.offsetWidth / 2, cy = lensXY[1] + 11 + (L.offsetHeight - 22) / 2;
+  let p = null;
+  try { p = aladin.pix2world(cx, cy, "icrs"); } catch { p = null; }
+  if (!p || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) { $("lensXY").textContent = T("lens.off.sky"); L.dataset.ok = "0"; return; }
+  L.dataset.ok = "1"; L.dataset.ra = p[0]; L.dataset.dec = p[1];
+  $("lensXY").textContent = `${p[0].toFixed(3)} ${p[1] >= 0 ? "+" : ""}${p[1].toFixed(3)}`;
+}
+function setLens(on) {
+  lensOn = on;
+  if (on && EX.world === "earth") setWorld("sky");
+  $("lens").hidden = !on;
+  $("lensBtn").setAttribute("aria-pressed", String(on));
+  $("lensState").textContent = on ? T("lens.on") : T("lens.off");
+  if (on) {
+    loadAladin();
+    const st = $("lens").parentElement.getBoundingClientRect(), L = $("lens");
+    if (!lensXY) lensPlace(st.width / 2 - L.offsetWidth / 2, st.height / 2 - L.offsetHeight / 2);
+    else lensPlace(...lensXY);
+  }
+}
+$("lensBtn").addEventListener("click", () => setLens(!lensOn));
+$("lensClose").addEventListener("click", () => setLens(false));
+(() => {
+  const bar = $("lensBar");
+  let drag = null;
+  bar.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("button")) return;
+    drag = { x: e.clientX, y: e.clientY, at: lensXY || [0, 0] };
+    bar.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  bar.addEventListener("pointermove", (e) => { if (drag) lensPlace(drag.at[0] + e.clientX - drag.x, drag.at[1] + e.clientY - drag.y); });
+  const end = () => { drag = null; };
+  bar.addEventListener("pointerup", end); bar.addEventListener("pointercancel", end);
+  bar.addEventListener("keydown", (e) => {
+    const d = { ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] }[e.key];
+    if (!d || !lensXY) return;
+    e.preventDefault(); e.stopPropagation(); lensPlace(lensXY[0] + d[0], lensXY[1] + d[1]);
+  });
+  if ("ResizeObserver" in window) new ResizeObserver(() => { if (lensOn && lensXY) lensPlace(...lensXY); }).observe(bar.closest(".ex-stage"));
+})();
+$("lensUse").addEventListener("click", () => {
+  const L = $("lens");
+  if (L.dataset.ok !== "1") { toast(T("lens.off.sky")); return; }
+  form.elements.ra.value = (+L.dataset.ra).toFixed(6); form.elements.dec.value = (+L.dataset.dec).toFixed(6);
+  form.elements.pmra.value = "0"; form.elements.pmdec.value = "0"; form.elements.epoch.value = "2016.0";
+  $("ownPanel").open = true;
+  toast(T("picked"));
+});
+
+// ---------- D1 to D6: each button jumps the SPHEREx cube to the middle of that detector ----------
+document.querySelectorAll("[data-det]").forEach((b) => b.addEventListener("click", () => {
+  if (EX.layer !== "spherex") setLayer("spherex");
+  setFrame(17 * (+b.dataset.det - 1) + 8);
+}));
+document.querySelectorAll("#explore [data-shape]").forEach((b) => b.addEventListener("click", () => setShape(b.dataset.shape)));
+document.querySelectorAll("#world [data-world]").forEach((b) => b.addEventListener("click", () => setWorld(b.dataset.world)));
+$("wTrack").addEventListener("click", () => setWorld(EX.world === "sky" ? "earth" : "sky"));
+document.querySelectorAll("[data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
+document.querySelectorAll("[data-earth]").forEach((b) => b.addEventListener("click", () => { EX.earth = b.dataset.earth; exSave(); exSync(); }));
+$("lambda").addEventListener("input", (e) => setFrame(+e.target.value));
+$("zIn").addEventListener("click", () => { lastTouch = performance.now(); if (aladin) aladin.setFoV(aladin.getFoV()[0] / 1.6); });
+$("zOut").addEventListener("click", () => { lastTouch = performance.now(); if (aladin) aladin.setFoV(Math.min(SHAPES[EX.shape].fov, aladin.getFoV()[0] * 1.6)); });
+$("zAll").addEventListener("click", () => {
+  if (!aladin) return;
+  lastTouch = performance.now();
+  aladin.setFoV(SHAPES[EX.shape].fov);
+  aladin.gotoPosition(EX.shape === "outside" ? spinLon : HOME.l, HOME.b);
+});
+// the blink viewer is the core of the page, so the 2.4 MB map waits until the viewer has its data
+let viewerReady = false, exVisible = false;
+setTimeout(() => { viewerReady = true; if (exVisible) loadAladin(); }, 4000);
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver((es) => {
+    exVisible = es.some((e) => e.isIntersecting);
+    if (exVisible && viewerReady) loadAladin();
+    if (!exVisible) shieldOn();
+  }, { rootMargin: "200px" }).observe($("explore"));
+} else { exVisible = true; }
+
+// the shield: the map takes the wheel and the finger only after a click, so the page never gets stuck
+let shieldT = 0;
+function shieldOn() { $("exShield").hidden = false; }
+$("exShield").addEventListener("pointerdown", () => { $("exShield").hidden = true; loadAladin(); lastTouch = performance.now(); });
+$("exShield").addEventListener("wheel", () => {
+  const sh = $("exShield"); sh.classList.add("hint"); clearTimeout(shieldT); shieldT = setTimeout(() => sh.classList.remove("hint"), 1400);
+}, { passive: true });
+$("exShield").addEventListener("touchmove", () => { $("exShield").classList.add("hint"); }, { passive: true });
+document.querySelector("#explore .ex-stage").addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") shieldOn(); });
+
+// ---------- full screen, for the map and for the viewer ----------
+// the Fullscreen API where it exists; elsewhere (iPhone Safari) a fixed overlay that fills the window
+let fullEl = null;
+function setFull(el, on) {
+  if (on) {
+    if (fullEl && fullEl !== el) setFull(fullEl, false);
+    fullEl = el; el.classList.add("is-full"); document.body.classList.add("has-full");
+    if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+    if (el.id === "explore") { $("exShield").hidden = true; loadAladin(); }
+  } else {
+    el.classList.remove("is-full"); document.body.classList.remove("has-full"); fullEl = null;
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    if (el.id === "explore") shieldOn();
+  }
+  el.querySelectorAll(".fs-btn").forEach((b) => { b.setAttribute("aria-label", on ? T("fs.exit") : T("fs.enter")); b.title = b.getAttribute("aria-label"); });
+  // Aladin sizes its canvas from its box, so tell it the box changed, now and once the browser settles
+  const relayout = () => {
+    if (data) draw();
+    if (aladin && aladin.view && aladin.view.fixLayoutDimensions) { aladin.view.fixLayoutDimensions(); if (aladin.view.requestRedraw) aladin.view.requestRedraw(); }
+    if (lensOn && lensXY) lensPlace(...lensXY);
+  };
+  setTimeout(relayout, 120); setTimeout(relayout, 450);
+}
+document.querySelectorAll("[data-fs]").forEach((b) => b.addEventListener("click", () => {
+  const el = $(b.dataset.fs); setFull(el, !el.classList.contains("is-full"));
+}));
+document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && fullEl) setFull(fullEl, false); });
+addEventListener("resize", () => { if (aladin && aladin.view && aladin.view.fixLayoutDimensions) aladin.view.fixLayoutDimensions(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && fullEl && !document.fullscreenElement) setFull(fullEl, false); });
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "f" || e.metaKey || e.ctrlKey || e.altKey || e.target.closest("input, select, textarea")) return;
+  const el = fullEl || $("viewer"); setFull(el, !el.classList.contains("is-full"));
+});
 
 // ---------- start ----------
 readURL();
@@ -466,6 +919,11 @@ try {
   const nav = (navigator.language || "").toLowerCase().slice(0, 2);
   startLang = ["en", "id", "it"].includes(saved) ? saved : (nav === "id" || nav === "it" ? nav : "en");
 } catch { /* private window */ }
+EX.shape = SHAPES[S.shape] ? S.shape : "map"; EX.world = S.world === "earth" ? "earth" : "sky";
+EX.layer = SURVEYS[S.layer] ? S.layer : "spherex"; EX.frame = Math.max(0, Math.min(101, parseInt(S.frame, 10) || 20));
+EX.earth = S.earth === "day" ? "day" : "night";
+if (EX.world === "earth") EX.shape = "map";
+$("crossChk").checked = S.cross !== "0"; $("explore").classList.toggle("no-cross", S.cross === "0");
 applyLang(startLang);
 if (!presetFor()) $("ownPanel").open = true;     // a shared custom link opens with its position showing
 writeURL(); syncUI(); setPlaying(playing); load();
