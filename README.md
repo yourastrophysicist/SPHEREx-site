@@ -19,6 +19,16 @@ python tool/export_static.py      # rebuilds data/ after a change to the data pa
 
 See `tool/README.md` for the URL parameters, the files and the credits.
 
+## Aladin + SPHEREx Time Lens
+
+[Open the Time Lens](https://spherex-time-lens.arisenhutch4.chatgpt.site/?target=Barnard)
+
+Explore the sky with Aladin Lite and view the corresponding SPHEREx preset
+in a rectangular Time Lens panel. This independently hosted integration
+embeds the existing viewer and preserves its scientific features.
+
+The public integration uses static presets. Arbitrary RA/Dec positions
+require the live server described in tool/README.md.
 ## prep/
 
 The `prep/` folder holds the test notebook and two scripts I made on 10 November 2026 to check
