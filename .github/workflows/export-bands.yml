@@ -4,6 +4,12 @@
 name: Export all detectors
 
 on:
+  # also runs by itself when the workflow or the export script is pushed
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/export-bands.yml
+      - tool/export_all_bands.py
   workflow_dispatch:
     inputs:
       targets:
