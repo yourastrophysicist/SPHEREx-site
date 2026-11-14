@@ -2,15 +2,22 @@
 
 The `/SPHEREx` page of [yourastro.space](https://www.yourastro.space/SPHEREx/).
 
-For now it is a coming-soon page that says what the project will be. It will be a small web tool
-that plays the public SPHEREx images of any patch of sky like a flipbook, so anything that moved
-between visits jumps out. It is being built at NASA Space Apps Milano, 14 and 15 November 2026,
-and the page fills in after the hackathon.
+It is SPHEREx Blink, a small web tool built by Observationally Speaking at NASA Space Apps Milano,
+14 and 15 November 2026. It plays the public SPHEREx images of a patch of sky like a flipbook, on
+one fixed north-up grid, so anything that moved between visits jumps out.
 
-The page is plain HTML and CSS in the same look as the main site, in English, Indonesian and
-Italian, with an ASCII flipbook that shows the idea. It is served through GitHub Pages and shown
-at `yourastro.space/SPHEREx` by a rewrite in the main site's `vercel.json`. The light and dark
-button comes from `/theme.js` on the main site.
+The page (`index.html`, `style.css`, `app.js`) sits at the root of this repo. It is served through
+GitHub Pages and shown at `yourastro.space/SPHEREx` by a rewrite in the main site's `vercel.json`.
+The five example targets ship as static JSON in `data/`, so they work on plain static hosting. Any
+other position needs the live data server in `tool/`, which you run on your own computer.
+
+```bash
+conda activate astrolab2          # numpy, scipy, astropy
+python tool/server.py             # then open http://localhost:8000/?target=Barnard
+python tool/export_static.py      # rebuilds data/ after a change to the data path
+```
+
+See `tool/README.md` for the URL parameters, the files and the credits.
 
 ## prep/
 
