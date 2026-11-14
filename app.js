@@ -608,6 +608,18 @@ function targetInfo() {
   if (!t) return;
   const num = (v, d) => Number(v).toLocaleString(lang, { maximumFractionDigits: d });
   $("tinfoLook").textContent = T("look." + t);
+  const pic = $("tinfoPic");
+  if (pic && typeof TARGET_IMG === "object" && TARGET_IMG[t]) {
+    const ti = TARGET_IMG[t];
+    if (pic.dataset.key !== t) {
+      pic.dataset.key = t; pic.textContent = "";
+      pic.appendChild(targetMedia(ti));
+      const cap = document.createElement("figcaption");
+      cap.innerHTML = `<a href="${ti.page}" rel="noopener">${ti.credit}</a>`;
+      pic.appendChild(cap);
+    }
+    pic.hidden = false;
+  }
   const f = FACTS && FACTS[t], bits = [];
   if (f) {
     if (f.distance_pc) bits.push(`${num(f.distance_pc, 2)} pc`);

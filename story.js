@@ -5,6 +5,7 @@
 "use strict";
 
 const LAYERS = ["curious", "student", "scientist"];
+const STORY_OPEN = new Set([0]);   // which chapters are open, kept when the reading level changes
 
 // sources, cited in the text as [n]
 const REFS = [
@@ -40,7 +41,7 @@ const STORY = {
     },
     chapters: [
       {
-        h: "The sky is not still",
+        h: "The sky is not still", fig: "blink", photo: { src: "img/story/pluto_plates.png", blink: true, alt: "Two photographic plates of the same star field, 23 and 29 January 1930, with Pluto marked by an arrow", cap: "The real thing. Clyde Tombaugh's plates of 23 and 29 January 1930. Blink them and one faint dot jumps, that is Pluto. Everything else stays still.", credit: "Clyde Tombaugh, Lowell Observatory, public domain", page: "https://commons.wikimedia.org/wiki/File:Pluto_discovery_plates.png" }, hook: "Drag time and watch the fastest star in the sky walk.",
         curious: `<p>Look up on a clear night and the stars seem fixed, as if painted on a dome. They are not. Every star is moving, but most are so far away that their motion would take a lifetime to notice.</p>
 <p>A few are close enough that a careful camera sees them shift from one year to the next. The way to spot them is old and simple. In 1930 Clyde Tombaugh found Pluto by flipping between two photographs of the same sky taken six days apart. The stars stayed put and one faint dot jumped.</p>
 <p>This page does the same thing with pictures from a NASA space telescope. Pick a star above and watch.</p>`,
@@ -50,7 +51,7 @@ const STORY = {
 <p>At 6.15″ per pixel that is 1.69 px&nbsp;yr<sup>−1</sup>, or 0.85 px between six-month passes. The motion is sub-pixel per step and the PSF is undersampled, so the tool blinks per-pass medians on one fixed TAN grid rather than single exposures, and a slow mover appears in the difference view as a dipole, the signature Backyard Worlds uses [1, 18]. Across 60 D1 exposures our measured position of Barnard's Star falls on average within a tenth of a pixel of the Gaia prediction moved to each date.</p>`,
       },
       {
-        h: "Planets, stars and the things in between",
+        h: "Planets, stars and the things in between", fig: "glow", photo: { src: "img/story/brown_dwarfs.jpg", alt: "Planets up to about 13 Jupiter masses, brown dwarfs from about 13 to 80, and stars above about 80", cap: "Planets, brown dwarfs and stars, sorted by mass. Brown dwarfs sit between about 13 and 80 times the mass of Jupiter.", credit: "NASA/JPL-Caltech, PIA23685", page: "https://commons.wikimedia.org/wiki/File:PIA23685-Planets-BrownDwarfs-Stars.jpg" }, hook: "Why the coldest neighbours of the Sun shine in light we cannot see.",
         curious: `<p>An <b>exoplanet</b> is a planet that circles a star other than the Sun. Astronomers have found thousands of them, mostly by watching their star dim a little or wobble. Very few have been photographed, because a planet is billions of times fainter than the star next to it.</p>
 <p>Between planets and stars sits a strange family, the <b>brown dwarfs</b>. They are born like stars but are too light to keep shining, so they slowly cool for ever, glowing in infrared light like a fading ember. The coldest ones are as cold as a planet.</p>
 <p>Some of the Sun's nearest neighbours are brown dwarfs that were only found in the last twenty years, because our eyes cannot see their light. An infrared telescope can.</p>`,
@@ -60,7 +61,7 @@ const STORY = {
 <p>SPHEREx matters here because each detector sits behind a linear variable filter. Over its passes every point on the sky gets a 0.75 to 5 μm spectrum at <i>R</i> ≈ 35 to 130, which spans the CH<sub>4</sub>, H<sub>2</sub>O and CO bands that set brown dwarf temperatures [3, 4]. Motion and spectrum come from one data set, which is the case for a blink tool that keeps detectors apart.</p>`,
       },
       {
-        h: "SPHEREx, a camera with 102 colours",
+        h: "SPHEREx, a camera with 102 colours", fig: "filter", photo: { src: "img/story/spherex_telescope.jpg", alt: "The SPHEREx telescope and detector assembly on a stand in a clean room", cap: "The SPHEREx telescope and its detectors in the lab before launch. The telescope is tilted so the spacecraft can sweep the whole sky while keeping the Sun out.", credit: "NASA/JPL-Caltech, public domain", page: "https://commons.wikimedia.org/wiki/File:SPHEREx_telescope_and_detectors.jpg" }, hook: "One small camera, 102 colours. Slide a star across it.",
         curious: `<p>SPHEREx is a small NASA space telescope launched in March 2025. It circles the Earth and photographs the whole sky every six months in infrared light, which our eyes cannot see.</p>
 <p>Its trick is that each picture is a rainbow. One edge of the picture sees one colour and the other edge another, so as the telescope sweeps the sky, every spot ends up seen in 102 colours. All the pictures are public, and this page uses them.</p>`,
         student: `<p>SPHEREx has six detectors, D1 to D6, together covering 0.75 to 5.0 μm. Each sits behind a <b>linear variable filter</b> whose wavelength changes across the detector, so one exposure is not one colour and a star seen twice is seen at two slightly different wavelengths. The pixels are 6.15 arcsec. The whole sky is covered about every six months, and much more often near the ecliptic poles.</p>
@@ -69,7 +70,7 @@ const STORY = {
 <p>For a blink the filter is a nuisance as much as a gift. Within one detector the wavelength at the target changes between exposures, so a per-pass median mixes neighbouring channels and a brightness change between passes is partly a colour effect. The tool reports the wavelength of every frame and leaves photometry at fixed wavelength for later. Fields in our data set have 36 to 96 exposures per detector, in two to four passes.</p>`,
       },
       {
-        h: "How the blink is made",
+        h: "How the blink is made", fig: "steps", hook: "Five steps from NASA's archive to the moving picture.",
         curious: `<p>For the spot you choose, the page asks NASA's archive for every SPHEREx picture that covers it. It cuts a small square out of each one and removes the glow of dust in our own Solar System. Then it lines all the squares up with north at the top, so the distant stars land on exactly the same places. Played in order, anything that moved walks across the screen.</p>
 <p>The circles show where other telescopes say each star should be on that day, so you can check the picture against them.</p>`,
         student: `<p>The steps are a query, a cutout and a reprojection. An ADQL query to IRSA lists every exposure whose footprint holds the position. Gaia positions are for the year 2016, so each star is moved with its proper motion to the date of each exposure before the cutout is taken. The zodiacal light model is subtracted, flagged pixels are marked, and every cutout is resampled onto one fixed north-up grid.</p>
@@ -78,13 +79,13 @@ const STORY = {
 <p>Known limits. Proper motion is linear, with no parallax. There is no PSF matching before differencing, so bright stars leave residuals. The wavelength drift within a detector is reported but not corrected. The five targets ship as static files in all six detectors, and any other position runs the same code live on a local server. Every view is a URL, so every figure on this page can be reproduced.</p>`,
       },
       {
-        h: "Five test stars, five questions",
+        h: "Five test stars, five questions", fig: "targets", hook: "Five objects, five questions. Pick one and watch it.",
         curious: `<p>The challenge gave five test objects, and each one asks the tool a question. <b>Barnard's Star</b> asks whether it can see motion, and it walks north. <b>Epsilon Indi B</b>, two brown dwarfs too close to tell apart, asks whether it can see a tiny motion. <b>WISE 0855</b>, the coldest brown dwarf known, asks whether it can show something invisible in most colours, and it only appears in the reddest detector. <b>RW Aurigae</b> and <b>R Draconis</b> do not move at all. They ask whether the tool can show a star that changes its brightness.</p>`,
         student: `<p>Barnard's Star moves 1.7 px per year and is bright in every detector. Epsilon Indi B moves 0.8 px per year and is best in D5. WISE 0855 moves 1.3 px per year and shows only in D6, near 4.6 μm. RW Aurigae is a young binary whose disk sometimes hides the star. R Draconis is a Mira variable with a period of 246 days and a visible range from magnitude 6.7 to 13.2. Choose a detector with the D1 to D6 buttons and watch which targets appear and fade.</p>`,
         scientist: `<p>Epsilon Indi B has a Gaia RUWE of 4.3, as expected for an unresolved pair [5, 10]. WISE 0855 is split into several CatWISE2020 entries with motions near 8″&nbsp;yr<sup>−1</sup>, because it moved so far across the WISE co-adds [6]. R Draconis lies near the north ecliptic pole, so its visits merge into two or three passes of up to 89 exposures. Six months is not a whole number of its 246-day periods, so each pass samples a different phase. Its CatWISE overlay is empty, because IRSA returns no CatWISE2020 sources in that field. RW Aurigae's companion at 1.45″ is listed separately in Gaia, with a RUWE of 16.</p>`,
       },
       {
-        h: "Could it find Planet X?",
+        h: "Could it find Planet X?", fig: "planetx", photo: { src: "img/story/planet_nine_orbits.jpg", alt: "Four panels zooming out from the inner Solar System to the orbits of distant objects and the proposed Planet Nine", cap: "Zooming out from the planets to the Kuiper belt, to Sedna, and to the long orbits of the distant objects whose alignment led to the Planet Nine idea, with one proposed orbit in orange.", credit: "M. Brown, Caltech, R. Hurt, C. Powell, public domain", page: "https://commons.wikimedia.org/wiki/File:Oort_cloud_Sedna_and_Planet_Nine_orbits.jpg" }, hook: "Move three sliders and see why a hidden planet is so hard to catch.",
         curious: `<p>Some astronomers think a planet a few times heavier than the Earth may circle the Sun far beyond Neptune, because a handful of distant icy bodies have orbits that line up in an odd way. Nobody has seen it, and others think the lining up is just where telescopes happened to look.</p>
 <p>If it is there, it only reflects sunlight, and so far from the Sun it would be very faint, fainter than SPHEREx can see in a single picture. So the honest answer is probably not this way. The same method does find real neighbours of the Sun, and saying clearly what we cannot see is part of doing science.</p>`,
         student: `<p>The case rests on the extreme trans-Neptunian objects, small bodies with orbits beyond about 250 AU whose orientations are clustered [11, 12]. A planet of about 5 to 10 Earth masses was proposed in 2016 [12], refined to 6.2 Earth masses at about 380 AU in 2021 [14], and a recent fit puts it lighter and closer, near 4.4 Earth masses and 290 AU [15]. Survey teams find the clustering consistent with where and when they looked [16, 17].</p>
@@ -111,6 +112,28 @@ function storyCite(html) {
     `<span class="cite">[${g.split(/,\s*/).map((n) => `<a href="#ref-${n}">${n}</a>`).join(", ")}]</span>`);
 }
 
+// a real image from Wikimedia Commons, with its credit and licence page
+function storyPhoto(ph) {
+  const img = ph.blink
+    ? `<div class="plate-blink" role="img" aria-label="${ph.alt}" style="background-image:url(${ph.src})"></div>` +
+      `<button type="button" class="btn btn-grey fig-btn plate-btn" aria-pressed="false">blink the plates</button>`
+    : `<img src="${ph.src}" alt="${ph.alt}" loading="lazy">`;
+  return `<figure class="photo">${img}<figcaption>${ph.cap} <span class="credit"><a href="${ph.page}" rel="noopener">${ph.credit}</a></span></figcaption></figure>`;
+}
+
+// Tombaugh's two plates sit side by side in one image, 494 px apart at 960 px wide
+function plateBlink(el) {
+  const btn = el.nextElementSibling;
+  let timer = null, b = false;
+  const show = (second) => el.classList.toggle("second", second);
+  btn.addEventListener("click", () => {
+    if (timer) { clearInterval(timer); timer = null; btn.setAttribute("aria-pressed", "false"); btn.textContent = "blink the plates"; return; }
+    btn.setAttribute("aria-pressed", "true"); btn.textContent = "stop";
+    timer = setInterval(() => { b = !b; show(b); }, reduceMotionFig ? 1500 : 600);
+    FIG_STOPS.push(() => clearInterval(timer));
+  });
+}
+
 function renderStory() {
   const box = document.getElementById("story");
   if (!box) return;
@@ -126,9 +149,20 @@ function renderStory() {
     b.tabIndex = b.dataset.read === read ? 0 : -1;
   });
   document.getElementById("storyLede").textContent = L.lede[read];
-  document.getElementById("storyChapters").innerHTML = L.chapters.map((c, i) =>
-    `<article class="panel chapter"><div class="panel-bar"><span>${c.h}</span><span>${String(i + 1).padStart(2, "0")}</span></div>` +
-    `<div class="chapter-body">${storyCite(c[read])}</div></article>`).join("");
+  // chapters are dropdowns: a title and one line to tempt, then the figure, then the words
+  const box2 = document.getElementById("storyChapters");
+  box2.querySelectorAll("details.chapter").forEach((d, i) => (d.open ? STORY_OPEN.add(i) : STORY_OPEN.delete(i)));
+  box2.innerHTML = L.chapters.map((c, i) =>
+    `<details class="panel chapter"${STORY_OPEN.has(i) ? " open" : ""}><summary><div class="panel-bar">` +
+    `<span>${String(i + 1).padStart(2, "0")} · ${c.h}</span><span class="plus" aria-hidden="true"></span></div>` +
+    `<p class="hook">${c.hook || ""}</p></summary>` +
+    (c.fig ? `<figure class="sfig" data-fig="${c.fig}"></figure>` : "") +
+    `<div class="chapter-main"><div class="chapter-body">${storyCite(c[read])}</div>${c.photo ? storyPhoto(c.photo) : ""}</div></details>`).join("");
+  box2.querySelectorAll(".plate-blink").forEach(plateBlink);
+  if (typeof FIGS === "object") {
+    while (FIG_STOPS.length) FIG_STOPS.pop()();
+    document.querySelectorAll("#storyChapters .sfig").forEach((f) => { try { FIGS[f.dataset.fig](f); } catch (e) { console.error(e); } });
+  }
   document.getElementById("storyHonest").innerHTML =
     `<div class="panel-bar"><span>${L.honest.h}</span><span></span></div><dl>` +
     L.honest.items.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("") + "</dl>";
@@ -154,3 +188,11 @@ document.querySelectorAll("#storyTabs button").forEach((b) => {
   });
 });
 renderStory();
+
+// a citation opens the source list, which is folded by default, and jumps to the paper
+document.addEventListener("click", (e) => {
+  const a = e.target.closest(".cite a");
+  if (!a) return;
+  const d = document.querySelector("#sources details");
+  if (d) d.open = true;
+});

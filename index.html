@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=27">
+    <link rel="stylesheet" href="style.css?v=31">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -152,6 +152,7 @@
                 <section class="panel tinfo" id="tinfo" hidden>
                     <div class="panel-bar"><span data-i18n="c.tinfo">this target</span><span data-i18n="c.look4">look for</span></div>
                     <div class="panel-body">
+                        <figure class="tinfo-pic" id="tinfoPic" hidden></figure>
                         <p id="tinfoLook"></p>
                         <p class="facts" id="tinfoFacts"></p>
                     </div>
@@ -301,9 +302,10 @@
         <section class="sec" id="sources">
             <p class="eyebrow">references</p>
             <h2 class="giant" id="refsH">Sources</h2>
-            <div class="panel refs">
+            <details class="panel refs">
+                <summary><div class="panel-bar"><span>18 papers and catalogues, with links</span><span class="plus" aria-hidden="true"></span></div></summary>
                 <ol id="refList"></ol>
-            </div>
+            </details>
             <p class="note" id="refsNote"></p>
         </section>
 
@@ -318,6 +320,7 @@
                     <dt data-i18n="cr.t4">sky maps</dt><dd data-i18n="cr.d4">Aladin Lite (CDS, Strasbourg), with 2MASS and AllWISE through IRSA and DSS2 through ESA.</dd>
                     <dt data-i18n="cr.t5">Earth</dt><dd data-i18n="cr.d5">Blue Marble and Black Marble, NASA, through NASA GIBS.</dd>
                     <dt data-i18n="cr.t6">ideas</dt><dd data-i18n="cr.d6">The blink follows WiseView by Caselden and collaborators. The whole-sky layout follows Brice Menard's ultraviolet sky map. The lens, the crosshair and the fixed Home come from our teammate's Time Lens.</dd>
+                    <dt>pictures</dt><dd>The photographs in the story come from Wikimedia Commons: NASA, ESA, JPL-Caltech, Webb, Hubble, WISE and Lowell Observatory. Each one is credited under it with a link to its licence.</dd>
                     <dt data-i18n="cr.t7">made by</dt><dd data-i18n="cr.d7">Observationally Speaking, at NASA Space Apps Milano, 14 and 15 November 2026, building on our own prep scripts of 10 November. Parts of the code were written with help from Claude (Anthropic).</dd>
                 </dl>
             </div>
@@ -336,8 +339,9 @@
 
     <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="app.js?v=26"></script>
-<script src="story.js?v=1"></script>
+<script src="app.js?v=27"></script>
+<script src="figs.js?v=3"></script>
+<script src="story.js?v=3"></script>
 <script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
 </body>
 </html>
