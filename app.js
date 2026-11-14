@@ -41,7 +41,7 @@ const WORDS = {
     exp: "exp", median: "median", pass: "pass", of: "of", moved: "moved to this date",
     picking: "now click the sky", picked: "position set in your own position, press show this field",
     blinkit: "blink", thisfield: "this field",
-    "fs.enter": "full screen", "fs.exit": "exit full screen",
+    "fs.enter": "full screen", "fs.exit": "exit full screen", "fs.panel": "map settings",
     "lens.on": "on", "lens.off": "off", "lens.off.sky": "outside the sky, move the lens",
     mapfail: "The sky map could not load. The viewer works without it.",
     "ex.title": "the whole sky", "ex.title.earth": "the Earth, in the same oval",
@@ -82,7 +82,7 @@ const WORDS = {
     exp: "eksp", median: "median", pass: "lintasan", of: "dari", moved: "digeser ke tanggal ini",
     picking: "sekarang klik langitnya", picked: "posisi dipilih, tekan tampilkan medan ini",
     blinkit: "kedipkan", thisfield: "medan ini",
-    "fs.enter": "layar penuh", "fs.exit": "keluar dari layar penuh",
+    "fs.enter": "layar penuh", "fs.exit": "keluar dari layar penuh", "fs.panel": "pengaturan peta",
     "lens.on": "nyala", "lens.off": "mati", "lens.off.sky": "di luar langit, geser lensanya",
     mapfail: "Peta langit gagal dimuat. Penampilnya tetap jalan tanpa peta.",
     "ex.title": "seluruh langit", "ex.title.earth": "Bumi, dalam oval yang sama",
@@ -123,7 +123,7 @@ const WORDS = {
     exp: "esp", median: "mediana", pass: "passaggio", of: "di", moved: "spostate a questa data",
     picking: "ora clicca sul cielo", picked: "posizione scelta, premi mostra questo campo",
     blinkit: "fai il blink di", thisfield: "questo campo",
-    "fs.enter": "schermo intero", "fs.exit": "esci dallo schermo intero",
+    "fs.enter": "schermo intero", "fs.exit": "esci dallo schermo intero", "fs.panel": "impostazioni mappa",
     "lens.on": "acceso", "lens.off": "spento", "lens.off.sky": "fuori dal cielo, sposta la lente",
     mapfail: "La mappa del cielo non si è caricata. Il visore funziona anche senza.",
     "ex.title": "tutto il cielo", "ex.title.earth": "la Terra, nello stesso ovale",
@@ -720,6 +720,8 @@ function exCaption() {
   else { k = "cap." + EX.layer; if (EX.layer === "spherex") extra = `${LAMBDA[EX.frame].toFixed(2)} µm`; }
   const [what, src] = T(k).split("|");
   el.innerHTML = `${what.replace("{l}", extra)} <span class="src">· ${src}</span>`;
+  $("fsLabel").textContent = what.replace("{l}", extra);
+  $("fsPanelBtn").setAttribute("aria-label", T("fs.panel")); $("fsPanelBtn").title = T("fs.panel");
   $("exTitle").textContent = EX.world === "earth" ? T("ex.title.earth") : `${T("ex.title")} · ${T("ex.shape." + EX.shape)}`;
   $("lambdaVal").textContent = `${LAMBDA[EX.frame].toFixed(3)} µm`;
 }
@@ -945,6 +947,7 @@ function centreOut() {
   const [ra, dec] = aladin.getRaDec();
   const dd = dec.toFixed(4) === "-0.0000" ? "0.0000" : dec.toFixed(4);        // no minus zero on the equator
   $("centreOut").textContent = `RA ${ra.toFixed(4)}° · Dec ${dd.startsWith("-") ? "" : "+"}${dd}°`;
+  $("centreOutFs").textContent = $("centreOut").textContent;
   lensRead();
 }
 $("copyCentre").addEventListener("click", async () => {
@@ -1061,11 +1064,11 @@ function setFull(el, on) {
     if (fullEl && fullEl !== el) setFull(fullEl, false);
     fullEl = el; el.classList.add("is-full"); document.body.classList.add("has-full");
     if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
-    if (el.id === "explore") { $("exShield").hidden = true; loadAladin(); }
+    if (el.id === "explore") { $("exShield").hidden = true; loadAladin(); $("fsLegendSlot").appendChild($("exLegend")); setPanel(false); }
   } else {
     el.classList.remove("is-full"); document.body.classList.remove("has-full"); fullEl = null;
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    if (el.id === "explore") shieldOn();
+    if (el.id === "explore") { shieldOn(); $("exNow").after($("exLegend")); setPanel(false); }
   }
   el.querySelectorAll(".fs-btn").forEach((b) => { b.setAttribute("aria-label", on ? T("fs.exit") : T("fs.enter")); b.title = b.getAttribute("aria-label"); });
   // Aladin sizes its canvas from its box, so tell it the box changed, now and once the browser settles
@@ -1076,6 +1079,12 @@ function setFull(el, on) {
   };
   setTimeout(relayout, 120); setTimeout(relayout, 450);
 }
+// in full screen the map takes the whole window, as in the Time Lens; the settings open over it on request
+function setPanel(open) {
+  $("explore").classList.toggle("panel-open", open);
+  $("fsPanelBtn").setAttribute("aria-expanded", String(open));
+}
+$("fsPanelBtn").addEventListener("click", () => setPanel(!$("explore").classList.contains("panel-open")));
 document.querySelectorAll("[data-fs]").forEach((b) => b.addEventListener("click", () => {
   const el = $(b.dataset.fs); setFull(el, !el.classList.contains("is-full"));
 }));

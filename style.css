@@ -163,6 +163,8 @@ button, input, select { font: inherit; color: inherit; }
     /* on a short phone map the four buttons go in one row along the top, so they cover less of the sky */
     .ex-zoom { right: 8px; top: 8px; grid-auto-flow: column; gap: 4px; }
     .ex-zoom button { width: 30px; height: 30px; }
+    .explore.is-full .ex-stage .ex-fslabel { top: 48px; max-width: calc(100% - 24px); font-size: 11px; }
+    .explore.is-full > .panel > .ex-dock { top: 84px; width: calc(100% - 24px); max-height: calc(100% - 96px); }
 }
 
 /* ---------- the two steps of the page ---------- */
@@ -196,7 +198,7 @@ button, input, select { font: inherit; color: inherit; }
 .is-full { position: fixed; inset: 0; z-index: 50; margin: 0; padding: 0; max-width: none; width: 100vw; height: 100vh; height: 100dvh; background: var(--bg); overflow: auto; }
 :fullscreen.is-full { position: static; }
 /* a grid row has a definite height, which Aladin needs: it sizes its canvas from height: 100% */
-.explore.is-full > .panel { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; box-shadow: none; }
+.explore.is-full > .panel { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); box-shadow: none; }
 .explore.is-full .ex-stage { aspect-ratio: auto; height: 100%; min-height: 0; }
 /* the whole-sky oval is 2:1, so in full screen the map keeps that shape, centred, and never cuts the oval */
 .explore.is-full[data-shape="map"] .ex-stage { aspect-ratio: 2 / 1; width: auto; max-width: 100%; justify-self: center; }
@@ -205,7 +207,22 @@ button, input, select { font: inherit; color: inherit; }
 .explore.is-full .panel-bar, .explore.is-full .ex-dock { background: var(--panel); }
 .explore.is-full .ex-shield { display: none; }
 .explore.is-full .ex-next { display: none; }
-.explore.is-full .ex-dock { gap: 8px; padding: 10px 14px; }
+/* full screen, as in the Time Lens: nothing under the map; settings float over it, legend and centre sit on it */
+.fs-only { display: none !important; }
+.explore.is-full .ex-zoom .fs-only { display: grid !important; }
+.explore.is-full .ex-dock { display: none; position: absolute; z-index: 8; left: 12px; top: 46px; width: min(380px, calc(100% - 72px)); max-height: calc(100% - 58px); overflow: auto; gap: 10px; padding: 14px; border: 1px solid var(--blue); box-shadow: 0 10px 30px rgba(0, 0, 0, .4); }
+.explore.is-full.panel-open .ex-dock { display: grid; }
+.explore.is-full .ex-dock .ex-row .seg { min-width: 0; width: 100%; }
+.explore.is-full .ex-dock .ex-lambda { width: 100%; }
+#fsPanelBtn[aria-expanded="true"] { background: #141ef0; border-color: #141ef0; }
+.explore.is-full .ex-fslabel { display: block !important; position: absolute; left: 12px; top: 12px; z-index: 4; max-width: calc(100% - 80px); margin: 0; padding: 4px 9px; background: #141ef0; color: #f2f2f2; font: 400 12px/1.3 var(--mono); letter-spacing: .03em; }
+.explore.is-full.panel-open .ex-fslabel { visibility: hidden; }
+.explore.is-full .ex-fsbar { display: flex !important; position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 4; max-width: calc(100% - 24px); flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 18px; padding: 6px 12px; background: rgba(7, 11, 46, .78); color: #f2f2f2; }
+.ex-fsbar .ex-legend { color: #f2f2f2; font-size: 10px; }
+.ex-fscentre { margin: 0; font: 400 11px var(--mono); letter-spacing: .04em; white-space: nowrap; }
+.ex-fscentre span { text-transform: uppercase; opacity: .75; }
+.ex-fscentre output { font-variant-numeric: tabular-nums; }
+.explore.is-full[data-world="earth"] .ex-fsbar { display: none !important; }
 .explore.is-full .ex-now { font-size: 14px; }
 .viewer.is-full { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto auto; box-shadow: none; }
 .viewer.is-full .band { display: grid; place-items: center; min-height: 0; }

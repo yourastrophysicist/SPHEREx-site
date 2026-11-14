@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=34">
+    <link rel="stylesheet" href="style.css?v=38">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -68,6 +68,12 @@
                         <button type="button" id="zOut" aria-label="Zoom out" title="Zoom out">&minus;</button>
                         <button type="button" class="fs-btn" id="fsSky" data-fs="explore" aria-label="Full screen" title="Full screen"><svg class="i-open" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><svg class="i-close" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3v5H3M17 8h-5V3M12 17v-5h5M3 12h5v5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
                         <button type="button" id="zAll" aria-label="Home, the whole sky" title="Home"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="8" ry="5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+                        <button type="button" class="fs-only" id="fsPanelBtn" aria-expanded="false" aria-controls="exDock" aria-label="Map settings" title="Map settings"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5.5" y="3.2" width="3" height="3.6" fill="currentColor"/><rect x="11.5" y="8.2" width="3" height="3.6" fill="currentColor"/><rect x="7.5" y="13.2" width="3" height="3.6" fill="currentColor"/></svg></button>
+                    </div>
+                    <p class="ex-fslabel fs-only" id="fsLabel"></p>
+                    <div class="ex-fsbar fs-only" id="fsBar">
+                        <div id="fsLegendSlot"></div>
+                        <p class="ex-fscentre"><span data-i18n="ex.centre">centre · ICRS</span> <output id="centreOutFs">&ndash;</output></p>
                     </div>
                 </div>
                 <aside class="ex-card" id="kCard" hidden aria-live="polite">
@@ -78,7 +84,7 @@
                     <p class="ex-card-note" id="kNote"></p>
                     <button type="button" class="mini" id="kZoom">zoom in here</button>
                 </aside>
-                <div class="ex-dock">
+                <div class="ex-dock" id="exDock">
                     <div class="shapes" role="radiogroup" aria-label="Shape of the sky">
                         <button type="button" role="radio" data-shape="map" title="The whole sky flattened into an oval"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="8.5" ry="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span data-i18n="ex.map">map</span></button>
                         <button type="button" role="radio" data-shape="outside" title="The sky on a turning sphere, seen from outside"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="10" cy="10" rx="3.5" ry="7.5" fill="none" stroke="currentColor" stroke-width="1"/></svg><span data-i18n="ex.outside">outside</span></button>
@@ -351,7 +357,7 @@
     <div class="toast" id="toast" role="status" hidden></div>
 
 <script src="known.js?v=2"></script>
-<script src="app.js?v=32"></script>
+<script src="app.js?v=33"></script>
 <script src="figs.js?v=4"></script>
 <script src="story.js?v=4"></script>
 <script src="story-i18n.js?v=1"></script>
