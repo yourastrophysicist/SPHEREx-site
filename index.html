@@ -1,166 +1,193 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script>if(location.hostname==="yourastrophysicist.github.io"){location.replace("https://www.yourastro.space/SPHEREx/"+location.pathname.replace(/^\/SPHEREx-site\/?/,"")+location.search+location.hash);}</script>
-<title>The moving sky in SPHEREx | yourastro.space</title>
-<meta name="description" content="Blink SPHEREx images of any patch of sky and watch nearby stars and brown dwarfs walk. Built by Observationally Speaking at NASA Space Apps Milano 2026.">
-<meta property="og:title" content="The moving sky in SPHEREx">
-<meta property="og:description" content="Blink SPHEREx images of a patch of sky and watch nearby stars and brown dwarfs walk.">
-<meta property="og:url" content="https://www.yourastro.space/SPHEREx/">
-<link rel="canonical" href="https://www.yourastro.space/SPHEREx/">
-<meta name="theme-color" content="#07080f">
-<link rel="icon" type="image/png" href="/img/favicon.png?v=2">
-<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,600;0,700;1,400&display=swap">
-<link rel="stylesheet" href="style.css?v=3">
-<script>
-  // theme before first paint, so the page never flashes the wrong colours
-  try { const t = localStorage.getItem("sb-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-</script>
+    <meta charset="UTF-8">
+    <script>try{var t=localStorage.getItem("yas-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
+    <script>if(location.hostname==="yourastrophysicist.github.io"){location.replace("https://www.yourastro.space/SPHEREx/"+location.pathname.replace(/^\/SPHEREx-site\/?/,"")+location.search+location.hash);}</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPHEREx | yourastro.space</title>
+    <meta name="description" content="Blink SPHEREx images of a patch of sky and watch nearby stars and brown dwarfs walk. Built by Observationally Speaking at NASA Space Apps Milano 2026.">
+    <meta property="og:title" content="SPHEREx, the moving sky">
+    <meta property="og:description" content="Blink SPHEREx images of a patch of sky and watch nearby stars and brown dwarfs walk.">
+    <meta property="og:url" content="https://www.yourastro.space/SPHEREx/">
+    <link rel="canonical" href="https://www.yourastro.space/SPHEREx/">
+    <meta name="theme-color" content="#f2f2f2">
+    <link rel="icon" type="image/png" href="/img/favicon.png?v=2">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
+    <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
+    <div class="frame">
+        <header class="top">
+            <a class="mark" href="/" aria-label="yourastro.space, home"><span>your</span><span>astro</span></a>
+            <nav aria-label="Pages">
+                <a href="/" data-i18n="n.home">home</a>
+                <a href="/notes/" data-i18n="n.notes">notes</a>
+                <a href="/terminal/">terminal</a>
+                <a href="/SPHEREx/" aria-current="page">SPHEREx</a>
+            </nav>
+            <div class="tools">
+                <div class="lang" role="group" aria-label="Language / Bahasa / Lingua">
+                    <button type="button" data-lang="en" aria-pressed="true" title="English">EN</button>
+                    <button type="button" data-lang="id" aria-pressed="false" title="Bahasa Indonesia">ID</button>
+                    <button type="button" data-lang="it" aria-pressed="false" title="Italiano">IT</button>
+                </div>
+                <button type="button" class="theme-toggle" aria-label="Switch to dark mode" title="Dark mode"><svg class="t-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="t-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+            </div>
+        </header>
 
-<main class="hero" id="hero" data-band="D1">
-  <header class="top">
-    <div>
-      <h1 class="title"><a href="./">The moving sky in SPHEREx</a></h1>
-      <p class="byline">Observationally Speaking &middot; NASA Space Apps Milano 2026 &middot; <a href="/">yourastro.space</a></p>
+        <div class="hero">
+            <p class="eyebrow" data-i18n="eye">NASA Space Apps Milano 2026 · Observationally Speaking</p>
+            <h1>SPHEREx</h1>
+            <p class="lede" data-i18n="lede">Pick a star and watch it walk. This tool plays the public SPHEREx images of one small patch of sky, one sky pass after another, so anything close enough to move jumps out against the stars behind it.</p>
+        </div>
+
+        <main id="tool" class="tool">
+            <section class="panel viewer" aria-label="Sky viewer">
+                <div class="panel-bar"><span id="where">ra · dec</span><span id="count">0 / 0</span></div>
+                <div class="band"><div class="stage">
+                    <canvas id="sky" width="760" height="760" role="img" aria-label="SPHEREx images of the chosen patch of sky"></canvas>
+                    <div class="pill tl" id="pillWhen"></div>
+                    <div class="pill tr" id="pillLambda"></div>
+                    <div class="loading" id="loading" hidden>
+                        <p id="loadMsg"></p>
+                        <div class="bar busy" id="loadBar"><i></i></div>
+                        <p class="sub" id="loadSub"></p>
+                    </div>
+                </div></div>
+                <div class="timeline">
+                    <button class="play" id="play" type="button" aria-label="Pause">
+                        <svg id="icoPause" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg>
+                        <svg id="icoPlay" viewBox="0 0 14 14" aria-hidden="true" hidden><path d="M3 1v12l10-6z"/></svg>
+                    </button>
+                    <input id="scrub" type="range" min="0" max="0" value="0" step="1" aria-label="Frame">
+                </div>
+                <p class="now" id="now" aria-live="polite"></p>
+            </section>
+
+            <div class="side">
+                <section class="panel">
+                    <div class="panel-bar"><span data-i18n="c.target">target</span><span>01</span></div>
+                    <div class="choices" id="targets" role="radiogroup" aria-label="Target"></div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-bar"><span data-i18n="c.show">what to show</span><span>02</span></div>
+                    <div class="panel-body">
+                        <span class="label" data-i18n="c.view">view</span>
+                        <div class="seg" role="radiogroup" aria-label="View">
+                            <button type="button" role="radio" data-view="blink" data-i18n="c.blink">blink</button>
+                            <button type="button" role="radio" data-view="diff" data-i18n="c.diff">difference</button>
+                        </div>
+                        <span class="label" data-i18n="c.per">one image per</span>
+                        <div class="seg" role="radiogroup" aria-label="One image per">
+                            <button type="button" role="radio" data-mode="pass" data-i18n="c.pass">sky pass</button>
+                            <button type="button" role="radio" data-mode="frames" data-i18n="c.exp">exposure</button>
+                        </div>
+                        <p class="keys" data-i18n="c.keys">space plays or pauses · arrows step · d difference · m marker</p>
+                    </div>
+                </section>
+
+                <details class="panel" id="ownPanel">
+                    <summary><div class="panel-bar"><span data-i18n="c.own">your own position</span><span class="plus" aria-hidden="true"></span></div></summary>
+                    <form class="panel-body" id="whereForm">
+                        <div class="grid2">
+                            <label class="field">RA (deg)<input name="ra" type="number" step="any" min="0" max="360" required></label>
+                            <label class="field">Dec (deg)<input name="dec" type="number" step="any" min="-90" max="90" required></label>
+                            <label class="field">pmRA (mas/yr)<input name="pmra" type="number" step="any"></label>
+                            <label class="field">pmDec (mas/yr)<input name="pmdec" type="number" step="any"></label>
+                            <label class="field"><span data-i18n="c.epoch">epoch (year)</span><input name="epoch" type="number" step="any"></label>
+                            <label class="field"><span data-i18n="c.size">field (arcsec)</span><input name="size" type="number" step="1" min="20" max="600"></label>
+                        </div>
+                        <label class="field" style="margin-top:10px"><span data-i18n="c.det">detector</span><select name="band">
+                            <option value="D1">D1 · 0.75–1.1 µm</option>
+                            <option value="D2">D2 · 1.1–1.6 µm</option>
+                            <option value="D3">D3 · 1.6–2.4 µm</option>
+                            <option value="D4">D4 · 2.4–3.8 µm</option>
+                            <option value="D5">D5 · 3.8–4.4 µm</option>
+                            <option value="D6">D6 · 4.4–5.0 µm</option>
+                        </select></label>
+                        <button class="btn full" type="submit" data-i18n="c.go">show this field</button>
+                        <p class="hint" data-i18n="c.hint">Give the position at the epoch, and the proper motion moves it to each exposure date. On this site the five targets open at once. Any other position asks the live archive, which needs the server from the GitHub repo running on your computer.</p>
+                    </form>
+                </details>
+
+                <details class="panel">
+                    <summary><div class="panel-bar"><span data-i18n="c.look">display</span><span class="plus" aria-hidden="true"></span></div></summary>
+                    <div class="panel-body">
+                        <div class="grid2">
+                            <label class="field"><span data-i18n="c.speed">blink every (ms)</span><input id="speed" type="number" min="100" max="3000" step="50"></label>
+                            <label class="field"><span data-i18n="c.contrast">contrast (%)</span><input id="contrast" type="number" min="50" max="100" step="0.5"></label>
+                        </div>
+                        <label class="field" style="margin-top:10px"><span data-i18n="c.stretch">stretch</span><select id="stretch"><option value="asinh">asinh</option><option value="linear">linear</option></select></label>
+                        <label class="check"><input id="marker" type="checkbox"> <span data-i18n="c.marker">mark where the target should be</span></label>
+                        <label class="check"><input id="invert" type="checkbox"> <span data-i18n="c.invert">invert</span></label>
+                        <label class="check"><input id="mask" type="checkbox"> <span data-i18n="c.mask">blank the pixels SPHEREx flags as bad</span></label>
+                    </div>
+                </details>
+
+                <button class="btn btn-grey" id="copy" type="button" data-i18n="c.copy">copy link to this view</button>
+            </div>
+        </main>
     </div>
-    <div class="row" style="margin:0">
-      <button class="icon-btn" id="settingsBtn" type="button" aria-controls="settings" aria-expanded="false">Settings</button>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch light or dark">light</button>
+
+    <div class="page">
+        <section class="sec">
+            <p class="eyebrow" data-i18n="how.label">how it works</p>
+            <h2 class="giant" data-i18n="how.h">The tool</h2>
+            <div class="grid">
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="p1.t">the telescope</span><span>01</span></div>
+                    <p data-i18n="p1.d">SPHEREx is NASA's all-sky infrared survey telescope, launched in March 2025. It maps the whole sky every six months in 102 colours between 0.75 and 5 microns, so every patch of sky is seen again and again.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="p2.t">the images</span><span>02</span></div>
+                    <p data-i18n="p2.d">For each patch the tool asks NASA/IPAC IRSA for every SPHEREx exposure, cuts out a small square, removes the glow of dust in our own solar system, and puts every cutout on one fixed grid with north up. Stars far away stay still. A star close to us walks.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-bar"><span data-i18n="p3.t">the check</span><span>03</span></div>
+                    <p data-i18n="p3.d">We tested it on objects we already know. Across its 60 exposures, Barnard's Star lands on average within a tenth of a pixel of where Gaia says it should be. If the tool shows what we know is there, we can believe what it shows elsewhere.</p>
+                </div>
+            </div>
+            <p class="note" data-i18n="diffnote">The difference view subtracts the median of all images from each one. Whatever never changes turns flat grey. Something that moved leaves a bright spot where it is and a dark spot where it was.</p>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow" data-i18n="tg.label">the five targets</p>
+            <h2 class="giant" data-i18n="tg.h">Start here</h2>
+            <div class="panel">
+                <table class="targets">
+                    <thead><tr><th data-i18n="th.t">target</th><th data-i18n="th.w">why it is here</th><th data-i18n="th.d">detector</th></tr></thead>
+                    <tbody id="targetTable"></tbody>
+                </table>
+            </div>
+            <p class="note" data-i18n="planetx">The challenge, Planet X and SPHEREx, also asks whether SPHEREx could catch a distant Planet X. Part of the project is saying honestly, with numbers, how faint is too faint.</p>
+        </section>
+
+        <section class="sec" id="credits">
+            <p class="eyebrow" data-i18n="cr.label">credits</p>
+            <h2 class="giant" data-i18n="cr.h">Thanks</h2>
+            <p class="sub" data-i18n="cr.d">Data from SPHEREx Level 2 images, NASA/JPL-Caltech/IPAC, through NASA/IPAC IRSA. Positions and motions from Gaia DR3 (ESA/DPAC), and for WISE 0855 from AllWISE with the motion of Kirkpatrick et al. 2021. The blink idea follows WiseView by Caselden and collaborators. Made by Observationally Speaking at NASA Space Apps Milano, 14 and 15 November 2026, building on our own prep scripts of 10 November. Parts of the code were written with help from Claude (Anthropic).</p>
+            <p class="btns">
+                <a class="btn btn-grey" href="https://science.nasa.gov/mission/spherex/" data-i18n="b.nasa">SPHEREx at NASA</a>
+                <a class="btn btn-grey" href="https://irsa.ipac.caltech.edu/Missions/spherex.html" data-i18n="b.irsa">the data at IRSA</a>
+                <a class="btn btn-grey" href="https://github.com/yourastrophysicist/SPHEREx-site" data-i18n="b.code">the code on GitHub</a>
+                <a class="btn" href="/" data-i18n="b.home">back to yourastro.space</a>
+            </p>
+        </section>
     </div>
-  </header>
 
-  <div class="stage-wrap">
-    <div class="stage" id="stage">
-      <canvas id="sky" width="760" height="760" role="img" aria-label="SPHEREx images of the chosen patch of sky"></canvas>
-      <div class="pill tl" id="pillWhen"></div>
-      <div class="pill tr" id="pillLambda"></div>
-      <div class="loading" id="loading" hidden>
-        <p id="loadMsg">Asking IRSA which exposures cover this spot</p>
-        <div class="bar busy" id="loadBar"><i></i></div>
-        <p class="sub" id="loadSub">The first view of a new field downloads every cutout, which takes a few minutes. After that it opens at once.</p>
-      </div>
-    </div>
-  </div>
+    <footer>
+        <p data-i18n="foot">Padova, Italy · 45.4° N, 11.9° E · a page of <a href="/">yourastro.space</a></p>
+    </footer>
 
-  <div class="dock">
-    <div class="tabs" role="radiogroup" aria-label="What to show">
-      <button type="button" role="radio" data-view="blink" aria-checked="true">blink</button>
-      <button type="button" role="radio" data-view="diff" aria-checked="false">difference</button>
-    </div>
+    <div class="toast" id="toast" role="status" hidden></div>
 
-    <div class="timeline">
-      <button class="play" id="play" type="button" aria-label="Pause">
-        <svg id="icoPause" viewBox="0 0 14 14"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg>
-        <svg id="icoPlay" viewBox="0 0 14 14" hidden><path d="M3 1.5v11a.6.6 0 0 0 .9.5l9-5.5a.6.6 0 0 0 0-1l-9-5.5a.6.6 0 0 0-.9.5z"/></svg>
-      </button>
-      <input id="scrub" type="range" min="0" max="0" value="0" step="1" aria-label="Frame">
-      <span class="count" id="count">0 / 0</span>
-    </div>
-
-    <div class="switch">
-      <div class="knob" id="knob" data-state="pass" role="radiogroup" aria-label="One image per">
-        <button class="track" type="button" id="knobTrack" aria-label="Switch between passes and exposures"></button>
-        <button class="opt" type="button" role="radio" data-mode="pass" aria-checked="true">sky pass</button>
-        <button class="opt" type="button" role="radio" data-mode="frames" aria-checked="false">exposure</button>
-      </div>
-      <div class="seg" id="targets" role="radiogroup" aria-label="Target"></div>
-    </div>
-
-    <p class="now" id="now" aria-live="polite"></p>
-  </div>
-
-  <div class="corners">
-    <nav class="corner bl"><a href="#about">About the tool &darr;</a></nav>
-    <nav class="corner br"><a href="#credits">Credits</a></nav>
-  </div>
-</main>
-
-<div class="scrim" id="scrim" hidden></div>
-<aside class="drawer" id="settings" aria-label="Settings">
-  <div class="head">
-    <h2>Settings</h2>
-    <button class="icon-btn" id="closeSettings" type="button" aria-label="Close settings">close</button>
-  </div>
-
-  <form id="where">
-    <h3>Where to look</h3>
-    <div class="grid2">
-      <label class="field">RA (deg)<input name="ra" type="number" step="any" min="0" max="360" required></label>
-      <label class="field">Dec (deg)<input name="dec" type="number" step="any" min="-90" max="90" required></label>
-      <label class="field">pmRA (mas/yr)<input name="pmra" type="number" step="any"></label>
-      <label class="field">pmDec (mas/yr)<input name="pmdec" type="number" step="any"></label>
-      <label class="field">Epoch (year)<input name="epoch" type="number" step="any"></label>
-      <label class="field">Field (arcsec)<input name="size" type="number" step="1" min="20" max="600"></label>
-      <label class="field">Detector<select name="band">
-        <option value="D1">D1 &middot; 0.75 to 1.1 &micro;m</option>
-        <option value="D2">D2 &middot; 1.1 to 1.6 &micro;m</option>
-        <option value="D3">D3 &middot; 1.6 to 2.4 &micro;m</option>
-        <option value="D4">D4 &middot; 2.4 to 3.8 &micro;m</option>
-        <option value="D5">D5 &middot; 3.8 to 4.4 &micro;m</option>
-        <option value="D6">D6 &middot; 4.4 to 5.0 &micro;m</option>
-      </select></label>
-    </div>
-    <p class="hint">Give the position at the epoch, and the proper motion moves it to every exposure date. Leave the motion at zero for anything that stays put.</p>
-    <p class="hint">On yourastro.space the five targets open at once. Any other position asks the live archive, which needs the server from the <a href="https://github.com/yourastrophysicist/SPHEREx-site">GitHub repo</a> running on your computer.</p>
-    <div class="row"><button class="btn" type="submit">Show this field</button></div>
-  </form>
-
-  <h3>How it looks</h3>
-  <div class="grid2">
-    <label class="field">Blink every (ms)<input id="speed" type="number" min="100" max="3000" step="50"></label>
-    <label class="field">Contrast (percentile)<input id="contrast" type="number" min="50" max="100" step="0.5"></label>
-    <label class="field">Stretch<select id="stretch"><option value="asinh">asinh</option><option value="linear">linear</option></select></label>
-  </div>
-  <label class="check"><input id="marker" type="checkbox"> Mark where the target should be</label>
-  <label class="check"><input id="invert" type="checkbox"> Invert, dark stars on white</label>
-  <label class="check"><input id="mask" type="checkbox"> Blank the pixels SPHEREx flags as bad</label>
-
-  <h3>Share</h3>
-  <p class="hint" style="margin-top:0">Every setting lives in the address, so a link opens exactly this view.</p>
-  <div class="row"><button class="btn ghost" id="copy" type="button">Copy link</button></div>
-</aside>
-
-<div class="toast" id="toast" role="status" hidden></div>
-
-<article class="article" id="about">
-  <h2>What you are looking at</h2>
-  <p class="lede">SPHEREx is a NASA telescope that photographs the whole sky every six months, in 102 colours of infrared light. This page takes one small patch of that sky and shows it pass after pass, like flipping between two photographs to find what changed.</p>
-  <p>Every image is put on the same grid, with north up and east to the left. Stars far away stay still. A star close to us drifts across the background, and the blink makes that drift jump out. Astronomers have found nearby stars and brown dwarfs this way for more than a century, first with glass plates and since 2018 with WiseView, the tool this page is modelled on.</p>
-  <p>The difference view subtracts the average of all images from each one. What never changes cancels out and turns grey. Something that moved leaves a white spot where it is now and a dark spot where it used to be.</p>
-
-  <h2>How to use it</h2>
-  <ol>
-    <li>Pick one of the five targets under the image, or open Settings and type any position.</li>
-    <li>Watch the blink, or press <kbd>space</kbd> to stop and step with <kbd>&larr;</kbd> and <kbd>&rarr;</kbd>.</li>
-    <li>Switch between one image per sky pass and every single exposure. A pass is the median of all exposures from the same six months, which is cleaner. Single exposures show the exact date of each picture.</li>
-    <li>Press <kbd>d</kbd> for the difference view and <kbd>m</kbd> to hide the marker.</li>
-    <li>Copy the link to send someone exactly what you see.</li>
-  </ol>
-
-  <h2>The five targets</h2>
-  <table>
-    <thead><tr><th>Target</th><th>Why it is here</th><th>Detector</th></tr></thead>
-    <tbody id="targetTable"></tbody>
-  </table>
-
-  <h2>How the images are made</h2>
-  <p>When you ask for a field, the server asks the NASA/IPAC Infrared Science Archive for every SPHEREx exposure that covers it. For each one it moves the target to the date of that exposure using its proper motion, downloads a small cutout around it, and subtracts the glow of dust in our own solar system that SPHEREx models in every file. It then resamples every cutout onto one fixed grid of 6.15 arcsec pixels, so the same pixel always means the same spot on the sky.</p>
-  <p>SPHEREx has six detectors, each behind a filter whose colour changes from one edge to the other. A star therefore falls at a slightly different wavelength in every exposure, and the label on the image says which. That is also why each image gets its own brightness stretch.</p>
-  <p class="note">This is the weekend version. It shows one detector at a time, a bright star like Barnard's saturates in the middle, and a new field has to wait for the archive. The data and the code are all public, so every image here can be checked.</p>
-
-  <h2 id="credits">Credits</h2>
-  <p>Data from SPHEREx Level 2 spectral images, NASA/JPL-Caltech/IPAC, served by the <a href="https://irsa.ipac.caltech.edu/Missions/spherex.html">NASA/IPAC Infrared Science Archive</a>. Positions and proper motions from Gaia DR3 (ESA/DPAC). WISE 0855-0714 from AllWISE, with the motion of Kirkpatrick et al. 2021. The blink idea and its controls follow <a href="http://byw.tools/wiseview">WiseView</a> by Caselden and collaborators. The page design takes its cue from Brice Menard's <a href="https://menard.pha.jhu.edu/uvmap/">full sky ultraviolet map</a>.</p>
-  <p>Made by Observationally Speaking for NASA Space Apps Milano 2026. The data path grows out of our own preparation scripts of 10 November 2026, published in <a href="https://github.com/yourastrophysicist/SPHEREx-site">SPHEREx-site</a>. Parts of the code were written with help from Claude (Anthropic).</p>
-  <footer>Source code and data path at <a href="https://github.com/yourastrophysicist/SPHEREx-site">github.com/yourastrophysicist/SPHEREx-site</a>.</footer>
-</article>
-
-<script src="app.js?v=3"></script>
+<script src="app.js?v=6"></script>
+<script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
 </body>
 </html>
