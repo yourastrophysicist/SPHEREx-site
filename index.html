@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=26">
+    <link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
     <a class="skip" href="#tool" data-i18n="skip">Skip to content</a>
@@ -234,6 +234,19 @@
     </div>
 
     <div class="page">
+        <section class="sec story" id="story" aria-labelledby="storyH">
+            <p class="eyebrow" id="storyLabel">the story</p>
+            <h2 class="giant" id="storyH">Why blink the sky</h2>
+            <div class="seg seg3 story-tabs" id="storyTabs" role="tablist" aria-label="read it as">
+                <button type="button" role="tab" data-read="curious">new to this</button>
+                <button type="button" role="tab" data-read="student">student</button>
+                <button type="button" role="tab" data-read="scientist">scientist</button>
+            </div>
+            <p class="story-lede" id="storyLede" aria-live="polite"></p>
+            <div class="chapters" id="storyChapters"></div>
+            <div class="panel honest" id="storyHonest"></div>
+        </section>
+
         <section class="sec" id="about-map">
             <p class="eyebrow" data-i18n="am.label">about the map</p>
             <h2 class="giant" data-i18n="am.h">The whole sky</h2>
@@ -285,6 +298,15 @@
             <p class="note" data-i18n="planetx">The challenge, Planet X and SPHEREx, also asks whether SPHEREx could catch a distant Planet X. Part of the project is saying honestly, with numbers, how faint is too faint.</p>
         </section>
 
+        <section class="sec" id="sources">
+            <p class="eyebrow">references</p>
+            <h2 class="giant" id="refsH">Sources</h2>
+            <div class="panel refs">
+                <ol id="refList"></ol>
+            </div>
+            <p class="note" id="refsNote"></p>
+        </section>
+
         <section class="sec" id="credits">
             <p class="eyebrow" data-i18n="cr.label">credits</p>
             <h2 class="giant" data-i18n="cr.h">Thanks</h2>
@@ -314,7 +336,8 @@
 
     <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="app.js?v=25"></script>
+<script src="app.js?v=26"></script>
+<script src="story.js?v=1"></script>
 <script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
 </body>
 </html>

@@ -65,7 +65,7 @@ that the files are cached in `~/spherex_data` and the field opens at once.
 |---|---|
 | `index.html`, `style.css`, `app.js` | the page, in the yourastro.space design |
 | `data/` | the five targets as static JSON, with and without flagged pixels |
-| `data/bands/` | each target in all six detectors, written by the GitHub workflow below (not yet read by the page) |
+| `data/bands/` | each target in all six detectors, read by the page's D1 to D6 switch, built by the GitHub workflow below |
 | `data/targets.json` | the five targets, what kind of object each is, why it is in the set and what to look for |
 | `img/` | the Earth by day and at night, in the same oval as the sky map |
 | `tool/spherex_frames.py` | the data path, `get_frames()` |
@@ -84,10 +84,10 @@ main site's `vercel.json`.
 ## Every detector, exported on GitHub
 
 The workflow *Export all detectors* builds `data/bands/<target>_<D1..D6>.json` on GitHub's own
-machines, so the SPHEREx cutouts are never downloaded to a laptop. It runs by itself when the workflow
-or `tool/export_all_bands.py` is pushed, and by hand from the Actions tab or with
-`gh workflow run export-bands.yml`. Each target runs as its own job, and a last job commits the new
-files. Files that already exist are skipped, so a stopped run picks up where it left off.
+machines, so the SPHEREx cutouts are never downloaded to a laptop. Start it by hand from the Actions
+tab. Each target runs as its own job, and files that already exist are skipped, so a stopped run
+picks up where it left off. The workflow never commits. The files come back as one zip per target
+under Artifacts on the run page, to unzip into `data/bands/` and commit yourself.
 
 ## Aladin + SPHEREx Time Lens
 

@@ -224,6 +224,7 @@ const DEFAULTS = {
   view: "blink", mode: "pass", speed: "500", stretch: "asinh", contrast: "99.5",
   invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
   shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1",
+  read: "curious",
 };
 const DATA_KEYS = ["ra", "dec", "size", "band", "pmra", "pmdec", "epoch"];
 const PIX_ARCSEC = 6.15;
@@ -251,6 +252,7 @@ function applyLang(l) {
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   buildTargets(); nowLine(); targetInfo(); exSync(); exTargets();
+  if (typeof renderStory === "function") renderStory();
   if (lastStatus) lastStatus();
   if (data) { buildViews(); draw(); }
 }

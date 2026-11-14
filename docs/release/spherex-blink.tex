@@ -18,7 +18,6 @@
 \usepackage[hidelinks]{hyperref}
 
 % ---------------------------------------------------------------- release facts
-% Fill these in before tagging the release.
 \newcommand{\Version}{v1.0.0}
 \newcommand{\ReleaseDate}{15 November 2026}
 \newcommand{\TeamName}{Observationally Speaking}
@@ -42,6 +41,7 @@
   \centering
   \vspace*{2cm}
   {\large NASA Space Apps Challenge 2026 \par}
+  {\large Challenge: \emph{Planet X and SPHEREx} \par}
   {\large Local event: Milano, Politecnico di Milano, 14 and 15 November 2026 \par}
   \vspace{2.2cm}
   {\Huge\bfseries\color{siteblue} SPHEREx Blink \par}
@@ -57,24 +57,25 @@
   \begin{tabular}{rl}
     Release date & \ReleaseDate \\
     Source code  & \Repo \\
-    Project page & \ProjectPage \\
+    Live page    & \ProjectPage \\
   \end{tabular}
   \vspace{1cm}
 \end{titlepage}
 
 \begin{abstract}
 \noindent
-SPHEREx Blink is a public web tool that shows the same small patch of sky in every
-SPHEREx visit, one after the other, like a flipbook. The user gives a position on the sky,
-and optionally a proper motion. The tool asks the NASA/IPAC Infrared Science Archive (IRSA)
-which SPHEREx exposures cover that position, downloads small cutouts, subtracts the
-zodiacal light, flags bad pixels and resamples every exposure onto one fixed north-up grid.
-On that grid the field stars stand still, so anything that moves or changes brightness
-stands out to the eye. The design follows WiseView, the blink tool of Backyard Worlds:
-Planet 9. Every setting lives in the page URL, so one link is one view and can be shared.
-This document describes release \Version: what the tool does, how the data path works,
-how to run it, how it was tested on the five targets named by the challenge, and what it
-cannot do.
+SPHEREx Blink is a public web page that shows the same small patch of sky in every
+SPHEREx visit, one after the other, like a flipbook. On a fixed north-up grid the field stars
+stand still, so anything close enough to move, or anything that changes brightness, stands out
+to the eye. The page has two steps. A whole-sky map shows where the patch sits, and a blink
+viewer plays the SPHEREx images of it, in any of the six detectors, as one median image per
+six-month sky pass or as every single exposure. Gaia DR3 and CatWISE2020 sources are drawn on
+top, each moved to the date of the image with its own proper motion. The five test targets of
+the challenge ship as static files in all six detectors, 60 views in all, so the page works on
+plain static hosting. Any other position goes through a small Python server that asks the
+NASA/IPAC Infrared Science Archive (IRSA) live. Every setting lives in the page URL, so one
+link is one view. This document describes release \Version: the data path, the files the
+page reads, the page itself, how to run it, how it was tested, and what it cannot do.
 \end{abstract}
 
 \tableofcontents
@@ -85,47 +86,51 @@ cannot do.
 
 The challenge asked for a public-facing web tool. The user enters a right ascension and a
 declination, and the tool plays the SPHEREx images of that patch as a short video, so that
-moving objects are easy to spot. It named five test targets: Barnard's Star, Epsilon Indi B,
-WISE 0855$-$0714, RW Aurigae and R Draconis. It pointed to WiseView as a model.
+moving objects are easy to spot. It named five test targets, Barnard's Star, Epsilon Indi B,
+WISE 0855$-$0714, RW Aurigae and R Draconis, and pointed to WiseView as a model.
 
 SPHEREx (Spectro-Photometer for the History of the Universe, Epoch of Reionization and Ices
 Explorer) was launched on 12 March 2025. It maps the whole sky every six months with six
 detectors between \SI{0.75}{\micro\metre} and \SI{5.0}{\micro\metre}. Each detector sits
 behind a linear variable filter, so the wavelength changes across the array, and one star
-seen in two exposures is in general seen at two slightly different wavelengths. The
-pixels are large, about \ang{;;6.15}. This makes SPHEREx a good survey for slow, bright,
-infrared movers such as nearby stars and brown dwarfs, and a hard one for faint fast
-objects.
+seen in two exposures is in general seen at two slightly different wavelengths. The pixels
+are large, about \ang{;;6.15}. This makes SPHEREx a good survey for slow, bright, infrared
+movers such as nearby stars and brown dwarfs, and for variable stars, and a hard one for faint
+fast objects.
 
-Our answer has three parts.
+Our answer has four parts.
 \begin{enumerate}
   \item A \textbf{data path} in Python, one function call from coordinates to a list of
         aligned frames (Section~\ref{sec:data}).
-  \item A small \textbf{server} that wraps that call in one JSON endpoint and serves the page
+  \item \textbf{Static data}: the five targets exported in all six detectors as compact JSON,
+        built on GitHub so the raw cutouts never fill a laptop (Section~\ref{sec:static}).
+  \item A small \textbf{server} that runs the data path live for any other position
         (Section~\ref{sec:server}).
-  \item A \textbf{web page} that blinks the frames with WiseView-style controls and keeps every
-        setting in the URL (Section~\ref{sec:page}).
+  \item The \textbf{page}, with a whole-sky map and a blink viewer, in English, Indonesian and
+        Italian (Section~\ref{sec:page}).
 \end{enumerate}
 
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[node distance=0.55cm and 0.7cm,
+\begin{tikzpicture}[node distance=0.55cm and 0.6cm,
     box/.style={draw, rounded corners=2pt, align=center, font=\small,
-                minimum height=1.0cm, text width=2.5cm},
+                minimum height=1.0cm, text width=2.45cm},
     arr/.style={-{Stealth[length=2mm]}, thick}]
-  \node[box] (url) {Page URL\\ \texttt{ra, dec, pm,}\\ \texttt{band, size}};
-  \node[box, right=of url] (api) {\texttt{server.py}\\ \texttt{/api/frames}};
-  \node[box, right=of api] (gf) {\texttt{get\_frames()}};
-  \node[box, right=of gf] (irsa) {IRSA\\ TAP + cutouts};
-  \node[box, below=of gf] (grid) {Zodi, flags,\\ one north-up grid};
-  \node[box, below=of url] (blink) {Blink on canvas\\ stretch, marker};
-  \draw[arr] (url) -- (api);
-  \draw[arr] (api) -- (gf);
-  \draw[arr] (gf) -- (irsa);
-  \draw[arr] (irsa) |- (grid);
-  \draw[arr] (grid) -- node[above, font=\footnotesize] {JSON} (blink);
+  \node[box] (irsa) {IRSA\\ TAP + cutouts};
+  \node[box, right=of irsa] (gf) {\texttt{get\_frames()}\\ zodi, flags, grid};
+  \node[box, right=of gf] (json) {\texttt{frames\_json()}\\ int16, overlays};
+  \node[box, above right=0.3cm and 0.6cm of json] (static) {\texttt{data/bands/}\\ 60 static views};
+  \node[box, below right=0.3cm and 0.6cm of json] (api) {\texttt{server.py}\\ \texttt{/api/frames}};
+  \node[box, right=3.6cm of json] (page) {Page\\ blink, overlays};
+  \draw[arr] (irsa) -- (gf);
+  \draw[arr] (gf) -- (json);
+  \draw[arr] (json) -- node[above left, font=\footnotesize] {export} (static);
+  \draw[arr] (json) -- node[below left, font=\footnotesize] {live} (api);
+  \draw[arr] (static) -- (page);
+  \draw[arr] (api) -- (page);
 \end{tikzpicture}
-\caption{The path from a link to the blink.}
+\caption{One code path, two ways to the page. The five targets come from static files, any
+other position from the live server.}
 \end{figure}
 
 % =================================================================
@@ -134,16 +139,17 @@ Our answer has three parts.
 All of this is in \texttt{tool/spherex\_frames.py}. The public entry point is
 \begin{lstlisting}[language=Python]
 frames, grid = get_frames(ra, dec, band="D1", fov=0.03, epoch=2016.0,
-                          pmra=0.0, pmdec=0.0, name="target", mask=True)
+                          pmra=0.0, pmdec=0.0, name="target", mask=True,
+                          progress=None, max_per_pass=None)
 \end{lstlisting}
 It returns the common grid as an \texttt{astropy} WCS and a list of frames, oldest first.
-Each frame holds the image on the grid, the variance, the date (MJD and decimal year),
-the wavelength at the target, the index of the six-month pass it belongs to, the predicted
-pixel of the target at that date, and the archive URI of the exposure.
+Each frame holds the image on the grid, the variance, the date (MJD and decimal year), the
+wavelength at the target, the index of the six-month pass it belongs to, the predicted pixel
+of the target at that date, and the archive URI of the exposure.
 
 \subsection{Which exposures}
-The archive is queried through IRSA's TAP service with ADQL. A row is kept when the
-footprint polygon of the exposure contains the target and the detector matches:
+The archive is queried through IRSA's TAP service with ADQL. A row is kept when the footprint
+polygon of the exposure contains the target and the detector matches:
 \begin{lstlisting}[language=SQL]
 SELECT a.uri, p.time_bounds_lower
 FROM spherex.artifact a JOIN spherex.plane p ON a.planeid = p.planeid
@@ -153,115 +159,208 @@ ORDER BY p.time_bounds_lower
 \end{lstlisting}
 The position used in the query is the target's position at 2026.0. The answer is cached on
 disk for 24 hours, because the query alone takes about 20 seconds and new SPHEREx data reach
-the archive about once a week.
+the archive about once a week. Fields near the ecliptic poles, such as R Draconis, are seen on
+almost every orbit and have hundreds of exposures, so at most 40 exposures per six-month pass
+are kept, spread evenly in time.
 
 \subsection{Moving the target to each date}
-Positions from Gaia DR3 are given at epoch J2016.0. A star with a large proper motion is
-many SPHEREx pixels away from that position by the time SPHEREx looks at it, so the
-position is moved to the date of each exposure. Over a few years a linear motion is enough:
+Positions from Gaia DR3 are given at epoch J2016.0. A star with a large proper motion is many
+SPHEREx pixels away from that position by the time SPHEREx looks at it, so the position is
+moved to the date of each exposure. Over a few years a linear motion is enough:
 \begin{equation}
   \alpha(t) = \alpha_0 + \frac{\mu_{\alpha*}\,(t - t_0)}{\cos\delta_0},
   \qquad
   \delta(t) = \delta_0 + \mu_\delta\,(t - t_0),
 \end{equation}
 with $(\alpha_0,\delta_0)$ at epoch $t_0$, $\mu_{\alpha*} = \mu_\alpha\cos\delta$ and
-$\mu_\delta$ in \si{mas.yr^{-1}}, converted to degrees. Parallax is not applied. For
-Barnard's Star the parallax is \SI{0.55}{\arcsecond}, about a tenth of a pixel, and it shows
-up as a small wobble on top of the straight walk.
+$\mu_\delta$ in \si{mas.yr^{-1}}, converted to degrees. Parallax is not applied. For Barnard's
+Star the parallax is \SI{0.55}{\arcsecond}, about a tenth of a pixel.
 
 \subsection{Cutouts}
-For each exposure a cutout centred on the moved position is asked from IRSA's image
-service. The cutout side is the field of view plus the distance the target travels over
-the whole time span plus two pixels:
+For each exposure a cutout centred on the moved position is asked from IRSA's image service.
+The cutout side is the field of view plus the distance the target travels over the whole time
+span plus two pixels,
 \begin{equation}
   s = \mathrm{fov} + \Delta t \, \sqrt{\mu_{\alpha*}^2 + \mu_\delta^2} + 2\,p,
   \qquad p = \ang{;;6.15},
 \end{equation}
 so that the fixed grid is covered at every date even though the cutout centre moves.
 Downloads run in four parallel threads. The archive sometimes answers with a 503 or sends a
-file cut short, so each download is checked for the five extensions the tool needs
-(\texttt{IMAGE}, \texttt{FLAGS}, \texttt{VARIANCE}, \texttt{ZODI}, \texttt{WCS-WAVE}) and
-retried with an exponential back-off up to eight times. One exposure that still fails is
-skipped and logged instead of stopping the whole view.
+file cut short, so each download is checked for the five extensions the tool needs and retried
+with an exponential back-off up to eight times. One exposure that still fails is skipped and
+logged instead of stopping the whole view.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\linewidth}{@{}l X X@{}}
+\toprule
+Extension & What it holds & What we do with it \\
+\midrule
+\texttt{IMAGE} & surface brightness in MJy/sr & the picture \\
+\texttt{ZODI} & the pipeline's model of the zodiacal light & subtracted, so the sky level does not flicker between visits \\
+\texttt{FLAGS} & one bit per problem (saturation, hot pixel, cosmic ray, and so on) & bits 0, 1, 6, 9, 10, 11, 15, 17, 19 count as bad \\
+\texttt{VARIANCE} & noise per pixel & kept for light curves and centroid errors \\
+\texttt{WCS-WAVE} & wavelength at each pixel & the wavelength at the target in each exposure \\
+\bottomrule
+\end{tabularx}
+\caption{The parts of each SPHEREx Level 2 file the tool uses.}
+\end{table}
 
 \subsection{Cleaning each exposure}
-\begin{itemize}
-  \item \textbf{Zodiacal light.} The \texttt{ZODI} extension, the pipeline's model of the
-        zodiacal light, is subtracted from \texttt{IMAGE}. Without this the sky level changes
-        from visit to visit and the blink flickers.
-  \item \textbf{Bad pixels.} A pixel is flagged when any of the flag bits 0, 1, 6, 9, 10,
-        11, 15, 17 or 19 is set, the same set used in our prep script
-        \texttt{coadd\_spherex.py}. With \texttt{mask=True} flagged pixels become NaN. The
-        viewer asks with \texttt{mask=0} by default, because the saturated core of a bright
-        star is flagged and a blink is easier to read when the star is still drawn.
-  \item \textbf{Wavelength at the target.} The spectral WCS (\texttt{WCS-WAVE}, key
-        \texttt{W}) gives the wavelength at the target's pixel, reported with every frame.
-\end{itemize}
+The \texttt{ZODI} extension is subtracted from \texttt{IMAGE}. A pixel is flagged when any of
+the bits in the table above is set, the same set used in our prep script
+\texttt{coadd\_spherex.py}, and with \texttt{mask} on flagged pixels become no data. The page
+shows unmasked pixels by default, because the saturated core of a bright star is flagged and a
+blink reads better when the star is still drawn. The spectral WCS gives the wavelength at the
+target's pixel, reported with every frame.
 
 \subsection{One grid for every frame}
-The grid is a gnomonic (TAN) projection, north up and east left, with SPHEREx-sized pixels.
-It is centred on the target's position at the mean date of all exposures and has an odd
-number of pixels per side, $N = \mathrm{round}(\mathrm{fov}/p)$ rounded up to odd, so that
-the centre falls on a pixel. Because the grid is fixed on the sky and not on the target, the
-field stars stay still and a moving target walks across the grid. For every grid pixel the
-sky position is converted to the pixel coordinates of the exposure through the exposure's
-own WCS, and the image is sampled there with bilinear interpolation. The variance is
-sampled with nearest neighbour, so it is not smoothed.
+The grid is a gnomonic (TAN) projection, north up and east left, with SPHEREx-sized pixels. It
+is centred on the target's position at the mean date of all exposures and has an odd number of
+pixels per side, so the centre falls on a pixel. The page uses a field of \SI{360}{\arcsecond},
+which gives $59 \times 59$ pixels. Because the grid is fixed on the sky and not on the target,
+the field stars stay still and a moving target walks across it. For every grid pixel the sky
+position is converted to the pixel coordinates of the exposure through the exposure's own WCS,
+and the image is sampled there with bilinear interpolation. The variance is sampled with
+nearest neighbour, so it is not smoothed.
 
 \subsection{Passes}
-SPHEREx covers a given point in visits a few days long, about six months apart. The frames
-are split into passes wherever two consecutive exposures are more than 60 days apart. The
-pass index is what the viewer uses for its default mode (Section~\ref{sec:page}).
+SPHEREx covers a given point in visits a few days long, about six months apart. The frames are
+split into passes wherever two consecutive exposures are more than 60 days apart. Near the
+ecliptic poles the visits run together, so a polar field such as R Draconis falls into only two
+or three passes even with 80 or more exposures.
+
+\subsection{Catalogue overlays}
+Two catalogues come from the same IRSA TAP service, Gaia DR3 (positions at 2016.0) and
+CatWISE2020 (positions at MJD 57170, about 2015.4), which also holds objects too cold for Gaia,
+such as WISE 0855$-$0714. Each source is sent as its pixel on the grid at the catalogue epoch
+plus its motion in pixels per year, so the page can put it where it was on the date of any
+image. A star that walks in the data walks under its own circle.
+
+% =================================================================
+\section{Static data}\label{sec:static}
+
+The page is served from GitHub Pages, which cannot run Python. The five targets are therefore
+exported ahead of time through the same function the server uses (\texttt{frames\_json}), so a
+static file and a live answer are byte for byte the same.
+
+\subsection{The files}
+\sloppy
+\begin{itemize}
+  \item Each target in its best detector, written by \texttt{tool/export\_static.py} to
+        \texttt{data/<target>.json}, with a \texttt{\_mask} version that blanks flagged pixels.
+  \item Each target in all six detectors, 60 files in all, written by
+        \texttt{tool/export\_all\_bands.py} to \texttt{data/bands/<target>\_<band>.json}, with
+        the same \texttt{\_mask} versions.
+  \item What each target is, in \texttt{data/targets.json}, why it is in the set, what to look
+        for, and its numbers from Gaia DR3, AllWISE and CatWISE2020, checked on 14 November 2026.
+\end{itemize}
+\fussy
+
+\subsection{Format of one view}
+One file is one target in one detector. It holds the grid (centre, size, reference pixel), the
+pixel scale, the detector, the catalogue overlays and the frames. Each frame carries its date,
+pass, wavelength at the target, predicted target pixel and file name at IRSA, so every image can
+be traced back to the archive. The image itself travels as little-endian int16 in base64,
+\begin{equation}
+  v = \ell + s\,(c + 32767), \qquad s = \frac{v_\mathrm{max} - v_\mathrm{min}}{65534},
+\end{equation}
+with $\ell$ the minimum of the frame, $c$ the stored code and $c = -32768$ meaning no data. This
+is about a third of the size of plain JSON numbers. The rounding error is $1/65534$ of the range
+of the frame, far below the noise. A view is 0.4 to 0.8 MB.
+
+\subsection{Built on GitHub}
+The raw cutouts for all six detectors of the five targets come to several gigabytes, and on
+14 November they filled the disk of the laptop we were working on. The export now runs on
+GitHub instead, through the workflow \texttt{.github/workflows/export-bands.yml}. Each target
+runs as its own job, the cutouts of each detector are deleted as soon as its JSON is written,
+and files that already exist are skipped, so a stopped run picks up where it left off. The
+workflow never commits. The finished files come back as one zip per target, which a team member
+checks and commits by hand.
 
 % =================================================================
 \section{The server}\label{sec:server}
 
-\texttt{tool/server.py} uses the Python standard library only, besides the packages the
-data path already needs (\texttt{numpy}, \texttt{scipy}, \texttt{astropy}). It serves the
-page in \texttt{tool/web/} and one endpoint:
+\texttt{tool/server.py} uses the Python standard library only, besides the packages the data
+path needs (\texttt{numpy}, \texttt{scipy}, \texttt{astropy}). It serves the page and two
+endpoints.
 \begin{lstlisting}
-GET /api/frames?ra=..&dec=..&size=..&band=..&epoch=..&pmra=..&pmdec=..&name=..&mask=..
+GET /api/frames?ra=..&dec=..&size=..&band=..&epoch=..&pmra=..&pmdec=..&mask=..&job=..
+GET /api/progress?job=..
 \end{lstlisting}
-Inputs are checked ($0 \le \alpha < 360$, $-90 \le \delta \le 90$, field side between 20
-and 600 arcsec, detector D1 to D6) and a bad input returns HTTP 400 with the reason. An
-archive failure returns HTTP 502 with the error text, so the page can tell the user what
-went wrong. Results are kept in memory per view, and when the same view is asked twice at
-once the second request waits for the first download instead of starting its own.
+Inputs are checked ($0 \le \alpha < 360$, $-90 \le \delta \le 90$, field side between 20 and
+900 arcsec, detector D1 to D6) and a bad input returns HTTP 400 with the reason. An archive
+failure returns HTTP 502 with the error text, so the page can tell the user what went wrong.
+While a new field downloads, \texttt{/api/progress} reports how many cutouts are done, and the
+page shows a progress bar. Results are kept in memory per view, and when the same view is asked
+twice at once the second request waits for the first download instead of starting its own.
 
 % =================================================================
 \section{The page}\label{sec:page}
 
-The page (\texttt{tool/web/index.html} and \texttt{app.js}) draws the frames on a canvas,
-pixel for pixel, with no smoothing.
+The page is plain HTML, CSS and JavaScript (\texttt{index.html}, \texttt{style.css},
+\texttt{app.js}) in the design of yourastro.space, with a light and a dark theme, in English,
+Indonesian and Italian.
 
-\paragraph{Two modes.} In \texttt{pass} mode, the default, each pass is reduced to its
-per-pixel median, and the blink steps through the passes. This removes most cosmic rays
-and single-exposure artefacts, and it matches the six-month rhythm in which a proper motion
-becomes visible. In \texttt{frames} mode every exposure is shown on its own, with its date,
-pass, wavelength and file name.
+\subsection{Step 01, the whole sky}
+One Aladin Lite map (CDS, Strasbourg) shows the whole sky, laid out after Brice M\'enard's
+ultraviolet sky map. It has three shapes (a Mollweide map with the Milky Way across the middle,
+a turning globe seen from outside, and the view from inside) and a switch between the sky and
+the Earth, where NASA's Blue Marble and Black Marble show the planet SPHEREx circles. The sky
+can show SPHEREx DR1, the mission's all-sky release in 102 colours, with D1 to D6 buttons and a
+wavelength slider, or 2MASS, AllWISE and DSS2 for comparison. The five targets are markers that
+load into the viewer below, and the footprint of the field on screen is drawn on the map. A
+crosshair, a draggable lens that hands its centre to the viewer, and a fixed Home view come from
+our teammate's Time Lens prototype.
+
+\subsection{Step 02, the blink viewer}
+The viewer draws the frames on a canvas, pixel for pixel, with no smoothing.
+
+\paragraph{Sky pass or exposure.} With one image per \emph{sky pass}, the default, each pass is
+reduced to its per-pixel median, and the blink steps through the passes. This removes most cosmic
+rays and single-exposure artefacts, and it matches the six-month rhythm in which a proper motion
+becomes visible. With one image per \emph{exposure}, every exposure is shown on its own. The
+counter always gives both numbers, for example \texttt{pass 2 / 3 · 60 exp} in the first mode
+and \texttt{exp 12 / 60 · pass 1 / 3} in the second, so it is clear how much data stands behind
+the few pass images.
+
+\paragraph{Detector.} Buttons D1 to D6, or the keys 1 to 6, switch the detector. For the five
+targets this loads the matching file from \texttt{data/bands/}. The target's best detector is
+underlined, and choosing a target opens it on that detector.
+
+\paragraph{Blink or difference.} The difference view subtracts from each image the per-pixel
+median $M$ of all images, $D_i = I_i - M$. Whatever never changes turns mid grey. Something that
+moved leaves a bright spot where it is and a dark spot where it was.
 
 \paragraph{Stretch.} Each image is stretched on its own, so the change of brightness with
-wavelength between exposures does not swamp the blink. The sky level $m$ is the median of
-the finite pixels and the noise is the scaled median absolute deviation,
-$\sigma = 1.4826\,\mathrm{MAD}$. In the default \texttt{asinh} stretch a pixel value $v$
-becomes
+wavelength between exposures does not swamp the blink. The sky level $m$ is the median of the
+finite pixels and the noise is the scaled median absolute deviation, $\sigma = 1.4826\,\mathrm{MAD}$.
+In the default \texttt{asinh} stretch a pixel value $v$ becomes
 \begin{equation}
   t = \frac{\operatorname{arsinh}\big((v - \ell)/\beta\big)}
            {\operatorname{arsinh}\big((h - \ell)/\beta\big)},
   \qquad \ell = m - 2\sigma, \quad \beta = 3\sigma,
 \end{equation}
-clipped to $[0,1]$, where $h$ is the upper percentile set by the \texttt{contrast}
-parameter. This keeps faint field stars visible next to a saturated bright one. A linear
-stretch between two percentiles is also available.
+clipped to $[0,1]$, where $h$ is the upper percentile set by the \texttt{contrast} setting. In
+the difference view the stretch is symmetric about zero, $t = \tfrac12 + \tfrac12\,
+\operatorname{arsinh}(D/\beta)/\operatorname{arsinh}(T/\beta)$ with $\beta = 2\sigma$ and $T$
+the upper percentile of $|D|$. A linear stretch is also available.
 
-\paragraph{Marker and compass.} A red marker of four short ticks, with a gap in the middle so
-it never covers the object, shows where the target should be at each date. N and E labels
-show the orientation.
+\paragraph{Overlays, marker and orientation.} Gaia DR3 and CatWISE2020 sources are drawn as
+circles down to a chosen magnitude, each at its place on the date of the image. A marker of four
+short ticks shows where the target should be, with a gap in the middle so it never covers the
+object. A compass and a \SI{30}{\arcsecond} scale bar show orientation and size.
 
-\paragraph{The URL is the state.} As in WiseView, every setting is a URL parameter, and the
-URL is rewritten when a control changes. Table~\ref{tab:params} lists them. Presets fill in
-the position, motion and detector for the five challenge targets, for example
-\texttt{/?target=Barnard}.
+\paragraph{This target.} Under the target list a panel says what to look for in the blink and
+gives the target's distance, motion in arcseconds and pixels per year, and best detector, read
+from \texttt{data/targets.json}. The table at the bottom of the page gives the full reason each
+target is in the set.
+
+\paragraph{The URL is the state.} As in WiseView, every setting is a URL parameter, and the URL
+is rewritten when a control changes. Table~\ref{tab:params} lists the viewer's parameters. The
+map adds \texttt{shape}, \texttt{world}, \texttt{layer}, \texttt{frame}, \texttt{earth} and
+\texttt{cross}. Both the map and the viewer have a full screen view.
 
 \begin{table}[h]
 \centering
@@ -270,52 +369,59 @@ the position, motion and detector for the five challenge targets, for example
 \toprule
 Parameter & Meaning & Default \\
 \midrule
-\texttt{target} & preset name: \texttt{Barnard}, \texttt{EpsIndB}, \texttt{WISE0855}, \texttt{RWAur}, \texttt{RDra} & \\
+\texttt{target} & preset: \texttt{Barnard}, \texttt{EpsIndB}, \texttt{WISE0855}, \texttt{RWAur}, \texttt{RDra} & \texttt{Barnard} \\
 \texttt{ra}, \texttt{dec} & position in degrees at \texttt{epoch} & \\
 \texttt{pmra}, \texttt{pmdec} & proper motion in \si{mas.yr^{-1}} & 0 \\
 \texttt{epoch} & epoch of the position, decimal year & 2016.0 \\
-\texttt{size} & field side in arcsec & 108 \\
-\texttt{band} & SPHEREx detector, D1 to D6 & D1 \\
+\texttt{size} & field side in arcsec, up to 900 & 360 \\
+\texttt{band} & SPHEREx detector, D1 to D6 & best for the target \\
+\texttt{view} & \texttt{blink} or \texttt{diff} & \texttt{blink} \\
 \texttt{mode} & \texttt{pass} (median of each pass) or \texttt{frames} (every exposure) & \texttt{pass} \\
 \texttt{speed} & blink interval in ms & 500 \\
 \texttt{stretch} & \texttt{asinh} or \texttt{linear} & \texttt{asinh} \\
 \texttt{contrast} & upper percentile of the stretch & 99.5 \\
 \texttt{invert}, \texttt{marker}, \texttt{mask} & 1 or 0 & 0, 1, 0 \\
+\texttt{gaia}, \texttt{catwise} & catalogue overlay on or off & 1, 0 \\
+\texttt{gmag}, \texttt{wmag} & faintest Gaia $G$ and CatWISE $W2$ drawn & 16, 16 \\
 \bottomrule
 \end{tabularx}
-\caption{URL parameters. Keyboard: space plays or pauses, the arrow keys step.}
+\caption{Viewer URL parameters. Keys: space plays or pauses, the arrows step, 1 to 6 choose the
+detector, \texttt{d} difference, \texttt{m} marker, \texttt{g} Gaia, \texttt{f} full screen.}
 \label{tab:params}
 \end{table}
 
 % =================================================================
 \section{Running it}
 
+The live page needs nothing installed. To look at a position other than the five targets, run
+the server on your own computer:
 \begin{lstlisting}[language=bash]
 git clone https://github.com/yourastrophysicist/SPHEREx-site
-cd SPHEREx-site/tool
+cd SPHEREx-site
 conda activate astrolab2      # any Python 3.10+ with numpy, scipy, astropy
-python server.py
-# open http://localhost:8000/?target=Barnard
+python tool/server.py         # then open http://localhost:8000/?target=Barnard
+python tool/export_static.py  # rebuilds data/ after a change to the data path
 \end{lstlisting}
-The first view of a new field asks IRSA for every exposure and downloads the cutouts. This
-takes a few minutes, and up to ten when the archive is busy. The files are then kept in
-\texttt{\textasciitilde/spherex\_data} (or the folder in \texttt{\$SPHEREX\_DATA}) and the
-same view opens in seconds. The port can be changed with \texttt{\$PORT}.
+The first view of a new field asks IRSA for every exposure and downloads the cutouts. This takes
+a few minutes, and longer when the archive is busy. The files are then kept in
+\texttt{\textasciitilde/spherex\_data} (or the folder in \texttt{\$SPHEREX\_DATA}) and the same
+view opens in seconds. To rebuild \texttt{data/bands/}, run the workflow \emph{Export all
+detectors} from the Actions tab of the repository and commit the files it returns.
 
 % =================================================================
 \section{Tests on the challenge targets}
 
 Table~\ref{tab:targets} gives the inputs of the five presets. Positions and motions are from
 Gaia DR3 at J2016.0, except WISE 0855$-$0714, which is too faint for Gaia and uses the AllWISE
-position with the motion of Kirkpatrick et al.\ (2021). The detector is the one where the
-target is easiest to see.
+position with the motion of Kirkpatrick et al.\ (2021). The last column is the detector where
+the target is easiest to see, which the page opens first.
 
 \begin{table}[h]
 \centering
 \small
 \begin{tabular}{@{}lrrrrrc@{}}
 \toprule
-Target & $\alpha$ (deg) & $\delta$ (deg) & epoch & $\mu_{\alpha*}$ & $\mu_\delta$ & detector \\
+Target & $\alpha$ (deg) & $\delta$ (deg) & epoch & $\mu_{\alpha*}$ & $\mu_\delta$ & best \\
  & & & & \multicolumn{2}{c}{(\si{mas.yr^{-1}})} & \\
 \midrule
 Barnard's Star   & 269.448503 &   4.739420 & 2016.0  &  $-801.6$ & 10362.4 & D1 \\
@@ -329,77 +435,117 @@ R Draconis       & 248.167378 &  66.755007 & 2016.0  &  $-20.6$ &    6.1 & D3 \\
 \label{tab:targets}
 \end{table}
 
-\paragraph{Barnard's Star, D1.} 60 exposures over 3 passes, on a $19\times19$ grid
-(\SI{108}{\arcsecond} field). The measured position of the star sits \SI{0.06}{px} from the
-position predicted by the proper motion, which checks the alignment and the motion
-correction together. The core of the star is saturated and flagged (57 grid pixels in the
-masked view), which is why the viewer draws unmasked pixels by default. In the blink the
-star walks north by about \SI{10.4}{\arcsecond} per year, which is \SI{0.85}{px} per
-six-month pass, and the walk is plain to see over the three passes.
+\subsection{What the data hold}
+Table~\ref{tab:counts} gives the number of exposures and sky passes in each of the 60 views, as
+exported on 14 November 2026. Every view has data, and in every view the wavelength at the
+target falls inside the range of its detector.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Target & D1 & D2 & D3 & D4 & D5 & D6 \\
+\midrule
+Barnard's Star   & 60 / 3 & 61 / 3 & 59 / 3 & 59 / 3 & 61 / 3 & 58 / 3 \\
+Epsilon Indi B   & 46 / 3 & 93 / 4 & 96 / 4 & 46 / 3 & 84 / 4 & 93 / 4 \\
+WISE 0855$-$0714 & 36 / 3 & 48 / 3 & 45 / 3 & 36 / 3 & 47 / 3 & 45 / 3 \\
+RW Aurigae       & 56 / 3 & 55 / 3 & 56 / 3 & 56 / 3 & 56 / 3 & 56 / 3 \\
+R Draconis       & 80 / 2 & 89 / 3 & 80 / 2 & 78 / 2 & 89 / 3 & 80 / 2 \\
+\bottomrule
+\end{tabular}
+\caption{Exposures / sky passes per target and detector. R Draconis has at most 40 exposures per
+pass kept (Section~\ref{sec:data}).}
+\label{tab:counts}
+\end{table}
+
+\subsection{What each target shows}
+\paragraph{Barnard's Star, D1.} 60 exposures over 3 passes. Across them the star lands on average
+within a tenth of a pixel of the position predicted by the Gaia proper motion, which checks the
+alignment and the motion correction together. It walks north by about \SI{10.4}{\arcsecond} per
+year, which is \SI{0.85}{px} per six-month pass, plain to see over the three passes. Its core is
+saturated and flagged, so with the mask on it shows as a moving hole.
+
+\paragraph{Epsilon Indi B, D5.} The pair of brown dwarfs is one blob at SPHEREx resolution and moves
+about \SI{0.76}{px} per year, so in the difference view it shows as a dark and a bright spot side
+by side. Gaia gives a RUWE of 4.3, as expected for an unresolved pair.
 
 \paragraph{WISE 0855$-$0714, D6.} The coldest known brown dwarf is faint at SPHEREx's longest
-wavelengths but visible in the pass medians. The preset opens a wider field,
-\SI{216}{\arcsecond}, to give more field stars to judge against.
+wavelengths and missing or very weak in D1 to D4. Stepping through the detectors shows it appear,
+which is why the tool keeps each detector apart. In CatWISE2020 the object is split into several
+entries with motions near \SI{8}{\arcsecond} per year, because it moved so far across the WISE
+co-adds.
 
-\paragraph{RW Aurigae and R Draconis.} These two barely move. They are in the set to show
-the other half of the job: a young variable star and a Mira variable whose brightness
-changes between passes while the field around them stays the same.
+\paragraph{RW Aurigae and R Draconis.} These two barely move (0.004 and 0.003 pixels per year).
+They are in the set to show the other half of the job, a star that stays in place while its
+brightness changes. R Draconis is a Mira variable with a period of 246 days, and since six months
+is not a whole number of periods, each pass catches it at a different phase. For R Draconis the
+CatWISE overlay is empty, because IRSA returned no CatWISE2020 sources in that field. The Gaia
+overlay works there.
 
 % =================================================================
 \section{What it can and cannot find}
 
-Published forecasts put a single SPHEREx exposure at roughly $V \approx 17$ for a point
-source at 5$\sigma$ per channel, and the all-sky map after four passes at about AB 19.5 to
-19.9 (deeper near the ecliptic poles). These are forecasts, not our measurements. The blink works on single passes, so its
-practical limit is close to the single-exposure depth.
+Published forecasts put a single SPHEREx exposure at roughly $V \approx 17$ for a point source at
+5$\sigma$ per channel, and the all-sky map after four passes at about AB 19.5 to 19.9 (deeper near
+the ecliptic poles). These are forecasts, not our measurements. The blink works on single passes,
+so its practical limit is close to the depth of one pass.
 
 Behind the challenge sits the question of a distant ``Planet X''. For a planet seen in reflected
-sunlight at opposition the flux falls as $r^{-4}$:
+sunlight at opposition the flux falls as $r^{-4}$,
 \begin{equation}
   m = m_\odot - 2.5 \log_{10} \frac{A_g R_p^2}{r^2 \Delta^2},
   \qquad m_\odot = -26.74\ (V),
 \end{equation}
-with the radius $R_p$ and the distances $r$ and $\Delta \approx r$ in AU and $A_g$ the
-geometric albedo. A planet of three Earth radii with $A_g = 0.3$ is at $V \approx 18.8$ at
-300 AU and $V \approx 21.0$ at 500 AU. That is fainter than a single SPHEREx exposure, so this
-tool will not find a Planet Nine of the usual size and distance, and we say so on the page.
-What it does well is the thing SPHEREx is suited for: nearby stars and brown dwarfs with
-large proper motions, and variable stars, at infrared wavelengths and on the whole sky.
+with the radius $R_p$ and the distances $r$ and $\Delta \approx r$ in AU and $A_g$ the geometric
+albedo. A planet of three Earth radii with $A_g = 0.3$ is at $V \approx 18.8$ at 300 AU and
+$V \approx 21.0$ at 500 AU. That is fainter than a single SPHEREx exposure, so this tool will not
+find a Planet Nine of the usual size and distance, and we say so on the page. What it does well
+is what SPHEREx is suited for, nearby stars and brown dwarfs with large proper motions and
+variable stars, in the infrared and on the whole sky.
 
 \paragraph{Known limits of \Version.}
 \begin{itemize}
   \item Linear proper motion only, no parallax.
-  \item One detector at a time. The wavelength changes slightly between exposures because of
-        the linear variable filter. It is reported, not corrected.
-  \item The first view of a new field is slow because the cutouts come from IRSA live.
-  \item The server is meant to run locally or behind a single host. It has no rate limiting.
+  \item One detector at a time. The wavelength changes slightly between exposures because of the
+        linear variable filter. It is reported, not corrected.
+  \item On the live site only the five targets open. Any other position needs the server running
+        on the user's own computer, and its first view is slow because the cutouts come from IRSA live.
+  \item Near the ecliptic poles the 60-day rule merges visits into few passes.
+  \item The server is meant to run locally. It has no rate limiting.
 \end{itemize}
 
 % =================================================================
 \section{Use of earlier work and of AI}
 
 \paragraph{Earlier work.} The data path grows out of two prep scripts and a notebook made by
-Jessica Syafaq Muthmaina on 10 November 2026, before the event, to check that the SPHEREx
-data could be reached. The TAP query, the proper-motion centring, the retrying download and
-the flag mask come from there. The Milano Local Lead confirmed on 14 November 2026 that this
-earlier work may be used. It is kept apart in the \texttt{prep/} folder of the repository,
-with its own README and guide.
+Jessica Syafaq Muthmaina on 10 November 2026, before the event, to check that the SPHEREx data
+could be reached. The TAP query, the proper-motion centring, the retrying download and the flag
+mask come from there. The Milano Local Lead confirmed on 14 November 2026 that this earlier work
+may be used. It is kept apart in the \texttt{prep/} folder of the repository, with its own README
+and guide. The lens, the crosshair and the fixed Home of the whole-sky map come from Joowon Sohn's
+Time Lens prototype.
 
 \paragraph{AI.} Parts of the code and of this document were written with help from Claude
-(Anthropic). The team chose the method, checked the results against the archive and the
-expected motions, and is responsible for the content.
+(Anthropic). The team chose the method, checked the results against the archive and the expected
+motions, and is responsible for the content.
 
 % =================================================================
 \section{Credits and data use}
 
 \begin{itemize}
-  \item \textbf{SPHEREx} Level 2 spectral images: NASA/JPL-Caltech/IPAC, through the NASA/IPAC
-        Infrared Science Archive (IRSA).
+  \item \textbf{SPHEREx} Level 2 spectral images and the DR1 all-sky cube: NASA/JPL-Caltech/IPAC,
+        through the NASA/IPAC Infrared Science Archive (IRSA).
   \item \textbf{Gaia} DR3: European Space Agency, mission Gaia, processed by the Gaia Data
         Processing and Analysis Consortium (DPAC).
-  \item \textbf{AllWISE}: NASA/JPL-Caltech, UCLA. Motion of WISE 0855$-$0714 from Kirkpatrick
-        et al.\ (2021).
-  \item \textbf{WiseView} (Caselden et al.), used as the model for the interface.
+  \item \textbf{AllWISE} and \textbf{CatWISE2020}: NASA/JPL-Caltech, UCLA. Motion of
+        WISE 0855$-$0714 from Kirkpatrick et al.\ (2021).
+  \item \textbf{AAVSO VSX} for the period and range of R Draconis.
+  \item \textbf{Aladin Lite} (CDS, Strasbourg), with 2MASS and AllWISE through IRSA and DSS2
+        through ESA.
+  \item \textbf{Blue Marble} and \textbf{Black Marble}: NASA, through NASA GIBS.
+  \item \textbf{WiseView} (Caselden et al.), the model for the blink, and Brice M\'enard's
+        ultraviolet sky map, the model for the whole-sky layout.
   \item Software: NumPy, SciPy, Astropy.
 \end{itemize}
 NASA does not endorse this project. Data are used under the terms of each archive.
@@ -409,19 +555,20 @@ NASA does not endorse this project. Data are used under the terms of each archiv
 \section*{References}
 \addcontentsline{toc}{section}{References}
 \begin{enumerate}[label={[\arabic*]}, leftmargin=*]
-  \item Bock, J.\ et al., SPHEREx mission, NASA/JPL-Caltech/IPAC,
-        \url{https://spherex.caltech.edu}.
+  \item SPHEREx mission, NASA/JPL-Caltech/IPAC, \url{https://spherex.caltech.edu}.
   \item NASA/IPAC Infrared Science Archive, SPHEREx data and tutorials,
         \url{https://irsa.ipac.caltech.edu} and \url{https://caltech-ipac.github.io/irsa-tutorials}.
   \item Gaia Collaboration, Vallenari, A.\ et al.\ 2023, \textit{Gaia Data Release 3: Summary of
         the content and survey properties}, A\&A 674, A1.
+  \item Marocco, F.\ et al.\ 2021, \textit{The CatWISE2020 Catalog}, ApJS 253, 8.
   \item Kirkpatrick, J.\,D.\ et al.\ 2021, \textit{The field substellar mass function based on
         the full-sky 20 pc census of 525 L, T, and Y dwarfs}, ApJS 253, 7.
-  \item Caselden, D.\ et al.\ 2018, \textit{WiseView: Visualizing motion and variability of
-        faint WISE sources}, Astrophysics Source Code Library, ascl:1806.004.
+  \item Caselden, D.\ et al.\ 2018, \textit{WiseView: Visualizing motion and variability of faint
+        WISE sources}, Astrophysics Source Code Library, ascl:1806.004.
+  \item Bonnarel, F.\ et al.\ 2000, \textit{The ALADIN interactive sky atlas}, A\&AS 143, 33.
+  \item M\'enard, B., ultraviolet sky map, \url{https://menard.pha.jhu.edu/uvmap}.
   \item Astropy Collaboration 2022, \textit{The Astropy Project: Sustaining and growing a
-        community-oriented open-source project and the latest major release (v5.0)},
-        ApJ 935, 167.
+        community-oriented open-source project and the latest major release (v5.0)}, ApJ 935, 167.
   \item Earlier work: \texttt{prep/} in \Repo, 10 November 2026.
 \end{enumerate}
 
