@@ -146,6 +146,19 @@ button, input, select { font: inherit; color: inherit; }
 .explore > .panel { position: relative; }
 .ex-card { position: absolute; left: 12px; top: var(--k-top, 52px); z-index: 7; width: min(340px, calc(100% - 84px)); max-height: calc(100% - var(--k-top, 52px) - 12px); overflow: auto; padding: 14px 16px 14px; background: var(--panel); color: var(--blue); box-shadow: 0 0 0 1px var(--blue), 0 10px 30px rgba(0, 0, 0, .35); font-size: 15px; line-height: 1.5; }
 .ex-card[hidden] { display: none; }
+.ex-peek { position: absolute; z-index: 8; width: 200px; padding: 10px 12px 12px; background: var(--panel); color: var(--blue); box-shadow: 0 0 0 1px var(--blue), 0 10px 30px rgba(0, 0, 0, .4); }
+.ex-peek[hidden] { display: none; }
+.ex-peek .ex-card-x { right: 4px; top: 2px; width: 28px; height: 28px; font-size: 20px; }
+.ex-peek-name { margin: 0 26px 2px 0; font: 400 18px/1.1 var(--display); text-transform: uppercase; letter-spacing: .01em; }
+.ex-peek-tag, .ex-peek-when { margin: 0 0 8px; font: 500 10.5px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; opacity: .85; }
+.ex-peek-when { margin: 6px 0 8px; }
+.ex-peek canvas { display: block; width: 176px; height: 176px; background: #000; image-rendering: pixelated; cursor: pointer; }
+.ex-peek .mini { width: 100%; }
+.ex-peek.peek-dock { left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; max-width: 360px; margin: 0 auto; padding: 8px 10px; display: grid; grid-template-columns: 96px 1fr; grid-template-rows: auto auto 1fr auto; column-gap: 10px; align-items: start; }
+.ex-peek.peek-dock canvas { grid-column: 1; grid-row: 1 / 5; width: 96px; height: 96px; }
+.ex-peek.peek-dock .ex-peek-name { grid-column: 2; font-size: 16px; }
+.ex-peek.peek-dock .ex-peek-tag, .ex-peek.peek-dock .ex-peek-when { grid-column: 2; margin: 0 0 4px; }
+.ex-peek.peek-dock .mini { grid-column: 2; align-self: end; }
 .ex-card p { margin: 0 0 10px; }
 .ex-card-type { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
 .ex-card-name { margin: 0 32px 8px 0; font: 400 26px/1.05 var(--display); text-transform: uppercase; letter-spacing: .01em; }

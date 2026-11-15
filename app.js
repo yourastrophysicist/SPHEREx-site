@@ -15,6 +15,7 @@ const PRESETS = {
 // ---------- words, in the three languages of the site ----------
 const WORDS = {
   en: {
+    "pk.open": "open in the viewer", "pk.load": "loading the blink", "pk.fail": "could not load the preview", "pk.pass": "pass {i} / {n} · {y}", "pk.close": "Close the preview",
     "nav.lab": "next field", "nav.n": "north", "nav.s": "south", "nav.e": "east", "nav.w": "west", "nav.r": "random spot", "nav.rep": "report a candidate",
     "nav.hint": "Each step moves one field over, about 5 arcmin. Report opens a short form on GitHub with this exact view filled in; it needs a free GitHub account.",
     "rep.title": "Candidate at RA {ra}, Dec {dec} ({b})", "rep.body": "View: {url}\n\nWhat I saw (which frames, which direction, how bright):\n\n\nChecks:\n- [ ] It has no Gaia DR3 circle on it\n- [ ] It has no CatWISE2020 circle on it\n- [ ] It shows in more than one sky pass\n- [ ] It is not on a flagged or blank pixel",
@@ -72,6 +73,7 @@ const WORDS = {
     "cap.earth.night": "The planet SPHEREx circles, at night, lit by its cities|Black Marble, NASA via GIBS",
   },
   id: {
+    "pk.open": "buka di penampil", "pk.load": "memuat kedipan", "pk.fail": "pratinjau gagal dimuat", "pk.pass": "lintasan {i} / {n} · {y}", "pk.close": "Tutup pratinjau",
     "nav.lab": "medan berikutnya", "nav.n": "utara", "nav.s": "selatan", "nav.e": "timur", "nav.w": "barat", "nav.r": "titik acak", "nav.rep": "laporkan kandidat",
     "nav.hint": "Setiap langkah bergeser satu medan, sekitar 5 menit busur. Lapor membuka formulir singkat di GitHub dengan tampilan ini sudah terisi; perlu akun GitHub gratis.",
     "fk.sum": "uji dengan objek bergerak palsu", "fk.on": "tambahkan objek bergerak palsu ke gambar asli", "fk.mag": "kecerlangan (mag AB)", "fk.speed": "gerak (detik busur/tahun)", "fk.pa": "arah (derajat, 0 = utara, 90 = timur)",
@@ -128,6 +130,7 @@ const WORDS = {
     "cap.earth.night": "Planet yang dikelilingi SPHEREx, pada malam hari, diterangi kota-kotanya|Black Marble, NASA melalui GIBS",
   },
   it: {
+    "pk.open": "apri nel visore", "pk.load": "carico il blink", "pk.fail": "anteprima non disponibile", "pk.pass": "passaggio {i} / {n} · {y}", "pk.close": "Chiudi l'anteprima",
     "nav.lab": "campo successivo", "nav.n": "nord", "nav.s": "sud", "nav.e": "est", "nav.w": "ovest", "nav.r": "punto a caso", "nav.rep": "segnala un candidato",
     "nav.hint": "Ogni passo sposta di un campo, circa 5 arcmin. Segnala apre un breve modulo su GitHub con questa vista già compilata; serve un account GitHub gratuito.",
     "fk.sum": "mettilo alla prova con un falso oggetto in moto", "fk.on": "aggiungi un falso oggetto in moto alle immagini vere", "fk.mag": "luminosità (mag AB)", "fk.speed": "moto (arcsec/anno)", "fk.pa": "direzione (gradi, 0 = nord, 90 = est)",
@@ -1370,6 +1373,110 @@ $("knownChk").addEventListener("change", (e) => {
 });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && knownOpen && !fullEl) knownCard(null); });
 
+// ---------- a small blink on the map when a target is clicked ----------
+// the pass medians of the target's own data file, played in a little card beside its marker
+const peekCache = {};
+let peekKey = null, peekTimer = null, peekIdx = 0, peekViews = [];
+function peekClose() {
+  clearInterval(peekTimer); peekTimer = null; peekKey = null;
+  $("tPeek").hidden = true;
+}
+async function peekData(key) {
+  if (peekCache[key]) return peekCache[key];
+  const r = await fetch(`data/${key}${S.mask === "1" ? "_mask" : ""}.json`);
+  if (!r.ok) throw new Error(r.status);
+  const j = await r.json();
+  decode(j);
+  const n = j.npix * j.npix, groups = new Map();
+  for (const f of j.frames) {
+    if (!groups.has(f.pass_index)) groups.set(f.pass_index, []);
+    groups.get(f.pass_index).push(f);
+  }
+  const views = [...groups.entries()].sort((a, b) => a[0] - b[0]).map(([, fs]) => ({
+    image: stackMedian(fs.map((f) => f.image), n),
+    year: mean(fs.map((f) => f.year)),
+    target: [mean(fs.map((f) => f.target_xy[0])), mean(fs.map((f) => f.target_xy[1]))],
+  }));
+  // one stretch for every pass, so a change in brightness stays visible
+  const all = views.flatMap((v) => v.image.filter((x) => x !== null)).sort((a, b) => a - b);
+  const med = pct(all, 50), noise = 1.4826 * pct(all.map((x) => Math.abs(x - med)).sort((a, b) => a - b), 50) || 1e-3;
+  const lo = med - 2 * noise, hi = Math.max(pct(all, 99.5), lo + noise), beta = 3 * noise, norm = Math.asinh((hi - lo) / beta);
+  return (peekCache[key] = { N: j.npix, views, map: (x) => Math.asinh((x - lo) / beta) / norm });
+}
+function peekDraw(d) {
+  const cv = $("tPeekCv"), N = d.N, v = d.views[peekIdx], cx = cv.getContext("2d");
+  const id = cx.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const val = v.image[y * N + x], o = ((N - 1 - y) * N + x) * 4;
+    if (val === null) { id.data.set([38, 40, 58, 255], o); continue; }
+    const g = Math.round(255 * Math.min(1, Math.max(0, d.map(val))));
+    id.data[o] = id.data[o + 1] = id.data[o + 2] = g; id.data[o + 3] = 255;
+  }
+  const off = document.createElement("canvas"); off.width = off.height = N;
+  off.getContext("2d").putImageData(id, 0, 0);
+  const s = Math.max(1, Math.floor(cv.width / N));
+  cx.fillStyle = "#000"; cx.fillRect(0, 0, cv.width, cv.height);
+  cx.imageSmoothingEnabled = false;
+  const o0 = (cv.width - N * s) / 2;
+  cx.drawImage(off, o0, o0, N * s, N * s);
+  // four ticks on the target, as in the viewer
+  const tx = o0 + (v.target[0] + 0.5) * s, ty = o0 + (N - 1 - v.target[1] + 0.5) * s, a = 3 * s, b = 5.5 * s;
+  cx.strokeStyle = "#fff"; cx.lineWidth = 1.5; cx.beginPath();
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { cx.moveTo(tx + dx * a, ty + dy * a); cx.lineTo(tx + dx * b, ty + dy * b); }
+  cx.stroke();
+  $("tPeekWhen").textContent = T("pk.pass", { i: peekIdx + 1, n: d.views.length, y: v.year.toFixed(2) });
+}
+function peekPlace(ra, dec) {
+  const card = $("tPeek"), stage = card.parentElement;
+  if (stage.clientWidth < 560) { card.style.left = ""; card.style.top = ""; card.classList.add("peek-dock"); return; }
+  card.classList.remove("peek-dock");
+  let x = stage.clientWidth / 2, y = stage.clientHeight / 2;
+  try { const p = aladin.world2pix(ra, dec); if (p) [x, y] = p; } catch { /* centre */ }
+  const w = card.offsetWidth || 220, h = card.offsetHeight || 290, gap = 18;
+  let left = x + gap, top = y - h / 2;
+  if (left + w > stage.clientWidth - 56) left = x - gap - w;         // keep clear of the zoom buttons
+  left = Math.max(8, Math.min(stage.clientWidth - w - 8, left));
+  top = Math.max(8, Math.min(stage.clientHeight - h - 8, top));
+  card.style.left = left + "px"; card.style.top = top + "px";
+}
+async function peek(key, ra, dec) {
+  const p = PRESETS[key];
+  if (!p) return;
+  if (peekKey === key && !$("tPeek").hidden) { peekPlace(ra, dec); return; }
+  clearInterval(peekTimer); peekTimer = null; peekKey = key; peekIdx = 0;
+  knownCard(null);
+  $("tPeekName").textContent = p.label;
+  $("tPeekTag").textContent = `${p.band} · ${T("tag." + key)}`;
+  $("tPeekWhen").textContent = T("pk.load");
+  $("tPeekOpen").textContent = T("pk.open");
+  $("tPeekX").setAttribute("aria-label", T("pk.close"));
+  const cv = $("tPeekCv"); cv.getContext("2d").clearRect(0, 0, cv.width, cv.height);
+  $("tPeek").hidden = false;
+  peekPlace(ra, dec);
+  try {
+    const d = await peekData(key);
+    if (peekKey !== key) return;
+    peekViews = d.views; peekDraw(d);
+    if (d.views.length > 1 && !reduceMotion) peekTimer = setInterval(() => { peekIdx = (peekIdx + 1) % d.views.length; peekDraw(d); }, 700);
+  } catch { if (peekKey === key) $("tPeekWhen").textContent = T("pk.fail"); }
+}
+$("tPeekX").addEventListener("click", peekClose);
+$("tPeekOpen").addEventListener("click", () => {
+  const key = peekKey;
+  if (!key) return;
+  peekClose();
+  if (fullEl) setFull(fullEl, false);
+  choose(key);
+  $("tool").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+});
+$("tPeekCv").addEventListener("click", () => {        // click the picture to step by hand
+  const d = peekKey && peekCache[peekKey];
+  if (!d) return;
+  clearInterval(peekTimer); peekTimer = null;
+  peekIdx = (peekIdx + 1) % d.views.length; peekDraw(d);
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("tPeek").hidden) peekClose(); });
+
 function loadAladin() {
   if (aladin || aladinLoading) return;
   aladinLoading = true;
@@ -1395,8 +1502,7 @@ function loadAladin() {
         if (o && o.data && o.data.kid) { knownCard(o.data.kid); return; }
         const key = o && o.data && o.data.key;
         if (!key) return;
-        choose(key);
-        $("tool").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+        peek(key, o.ra, o.dec);            // a small blink right on the map, the page stays where it is
       });
       aladin.on("click", () => { lastTouch = performance.now(); });
       aladin.on("positionChanged", centreOut);
