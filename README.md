@@ -28,11 +28,15 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
 - A **sky / Earth** switch. Earth shows the planet SPHEREx circles, by day and at night.
 - Surveys: **SPHEREx DR1**, the mission's all-sky release in 102 colours from 0.75 to 5 µm, with
   D1 to D6 buttons and a wavelength slider, and for comparison 2MASS, AllWISE and DSS2.
-- The five test targets as markers. Click one to load it in the viewer below.
+- The five test targets as markers. Click one and a small card opens beside it on the map, blinking
+  that target's sky passes, without moving the page. *Open in the viewer* loads it below.
 - 29 **known objects** (Sirius, the Orion Nebula, the Andromeda Galaxy and more), the **Sun** where
-  it is today and the **ecliptic**, so a first-time visitor always knows where they are. Fourteen
+  it is today and the **ecliptic**, so a first-time visitor always knows where they are. Thirteen
   show on the whole sky, the rest once you zoom in below 70 degrees. Click one for a short card in
   English, Indonesian or Italian, then **blink it in SPHEREx** to open that spot in the viewer.
+- Two **black patches** sit on the ecliptic poles. They are SPHEREx's deep fields, the places it
+  looks at most often, and DR1 leaves them out, so there are no images there yet (checked at IRSA
+  on 15 November 2026).
 - In **full screen** the map fills the window: the settings open over it on request, and the legend
   and centre coordinates sit on the map.
 - A full-width crosshair with the centre coordinates, a **lens** you can switch on and drag to
@@ -51,15 +55,19 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
   wavelength at every spot of the detector, so each exposure sees the target at its own colour.
   The panel plots the light in a 2-pixel aperture against that wavelength, one dot per exposure,
   and *add the other five detectors* fills in 0.75 to 5 µm. A saturated star is measured from its
-  wings, drawn as hollow dots (relative only). Click a dot to jump to that exposure.
+  wings, drawn as hollow dots on a relative axis. A full-aperture flux and a wing estimate are on
+  different scales, so one plot never mixes them: it shows the kind most exposures have and says how
+  many of the other kind it left out. Click a dot to jump to that exposure.
 - **Blink one colour only**: keeps the exposures within one or two resolution elements of a chosen
   wavelength, so a change between frames is time and not colour. Without it, R Draconis in D3 is
   seen anywhere from 1.62 to 2.41 µm, right across its water bands. In the URL as `wl`.
 - A **measured track**: the target's centroid in each sky pass (the centre of the blank core for a
   saturated star), drawn as orange dots, with the measured motion next to the expected one.
 - A **light curve** at one colour: the target's light against the date, with the median of each
-  sky pass. RW Aurigae brightens by about half a magnitude from the 2025 pass to the 2026 passes,
-  more at short wavelengths, the way dust clearing would look.
+  sky pass. RW Aurigae in D1 near 0.92 µm brightens by about half a magnitude from the 2025 pass
+  to the 2026 passes. Dust clearing from the line of sight would look like this, but the 2-pixel
+  aperture also holds the companion 1.45″ away, so we do not claim it without a check in the other
+  detectors. The panel says so under every light curve.
 - A **fake mover**, as in WiseView: a point source with the SPHEREx PSF (FWHM 7.5″) and a chosen
   magnitude, speed and direction, added to every real exposure, with presets from easy to
   Planet Nine-like. Turn the mark off and see whether you can still find it.
@@ -69,7 +77,8 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
   position*, drag the lens on the map, or press *blink it in SPHEREx* on a known object. The page
   fetches every SPHEREx DR1 exposure of that spot live from IRSA, which takes about half a minute.
 
-Both the map and the viewer have a **full screen** view. Every setting lives in the address, so a
+On a wide screen the viewer stays in sight while the settings beside it scroll, so every change is
+seen as it happens. Both the map and the viewer have a **full screen** view. Every setting lives in the address, so a
 link opens exactly the same view for someone else. The page is in English, Indonesian and Italian,
 with a light and a dark theme.
 
@@ -119,7 +128,7 @@ once the second time. It also takes fields up to 900 arcsec, against 600 on the 
 | `data/` | the five targets as static JSON, with and without flagged pixels |
 | `data/bands/` | each target in all six detectors, read by the page's D1 to D6 switch, built by the GitHub workflow below |
 | `data/targets.json` | the five targets, what kind of object each is, why it is in the set and what to look for |
-| `img/` | the Earth by day and at night, in the same oval as the sky map |
+| `img/` | the Earth by day and at night, in the same oval as the sky map, and `og.png`, the picture for link previews |
 | `tool/spherex_frames.py` | the data path, `get_frames()` |
 | `known.js` | the 29 known objects, the Sun and the ecliptic on the sky map, text in three languages |
 | `tool/server.py` | local server for the page, `/api/frames` and `/api/progress` |
@@ -179,8 +188,10 @@ slides, `n` shows the speaker notes and `f` goes full screen.
 
 ## What it cannot do
 
-- **It will not find Planet X.** A Planet Nine of the usual size and distance is about magnitude 21,
-  about 40 times fainter than one SPHEREx exposure reaches, and the median of a sky pass does not
+- **It will not find Planet X.** A Planet Nine of the proposed size and distance (2 to 4 Earth radii,
+  300 to 500 AU) is about AB 18 to 21 near 1 µm even for a grey surface, and a methane-rich planet
+  like Neptune is darker still in the infrared. One SPHEREx exposure reaches about AB 17, so that is
+  up to 40 times too faint, and the median of a sky pass does not
   help because the planet moves several pixels between exposures. Motion is never the problem,
   faintness is. Chapter 6 of the story and the fake mover let you check this yourself on real frames.
 - It finds bright, slow, nearby movers (stars and brown dwarfs within a few tens of parsecs) and

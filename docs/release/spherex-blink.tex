@@ -8,7 +8,9 @@
 \usepackage{lmodern}
 \usepackage[margin=2.4cm]{geometry}
 \usepackage{amsmath,amssymb}
+\usepackage{textcomp}
 \usepackage{siunitx}
+\DeclareSIPrefix\micro{\text{\textmu}}{-6}
 \usepackage{booktabs,tabularx}
 \usepackage{enumitem}
 \usepackage{xcolor}
@@ -18,7 +20,7 @@
 \usepackage[hidelinks]{hyperref}
 
 % ---------------------------------------------------------------- release facts
-\newcommand{\Version}{v1.2.0}
+\newcommand{\Version}{v1.3.0}
 \newcommand{\ReleaseDate}{15 November 2026}
 \newcommand{\TeamName}{Observationally Speaking}
 \newcommand{\Members}{Jessica Syafaq Muthmaina \\ Joowon Sohn}
@@ -335,12 +337,17 @@ ultraviolet sky map. It has three shapes (a Mollweide map with the Milky Way acr
 a turning globe seen from outside, and the view from inside) and a switch between the sky and
 the Earth, where NASA's Blue Marble and Black Marble show the planet SPHEREx circles. The sky
 can show SPHEREx DR1, the mission's all-sky release in 102 colours, with D1 to D6 buttons and a
-wavelength slider, or 2MASS, AllWISE and DSS2 for comparison. The five targets are markers that
-load into the viewer below, and the footprint of the field on screen is drawn on the map. A
+wavelength slider, or 2MASS, AllWISE and DSS2 for comparison. The five targets are markers.
+Clicking one opens a small card beside it on the map that blinks the medians of that target's sky
+passes from its static file, with the target marked, without moving the page; a button in the card
+loads it into the viewer below. The footprint of the field on screen is drawn on the map.
+Two black patches sit on the ecliptic poles, SPHEREx's deep fields. DR1 leaves them out: on
+15 November 2026 IRSA's SIA service returned no DR1 exposure at either pole, while a field such as
+Barnard's Star returns dozens. The legend and the text below the map say so. A
 crosshair, a draggable lens that hands its centre to the viewer, and a fixed Home view come from
 our teammate's Time Lens prototype, and so does a list of 29 well-known objects, fact-checked
 against SIMBAD and the literature, drawn with the Sun at today's place (precessed to J2000) and
-the ecliptic. Fourteen show on the whole sky and the rest below a \ang{70} field. Each opens a
+the ecliptic. Thirteen show on the whole sky (the Galactic Centre only once zoomed in, since the Home crosshair already marks it) and the rest below a \ang{70} field. Each opens a
 short card in three languages with a button that blinks that spot in SPHEREx. In full screen the
 map fills the window, with the settings in a panel over it and the legend on the map.
 
@@ -353,7 +360,10 @@ right across its water bands. Read as a movie, that mixes colour with time. Thre
         annulus, against the wavelength at the target, one point per exposure, in mJy. The other
         five detectors can be added for 0.75 to \SI{5}{\micro\metre}. A saturated star has a blank
         core in Level 2; it is then measured from its wings (4 to 6 pixels), shown as hollow points,
-        a relative measure only. This is the spectrum on the fly the challenge asked for, made from
+        a relative measure only. A full-aperture flux and a wing estimate are on different scales,
+        so one plot never mixes them: it shows the kind most exposures have, labels the axis
+        accordingly (mJy, or relative from the wings), and states how many exposures of the other
+        kind it left out. This is the spectrum on the fly the challenge asked for, made from
         the same exposures as the movie.
   \item \textbf{One colour only.} Keeps exposures within $\lambda/R$ of a chosen wavelength
         ($R \approx 41$ in D1 to D4, 110 in D5 and D6), so frames compare like with like.
@@ -361,21 +371,27 @@ right across its water bands. Read as a movie, that mixes colour with time. Thre
         or the centre of the blank patch of a saturated star, fitted against time. A pass counts
         only when the target is detected above $5\sigma$ in it.
   \item \textbf{Light curve.} The same aperture light against the date, at one colour, with the
-        median of each pass. RW Aurigae brightens by about half a magnitude between the 2025 and
-        the 2026 passes, more at shorter wavelengths.
+        median of each pass. RW Aurigae in D1 near \SI{0.92}{\micro\metre} brightens by about half
+        a magnitude between the 2025 and the 2026 passes. Dust clearing from the line of sight would
+        look like this, but the 2-pixel aperture (\ang{;;12}) also holds the companion
+        \ang{;;1.45} away, and a star near saturation can change in the aperture for instrumental
+        reasons, so we do not claim it without a check in other detectors. The panel prints this
+        caution under every light curve, and the same one-scale rule as the spectrum applies.
 \end{itemize}
 
 \subsection{Testing and sweeping}
 A \textbf{fake mover}, as in WiseView, adds a point source with the SPHEREx PSF
 (FWHM \ang{;;7.5}, from the Level 2 headers) of chosen AB magnitude, speed and direction to every
 real exposure, so its noise is the real noise; one preset follows the Planet X calculator,
-magnitude 21 and about \ang{;;410} a year. \textbf{Next field} buttons step one field north,
+AB 21 and about \ang{;;410} a year. \textbf{Next field} buttons step one field north,
 south, east or west, a \textbf{random spot} picks a uniform point on the sphere, and
 \textbf{report a candidate} opens a GitHub issue with the exact view and the first checks
 (no Gaia or CatWISE source, seen in more than one pass, not on a flagged pixel).
 
 \subsection{Step 02, the blink viewer}
-The viewer draws the frames on a canvas, pixel for pixel, with no smoothing.
+The viewer draws the frames on a canvas, pixel for pixel, with no smoothing. On a screen wider
+than \SI{980}{px} it stays in sight while the settings beside it scroll, so every change of
+detector, view or colour is seen as it happens.
 
 \paragraph{Exposure or sky pass.} By default the viewer blinks every single \emph{exposure}, so
 the full time sequence plays, 36 to 96 images per view. With one image per \emph{sky pass}, each
@@ -567,21 +583,34 @@ overlay works there.
 % =================================================================
 \section{What it can and cannot find}
 
-Published forecasts put a single SPHEREx exposure at roughly $V \approx 17$ for a point source at
-5$\sigma$ per channel, and the all-sky map after four passes at about AB 19.5 to 19.9 (deeper near
-the ecliptic poles). These are forecasts, not our measurements. The blink works on single passes,
+Published forecasts put a single SPHEREx exposure at roughly AB 17 for a point source at
+5$\sigma$ per channel, and the all-sky map after four passes at about AB 19.5 to 19.9 (deeper in
+the deep fields at the ecliptic poles, which DR1 does not yet include). These are forecasts, not our measurements. The blink works on single passes,
 so its practical limit is close to the depth of one pass.
 
 Behind the challenge sits the question of a distant ``Planet X''. For a planet seen in reflected
-sunlight at opposition the flux falls as $r^{-4}$,
+sunlight the flux falls as $r^{-4}$,
 \begin{equation}
-  m = m_\odot - 2.5 \log_{10} \frac{A_g R_p^2}{r^2 \Delta^2},
-  \qquad m_\odot = -26.74\ (V),
+  V = V_\odot - 2.5 \log_{10} \frac{A_g R_p^2}{r^2 \Delta^2},
+  \qquad V_\odot = -26.74,
 \end{equation}
-with the radius $R_p$ and the distances $r$ and $\Delta \approx r$ in AU and $A_g$ the geometric
-albedo. A planet of three Earth radii with $A_g = 0.3$ is at $V \approx 18.8$ at 300 AU and
-$V \approx 21.0$ at 500 AU. That is fainter than a single SPHEREx exposure, so this tool will not
-find a Planet Nine of the usual size and distance, and we say so on the page. What it does well
+with the radius $R_p$ and the distances $r$ (from the Sun) and $\Delta$ (from us) in AU and $A_g$
+the geometric albedo. SPHEREx looks about \ang{90} from the Sun, so $\Delta = \sqrt{r^2 - 1}$ and
+the phase angle is negligible. To compare with SPHEREx we need AB magnitudes in the infrared, not
+$V$. A grey surface reflects the colour of the Sun, $V - J = 1.20$ (Vega), and
+$J_\mathrm{AB} = J_\mathrm{Vega} + 0.91$, so
+\begin{equation}
+  m_\mathrm{AB}(\SI{1.2}{\micro\metre}) \approx V - 0.29 .
+\end{equation}
+A planet of three Earth radii with $A_g = 0.3$ is then at AB 18.5 at 300 AU and AB 20.7 at 500 AU;
+over the sizes now proposed for Planet Nine (2 to 4 Earth radii at 300 to 500 AU) the range is
+AB 18 to 21. This is the best case. A methane-rich planet like Neptune is much darker than grey in
+the near infrared, especially from \SI{1.6}{\micro\metre} to \SI{2.3}{\micro\metre}, so a real
+one would be fainter. Between two sky passes six months apart the Earth's motion shifts it by
+about twice its parallax, $2 \times 206265/r$ arcsec, or about 130 SPHEREx pixels at 500 AU: motion
+is never the problem. Even the deeper all-sky co-add would only help if the exposures were shifted
+along the planet's unknown track before stacking. This tool will therefore not find a Planet Nine of
+the proposed size and distance, and we say so on the page. What it does well
 is what SPHEREx is suited for, nearby stars and brown dwarfs with large proper motions and
 variable stars, in the infrared and on the whole sky.
 
@@ -597,7 +626,8 @@ variable stars, in the infrared and on the whole sky.
         every exposure comes from IRSA live, and the field is limited to 600 arcsec.
   \item CatWISE2020 comes only from IRSA's TAP service. When that service is down the CatWISE
         overlay is missing; Gaia has a second source at ESA.
-  \item Near the ecliptic poles the 60-day rule merges visits into few passes.
+  \item Near the ecliptic poles the 60-day rule merges visits into few passes, and the deep
+        fields at the poles themselves are not in DR1.
   \item The local server and the relay have no rate limiting of their own.
 \end{itemize}
 

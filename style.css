@@ -140,6 +140,7 @@ button, input, select { font: inherit; color: inherit; }
 .lg-known { width: 8px; height: 8px; border: 1.5px solid currentColor; }
 .lg-sun { width: 11px; height: 11px; border: 2px solid #ff8a3d; border-radius: 50%; }
 .lg-ecl { width: 18px; border-top: 2px dashed #ff8a3d; }
+.lg-hole { width: 12px; height: 9px; border-radius: 50%; background: #000; box-shadow: 0 0 0 1px var(--blue-line); }
 .ex-legend.no-known > span:not(:first-child) { display: none; }
 .explore[data-world="earth"] .ex-legend { display: none; }
 /* the card for a known object: over the map's top left on wide screens, under the map on phones */
@@ -253,6 +254,12 @@ body.has-full { overflow: hidden; }
 .panel-body { padding: 14px; }
 
 .viewer .band { background: #000; }
+/* on a wide screen the viewer stays in sight while the settings beside it scroll, so every change is seen */
+@media (min-width: 981px) {
+    .tool > .viewer:not(.is-full) { position: sticky; top: 12px; }
+    .viewer:not(.is-full) .band { background: transparent; padding-top: 10px; }
+    .viewer:not(.is-full) .stage { width: min(100%, max(380px, calc(100svh - 340px))); }
+}
 .viewer .stage { position: relative; width: min(100%, calc(100svh - 240px)); min-width: 260px; aspect-ratio: 1; margin: 0 auto; background: #000; }
 .viewer canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
 .pill { position: absolute; padding: 3px 7px; background: var(--blue); color: #f2f2f2; font: 400 12px/1.3 var(--mono); letter-spacing: .02em; font-variant-numeric: tabular-nums; pointer-events: none; }
@@ -327,7 +334,8 @@ details.panel[open] > summary .plus::before { content: '\2212'; }
 .spec-line { margin: 4px 0 10px; font: 400 12px/1.5 var(--mono); }
 .spec-note { margin: 10px 0 0; font-size: 13px; line-height: 1.5; opacity: .85; }
 .key.k-tr { background: #ffb000; border-radius: 50%; border: 0; }
-.keys { font: 400 11px/1.7 var(--mono); text-transform: uppercase; letter-spacing: .05em; margin: 12px 0 0; }
+.keys { display: flex; flex-wrap: wrap; gap: 2px 14px; font: 400 11px/1.7 var(--mono); text-transform: uppercase; letter-spacing: .05em; margin: 12px 0 0; }
+.keys span { white-space: nowrap; }
 
 .btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 0; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border: 0; font: 400 17px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; text-decoration: none; background: var(--blue); color: var(--bg); cursor: pointer; }

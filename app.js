@@ -26,7 +26,8 @@ const WORDS = {
     "sp.head": "colour and time",
     "sp.lc": "light curve", "sp.t": "date (year)", "lc.line": "{c} ± {h} µm · {n} exposures · first to last sky pass: {d}",
     "lc.few": "Too few exposures at this colour for a light curve. Move the slider.", "lc.auto": "the middle colour of this detector, choose another with one colour only",
-    "sp.title": "spectrum", "sp.x": "wavelength (µm)", "sp.y": "light in the aperture (mJy)",
+    "sp.title": "spectrum", "sp.x": "wavelength (µm)", "sp.y": "light in the aperture (mJy)", "sp.yw": "relative, from the wings only",
+    "sp.drop": "{n} exposures left out, measured on the other scale", "lc.care": "A 2-pixel aperture also holds any close neighbour, and a saturated star is measured from its wings, so check a change in more than one detector before trusting it.",
     "sp.one": "blink one colour only", "sp.all": "add the other five detectors", "sp.load": "loading {b}", "sp.done": "all six detectors",
     "sp.note": "Each dot is one exposure: the target's light inside 2 pixels, at the wavelength the filter passed at that spot. This is how SPHEREx makes spectra. The aperture holds whatever sits in it, so a faint target next to a star shows the star. A star bright enough to saturate has a blank core. Its dots are hollow and use the light of its wings, which shows how it changes but not its true brightness.",
     "sp.win": "{c} ± {h} µm · {n} of {m} exposures", "sp.none": "No exposure at this colour. Move the slider.",
@@ -83,7 +84,8 @@ const WORDS = {
     "sp.head": "warna dan waktu",
     "sp.lc": "kurva cahaya", "sp.t": "tanggal (tahun)", "lc.line": "{c} ± {h} µm · {n} pengamatan · lintasan pertama ke terakhir: {d}",
     "lc.few": "Pengamatan di warna ini terlalu sedikit untuk kurva cahaya. Geser penggesernya.", "lc.auto": "warna tengah detektor ini, pilih warna lain lewat satu warna saja",
-    "sp.title": "spektrum", "sp.x": "panjang gelombang (µm)", "sp.y": "cahaya di dalam apertur (mJy)",
+    "sp.title": "spektrum", "sp.x": "panjang gelombang (µm)", "sp.y": "cahaya di dalam apertur (mJy)", "sp.yw": "relatif, hanya dari sayapnya",
+    "sp.drop": "{n} pengamatan tidak dipakai, diukur pada skala lain", "lc.care": "Apertur 2 piksel juga memuat tetangga yang dekat, dan bintang jenuh diukur dari sayapnya, jadi periksa perubahan di lebih dari satu detektor sebelum mempercayainya.",
     "sp.one": "kedipkan satu warna saja", "sp.all": "tambahkan lima detektor lainnya", "sp.load": "memuat {b}", "sp.done": "keenam detektor",
     "sp.note": "Setiap titik adalah satu pengamatan: cahaya target di dalam 2 piksel, pada panjang gelombang yang diloloskan filter di titik itu. Begitulah SPHEREx membuat spektrum. Apertur memuat apa pun yang ada di dalamnya, jadi target redup di samping bintang menampilkan bintang itu. Bintang yang cukup terang untuk jenuh punya inti kosong. Titiknya berongga dan memakai cahaya sayapnya, yang menunjukkan perubahannya tetapi bukan terang sebenarnya.",
     "sp.win": "{c} ± {h} µm · {n} dari {m} pengamatan", "sp.none": "Tidak ada pengamatan di warna ini. Geser penggesernya.",
@@ -140,7 +142,8 @@ const WORDS = {
     "sp.head": "colore e tempo",
     "sp.lc": "curva di luce", "sp.t": "data (anno)", "lc.line": "{c} ± {h} µm · {n} esposizioni · dal primo all’ultimo passaggio: {d}",
     "lc.few": "Troppe poche esposizioni a questo colore per una curva di luce. Sposta il cursore.", "lc.auto": "il colore centrale di questo rivelatore, scegline un altro con un solo colore",
-    "sp.title": "spettro", "sp.x": "lunghezza d’onda (µm)", "sp.y": "luce nell’apertura (mJy)",
+    "sp.title": "spettro", "sp.x": "lunghezza d’onda (µm)", "sp.y": "luce nell’apertura (mJy)", "sp.yw": "relativa, solo dalle ali",
+    "sp.drop": "{n} esposizioni escluse, misurate su un’altra scala", "lc.care": "Un’apertura di 2 pixel contiene anche una vicina stretta, e una stella satura si misura dalle ali, quindi controlla un cambiamento in più di un rivelatore prima di fidarti.",
     "sp.one": "blink di un solo colore", "sp.all": "aggiungi gli altri cinque rivelatori", "sp.load": "carico {b}", "sp.done": "tutti e sei i rivelatori",
     "sp.note": "Ogni punto è un’esposizione: la luce dell’oggetto entro 2 pixel, alla lunghezza d’onda che il filtro lasciava passare in quel punto. È così che SPHEREx fa gli spettri. L’apertura contiene tutto ciò che vi cade dentro, quindi un oggetto debole accanto a una stella mostra la stella. Una stella abbastanza brillante da saturare ha il nucleo vuoto. I suoi punti sono cavi e usano la luce delle ali, che mostra come cambia ma non la sua vera luminosità.",
     "sp.win": "{c} ± {h} µm · {n} di {m} esposizioni", "sp.none": "Nessuna esposizione a questo colore. Sposta il cursore.",
@@ -205,7 +208,7 @@ const PAGE = {
     "c.look": "tampilan gambar", "c.speed": "kedip tiap (ms)", "c.contrast": "kontras (%)", "c.stretch": "skala",
     "c.marker": "tandai posisi target", "c.invert": "balik warna", "c.mask": "kosongkan piksel yang ditandai buruk oleh SPHEREx",
     "c.copy": "salin tautan tampilan ini", "c.pick": "pilih posisi",
-    "lens.btn": "lensa", "lens.use": "pakai titik ini", "ex.centre": "pusat · ICRS", "ex.copy": "salin", "ex.cross": "garis silang", "ex.known": "objek terkenal", "lg.t": "lima target", "lg.k": "objek terkenal, klik salah satunya", "lg.s": "Matahari hari ini", "lg.e": "jalur tahunannya, ekliptika", knownnote: "Kotak putih adalah 29 benda langit yang banyak orang pernah dengar, dari Sirius sampai Galaksi Andromeda, supaya kamu selalu tahu sedang di mana. Empat belas tampak di seluruh langit, sisanya muncul saat kamu memperbesar. Klik salah satunya untuk kartu singkat. Lingkaran jingga adalah Matahari hari ini, dihitung dengan rumus buku teks, di jalur tahunannya mengelilingi langit.",
+    "lens.btn": "lensa", "lens.use": "pakai titik ini", "ex.centre": "pusat · ICRS", "ex.copy": "salin", "ex.cross": "garis silang", "ex.known": "objek terkenal", "lg.t": "lima target", "lg.k": "objek terkenal, klik salah satunya", "lg.s": "Matahari hari ini", "lg.e": "jalur tahunannya, ekliptika", "lg.h": "bercak hitam, medan dalam yang belum ada di DR1", knownnote: "Kotak putih adalah 29 benda langit yang banyak orang pernah dengar, dari Sirius sampai Galaksi Andromeda, supaya kamu selalu tahu sedang di mana. Tiga belas tampak di seluruh langit, sisanya muncul saat kamu memperbesar. Klik salah satunya untuk kartu singkat. Lingkaran jingga adalah Matahari hari ini, dihitung dengan rumus buku teks, di jalur tahunannya mengelilingi langit. Dua bercak hitam ada di kutub ekliptika, medan dalam SPHEREx yang paling sering diamatinya. DR1 belum memuat medan itu, jadi di sana belum ada gambar (dicek di IRSA, 15 November 2026).",
     "ex.hint": "klik langitnya, lalu geser untuk bergerak · gulir atau + dan − untuk zoom", "ex.load": "memuat seluruh langit", "ex.map": "peta", "ex.outside": "dari luar", "ex.inside": "dari dalam", "ex.sky": "langit", "ex.earth": "Bumi", "ex.day": "siang", "ex.night": "malam", "ex.lambda": "panjang gelombang", "ex.about": "tentang peta", mapnote: "Kotaknya adalah medan SPHEREx di layar, dan cincinnya mengikuti target dari bingkai ke bingkai. Survei di peta lebih tua, jadi bintang cepat seperti Barnard tampak di selatan cincin, di tempatnya saat 2MASS (1999) dan AllWISE (2010) memotretnya.", "c.cat": "katalog di atas gambar", "c.gaia": "bintang Gaia DR3, digeser dengan gerak dirinya", "c.catwise": "sumber CatWISE2020, untuk yang terlalu dingin bagi Gaia", "c.gmag": "Gaia sampai G", "c.wmag": "CatWISE sampai W2",
     "am.label": "tentang peta", "am.h": "Seluruh langit",
     "a1.t": "tiga bentuk", "a1.d": "Peta meratakan seluruh langit menjadi oval dengan Bima Sakti melintang di tengah, seperti cara para astronom menggambarnya. Dari luar menaruh langit yang sama di bola yang kamu lihat dari luar, berputar pelan. Dari dalam menaruhmu di pusatnya, seperti langit yang terlihat dari tanah.",
@@ -246,7 +249,7 @@ const PAGE = {
     "c.look": "aspetto", "c.speed": "blink ogni (ms)", "c.contrast": "contrasto (%)", "c.stretch": "scala",
     "c.marker": "segna dove dovrebbe essere l’oggetto", "c.invert": "inverti", "c.mask": "nascondi i pixel che SPHEREx segnala come difettosi",
     "c.copy": "copia il link di questa vista", "c.pick": "scegli una posizione",
-    "lens.btn": "lente", "lens.use": "usa questo punto", "ex.centre": "centro · ICRS", "ex.copy": "copia", "ex.cross": "mirino", "ex.known": "oggetti noti", "lg.t": "i cinque oggetti", "lg.k": "oggetti noti, cliccane uno", "lg.s": "il Sole oggi", "lg.e": "il suo percorso annuale, l’eclittica", knownnote: "I quadratini bianchi sono 29 oggetti di cui molti hanno sentito parlare, da Sirio alla Galassia di Andromeda, così sai sempre dove ti trovi. Quattordici si vedono su tutto il cielo, gli altri quando ingrandisci. Cliccane uno per una breve scheda. Il cerchio arancione è il Sole di oggi, calcolato con una formula da manuale, sul suo percorso annuale attorno al cielo.",
+    "lens.btn": "lente", "lens.use": "usa questo punto", "ex.centre": "centro · ICRS", "ex.copy": "copia", "ex.cross": "mirino", "ex.known": "oggetti noti", "lg.t": "i cinque oggetti", "lg.k": "oggetti noti, cliccane uno", "lg.s": "il Sole oggi", "lg.e": "il suo percorso annuale, l’eclittica", "lg.h": "macchie nere, i campi profondi non ancora in DR1", knownnote: "I quadratini bianchi sono 29 oggetti di cui molti hanno sentito parlare, da Sirio alla Galassia di Andromeda, così sai sempre dove ti trovi. Tredici si vedono su tutto il cielo, gli altri quando ingrandisci. Cliccane uno per una breve scheda. Il cerchio arancione è il Sole di oggi, calcolato con una formula da manuale, sul suo percorso annuale attorno al cielo. Le due macchie nere sono i poli dell’eclittica, i campi profondi che SPHEREx osserva più spesso. DR1 non li contiene ancora, quindi lì non ci sono immagini (verificato su IRSA, 15 novembre 2026).",
     "ex.hint": "clicca il cielo, poi trascina per muoverti · rotella o + e − per lo zoom", "ex.load": "carico tutto il cielo", "ex.map": "mappa", "ex.outside": "da fuori", "ex.inside": "da dentro", "ex.sky": "cielo", "ex.earth": "Terra", "ex.day": "giorno", "ex.night": "notte", "ex.lambda": "lunghezza d’onda", "ex.about": "sulla mappa", mapnote: "Il riquadro è il campo SPHEREx sullo schermo, e l’anello segue l’oggetto fotogramma per fotogramma. Le survey della mappa sono più vecchie, quindi una stella veloce come quella di Barnard appare a sud dell’anello, dove si trovava quando 2MASS (1999) e AllWISE (2010) l’hanno fotografata.", "c.cat": "cataloghi sopra l’immagine", "c.gaia": "stelle Gaia DR3, spostate col loro moto proprio", "c.catwise": "sorgenti CatWISE2020, per ciò che è troppo freddo per Gaia", "c.gmag": "Gaia fino a G", "c.wmag": "CatWISE fino a W2",
     "am.label": "sulla mappa", "am.h": "Tutto il cielo",
     "a1.t": "tre forme", "a1.d": "La mappa appiattisce tutto il cielo in un ovale con la Via Lattea al centro, come la disegnano gli astronomi. Da fuori mette lo stesso cielo su una sfera vista dall’esterno, che gira piano. Da dentro ti mette al centro, come il cielo visto da terra.",
@@ -307,6 +310,9 @@ function applyLang(l) {
     const k = n.dataset.i18n, v = d[k] ?? (lang !== "en" ? WORDS[lang][k] : undefined);   // newer strings live in WORDS
     if (v != null) n.innerHTML = v;
   });
+  // keyboard hints: each key and what it does stay together on one line
+  const keys = document.querySelector(".keys");
+  if (keys && !keys.querySelector("span")) keys.innerHTML = keys.textContent.split(" · ").map((s) => `<span>${s}</span>`).join("");
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   buildTargets(); nowLine(); targetInfo(); exSync(); exTargets(); exKnown(); knownCard(knownOpen); renderSpec();
@@ -914,6 +920,13 @@ function pointsOf(j) {
   });
   return out;
 }
+// full-aperture fluxes and wing-only estimates are on different scales, so a plot shows one kind:
+// the one most exposures have
+function oneScale(pts) {
+  const nw = pts.filter((p) => p.wing).length, wing = nw > pts.length - nw;
+  const keep = pts.filter((p) => !!p.wing === wing);
+  return { pts: keep, wing, dropped: pts.length - keep.length };
+}
 function renderSpec() {
   const box = $("specPlot");
   if (!box) return;
@@ -936,6 +949,10 @@ function renderSpec() {
   $("specAll").hidden = S.sv === "lc";
   if (S.sv === "lc") { renderLC(box); return; }
   if (!all.length) { box.innerHTML = ""; return; }
+  const sc = oneScale(all);
+  if (sc.dropped) $("wlLine").textContent += ` ${T("sp.drop", { n: sc.dropped })}.`;
+  all.length = 0; all.push(...sc.pts);
+  if (!all.length) { box.innerHTML = ""; return; }
   const W = 320, H = 190, L = 44, R = 8, Tp = 8, B = 30;
   const xs = all.map((p) => p.wl), ys = all.map((p) => p.fl).filter((v) => v > 0);
   const x0 = Math.min(...xs) * 0.97, x1 = Math.max(...xs) * 1.03;
@@ -952,7 +969,7 @@ function renderSpec() {
   const yt = logY ? ticks(y0 - pad, y1 + pad, 4).filter((t) => Number.isInteger(t)) : ticks(y0 - pad, y1 + pad, 4);
   for (const t of yt) { const v = logY ? 10 ** t : t; g += `<text x="${L - 4}" y="${Y(v) + 3}" class="tk" text-anchor="end">${logY ? (v >= 1 ? v.toFixed(0) : v.toPrecision(1)) : +v.toPrecision(3)}</text>`; }
   g += `<text x="${(L + W - R) / 2}" y="${H - 2}" class="lb" text-anchor="middle">${T("sp.x")}</text>`;
-  g += `<text x="10" y="${(Tp + H - B) / 2}" class="lb" text-anchor="middle" transform="rotate(-90 10 ${(Tp + H - B) / 2})">${T("sp.y")}</text>`;
+  g += `<text x="10" y="${(Tp + H - B) / 2}" class="lb" text-anchor="middle" transform="rotate(-90 10 ${(Tp + H - B) / 2})">${T(sc.wing ? "sp.yw" : "sp.y")}</text>`;
   const own = data.band || S.band;
   for (const p of all) {
     const mine = p.band === own, on = mine && cur && data.frames[p.i] === cur, inWin = !S.wl || Math.abs(p.wl - +S.wl) <= +S.wl / resolving(p.band);
@@ -966,13 +983,14 @@ function renderLC(box) {
   if (!own.length) { box.innerHTML = ""; return; }
   const wls = own.map((p) => p.wl).sort((a, b) => a - b);
   const c = S.wl ? +S.wl : wls[wls.length >> 1], h = c / resolving(band);
-  const pts = own.filter((p) => Math.abs(p.wl - c) <= h);
+  const sc = oneScale(own.filter((p) => Math.abs(p.wl - c) <= h)), pts = sc.pts;
   if (pts.length < 2) { box.innerHTML = `<p class="spec-line">${T("lc.few")}</p>`; return; }
   const passes = [...new Set(pts.map((p) => p.pass))].sort((a, b) => a - b);
   const pm = passes.map((ps) => { const q = pts.filter((p) => p.pass === ps); return { pass: ps, year: mean(q.map((p) => p.year)), fl: median(q.map((p) => p.fl)) }; });
   let d = "–";
   if (pm.length > 1 && pm[0].fl > 0) { const r = pm[pm.length - 1].fl / pm[0].fl; d = `${r >= 1 ? "+" : ""}${Math.round((r - 1) * 100)} % (${(-2.5 * Math.log10(Math.max(r, 1e-6))).toFixed(2)} mag)`; }
-  $("wlLine").textContent = T("lc.line", { c: c.toFixed(3), h: h.toFixed(3), n: pts.length, d }) + (S.wl ? "" : ` · ${T("lc.auto")}`);
+  $("wlLine").textContent = T("lc.line", { c: c.toFixed(3), h: h.toFixed(3), n: pts.length, d }) + (S.wl ? "" : ` · ${T("lc.auto")}`)
+    + (sc.dropped ? ` · ${T("sp.drop", { n: sc.dropped })}` : "") + `. ${T("lc.care")}`;
   const W = 320, H = 190, L = 44, R = 8, Tp = 8, B = 30;
   const xs = pts.map((p) => p.year), ys = pts.map((p) => p.fl);
   const x0 = Math.min(...xs) - 0.03, x1 = Math.max(...xs) + 0.03, ylo = Math.min(...ys), yhi = Math.max(...ys), pad = (yhi - ylo || Math.abs(yhi) || 1) * 0.12;
@@ -984,7 +1002,7 @@ function renderLC(box) {
   for (const t of ticks(x0, x1, 4)) g += `<text x="${X(t)}" y="${H - B + 13}" class="tk" text-anchor="middle">${t}</text>`;
   for (const t of ticks(ylo - pad, yhi + pad, 4)) g += `<text x="${L - 4}" y="${Y(t) + 3}" class="tk" text-anchor="end">${+t.toPrecision(3)}</text>`;
   g += `<text x="${(L + W - R) / 2}" y="${H - 2}" class="lb" text-anchor="middle">${T("sp.t")}</text>`;
-  g += `<text x="10" y="${(Tp + H - B) / 2}" class="lb" text-anchor="middle" transform="rotate(-90 10 ${(Tp + H - B) / 2})">${T("sp.y")}</text>`;
+  g += `<text x="10" y="${(Tp + H - B) / 2}" class="lb" text-anchor="middle" transform="rotate(-90 10 ${(Tp + H - B) / 2})">${T(sc.wing ? "sp.yw" : "sp.y")}</text>`;
   g += `<polyline class="lc-line" points="${pm.map((p) => `${X(p.year).toFixed(1)},${Y(p.fl).toFixed(1)}`).join(" ")}"/>`;
   for (const p of pm) g += `<rect class="lc-med" x="${(X(p.year) - 4).toFixed(1)}" y="${(Y(p.fl) - 4).toFixed(1)}" width="8" height="8"/>`;
   for (const p of pts) {

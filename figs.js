@@ -42,11 +42,11 @@ const FIGTXT = {
     "alt.RDra": "Hubble image of the red giant Mira, a lopsided disk",
     "cap.RDra": "Not R Draconis itself, but the star its class is named after. Hubble's 1997 picture of Mira, a pulsating red giant, lopsided as it swells and shrinks.",
     "px.aria": "Brightness of a distant planet against how faint SPHEREx can see",
-    "px.one": "one exposure", "px.coadd": "all-sky co-add", "px.bright": "← brighter", "px.faint": "fainter →   V magnitude",
+    "px.one": "one exposure", "px.coadd": "all-sky co-add", "px.bright": "← brighter", "px.faint": "fainter →   AB magnitude near 1 µm",
     "px.size": "size (Earths)", "px.refl": "reflectivity", "px.dist": "distance (AU)",
-    "px.yes": "V ≈ {v} · bright enough for one SPHEREx exposure · it would swing by {p} pixels a year as the Earth goes round the Sun",
-    "px.no": "V ≈ {v} · about {k} times too faint for one SPHEREx exposure · it would swing by {p} pixels a year, so motion is not the problem, faintness is",
-    "px.cap": "A planet far beyond Neptune only reflects sunlight, so its brightness falls as the fourth power of its distance. Move the sliders. The SPHEREx depths are published forecasts, not our measurements. Recent estimates for Planet Nine are about 4 to 6 Earth masses, 2 to 4 Earth radii, at 300 to 400 AU.",
+    "px.yes": "AB ≈ {v} near 1 µm · bright enough for one SPHEREx exposure · between two sky passes six months apart it would shift about {p} pixels, as the Earth goes round the Sun",
+    "px.no": "AB ≈ {v} near 1 µm · about {k} times too faint for one SPHEREx exposure · between two sky passes six months apart it would shift about {p} pixels, so motion is not the problem, faintness is",
+    "px.cap": "A planet far beyond Neptune only reflects sunlight, so its brightness falls as the fourth power of its distance. The number assumes a grey surface that reflects every colour alike, taking the colour of sunlight from V to 1 µm. A methane-rich planet like Neptune is darker than that in the infrared, much darker from 1.6 to 2.3 µm, so this is the best case. Move the sliders. The SPHEREx depths are published forecasts in AB, not our measurements, and the co-add only helps if the images are shifted to follow the planet. Recent estimates for Planet Nine are about 4 to 6 Earth masses, 2 to 4 Earth radii, at 300 to 400 AU.",
     plates: "blink the plates",
   },
   id: {
@@ -84,11 +84,11 @@ const FIGTXT = {
     "alt.RDra": "Citra Hubble raksasa merah Mira, piringan yang tidak simetris",
     "cap.RDra": "Bukan R Draconis sendiri, tetapi bintang yang menjadi nama kelasnya. Gambar Hubble tahun 1997 tentang Mira, raksasa merah yang berdenyut, tidak simetris saat mengembang dan menyusut.",
     "px.aria": "Kecerlangan planet jauh dibandingkan batas paling redup yang bisa dilihat SPHEREx",
-    "px.one": "satu pengamatan", "px.coadd": "gabungan seluruh langit", "px.bright": "← lebih terang", "px.faint": "lebih redup →   magnitudo V",
+    "px.one": "satu pengamatan", "px.coadd": "gabungan seluruh langit", "px.bright": "← lebih terang", "px.faint": "lebih redup →   magnitudo AB dekat 1 µm",
     "px.size": "ukuran (Bumi)", "px.refl": "daya pantul", "px.dist": "jarak (SA)",
-    "px.yes": "V ≈ {v} · cukup terang untuk satu pengamatan SPHEREx · ia akan berayun {p} piksel per tahun saat Bumi mengitari Matahari",
-    "px.no": "V ≈ {v} · sekitar {k} kali terlalu redup untuk satu pengamatan SPHEREx · ia akan berayun {p} piksel per tahun, jadi masalahnya bukan gerak, tetapi redupnya",
-    "px.cap": "Planet yang jauh di luar Neptunus hanya memantulkan cahaya Matahari, jadi kecerlangannya turun sebanding pangkat empat jaraknya. Geser penggesernya. Batas SPHEREx adalah prakiraan yang sudah diterbitkan, bukan pengukuran kami. Perkiraan terbaru untuk Planet Sembilan sekitar 4 sampai 6 massa Bumi, 2 sampai 4 jari-jari Bumi, pada 300 sampai 400 SA.",
+    "px.yes": "AB ≈ {v} dekat 1 µm · cukup terang untuk satu pengamatan SPHEREx · di antara dua lintasan langit yang berselang enam bulan ia bergeser sekitar {p} piksel, karena Bumi mengitari Matahari",
+    "px.no": "AB ≈ {v} dekat 1 µm · sekitar {k} kali terlalu redup untuk satu pengamatan SPHEREx · di antara dua lintasan langit yang berselang enam bulan ia bergeser sekitar {p} piksel, jadi masalahnya bukan gerak, tetapi redupnya",
+    "px.cap": "Planet yang jauh di luar Neptunus hanya memantulkan cahaya Matahari, jadi kecerlangannya turun sebanding pangkat empat jaraknya. Angka ini menganggap permukaan kelabu yang memantulkan semua warna sama rata, dengan warna cahaya Matahari dari V ke 1 µm. Planet kaya metana seperti Neptunus lebih gelap dari itu di inframerah, jauh lebih gelap pada 1,6 sampai 2,3 µm, jadi ini kasus terbaiknya. Geser penggesernya. Batas SPHEREx adalah prakiraan dalam AB yang sudah diterbitkan, bukan pengukuran kami, dan gabungan seluruh langit hanya membantu kalau gambarnya digeser mengikuti planetnya. Perkiraan terbaru untuk Planet Sembilan sekitar 4 sampai 6 massa Bumi, 2 sampai 4 jari-jari Bumi, pada 300 sampai 400 SA.",
     plates: "kedipkan pelatnya",
   },
   it: {
@@ -126,11 +126,11 @@ const FIGTXT = {
     "alt.RDra": "Immagine Hubble della gigante rossa Mira, un disco asimmetrico",
     "cap.RDra": "Non R Draconis, ma la stella che dà il nome alla sua classe. L’immagine Hubble del 1997 di Mira, una gigante rossa pulsante, asimmetrica mentre si gonfia e si contrae.",
     "px.aria": "Luminosità di un pianeta lontano rispetto a quanto in profondità vede SPHEREx",
-    "px.one": "una esposizione", "px.coadd": "somma di tutto il cielo", "px.bright": "← più luminoso", "px.faint": "più debole →   magnitudine V",
+    "px.one": "una esposizione", "px.coadd": "somma di tutto il cielo", "px.bright": "← più luminoso", "px.faint": "più debole →   magnitudine AB vicino a 1 µm",
     "px.size": "dimensione (Terre)", "px.refl": "riflettività", "px.dist": "distanza (UA)",
-    "px.yes": "V ≈ {v} · abbastanza luminoso per una esposizione SPHEREx · oscillerebbe di {p} pixel all’anno mentre la Terra gira attorno al Sole",
-    "px.no": "V ≈ {v} · circa {k} volte troppo debole per una esposizione SPHEREx · oscillerebbe di {p} pixel all’anno, quindi il problema non è il moto, è la debolezza",
-    "px.cap": "Un pianeta molto oltre Nettuno riflette solo la luce del Sole, quindi la sua luminosità cala con la quarta potenza della distanza. Muovi i cursori. Le profondità di SPHEREx sono previsioni pubblicate, non nostre misure. Le stime recenti per il Pianeta Nove sono di circa 4 a 6 masse terrestri, 2 a 4 raggi terrestri, a 300 a 400 UA.",
+    "px.yes": "AB ≈ {v} vicino a 1 µm · abbastanza luminoso per una esposizione SPHEREx · tra due passaggi a sei mesi di distanza si sposterebbe di circa {p} pixel, mentre la Terra gira attorno al Sole",
+    "px.no": "AB ≈ {v} vicino a 1 µm · circa {k} volte troppo debole per una esposizione SPHEREx · tra due passaggi a sei mesi di distanza si sposterebbe di circa {p} pixel, quindi il problema non è il moto, è la debolezza",
+    "px.cap": "Un pianeta molto oltre Nettuno riflette solo la luce del Sole, quindi la sua luminosità cala con la quarta potenza della distanza. Il numero suppone una superficie grigia che riflette tutti i colori allo stesso modo, con il colore della luce solare da V a 1 µm. Un pianeta ricco di metano come Nettuno è più scuro di così nell’infrarosso, molto più scuro tra 1,6 e 2,3 µm, quindi questo è il caso migliore. Muovi i cursori. Le profondità di SPHEREx sono previsioni pubblicate in AB, non nostre misure, e la somma aiuta solo se le immagini vengono spostate per seguire il pianeta. Le stime recenti per il Pianeta Nove sono di circa 4 a 6 masse terrestri, 2 a 4 raggi terrestri, a 300 a 400 UA.",
     plates: "fai il blink delle lastre",
   },
 };
@@ -412,10 +412,14 @@ const FIGS = {
     const P = { R: 3, A: 0.3, r: 500 };
     const RE_AU = 6371 / 1.495978707e8;
     function draw() {
-      const Rp = P.R * RE_AU, d = P.r - 1;
-      const V = -26.74 - 2.5 * Math.log10(P.A * Rp * Rp / (P.r * P.r * d * d));
+      // SPHEREx looks about 90 degrees from the Sun, so the planet is r from the Sun and sqrt(r^2 - 1) from us
+      const Rp = P.R * RE_AU, d = Math.sqrt(P.r * P.r - 1);
+      const Vmag = -26.74 - 2.5 * Math.log10(P.A * Rp * Rp / (P.r * P.r * d * d));
+      // a grey reflector has the colour of the Sun: V - J = 1.20 (Vega) and J(AB) = J(Vega) + 0.91, so AB near 1 µm = V - 0.29
+      const V = Vmag - 0.29;
       dot.setAttribute("cx", X(Math.min(m1, Math.max(m0, V))));
-      const k = Math.pow(10, 0.4 * (V - 17)), par = 206265 / P.r / 6.15;
+      // at 90 degrees from the Sun the Earth's motion shifts it by twice the parallax between passes six months apart
+      const k = Math.pow(10, 0.4 * (V - 17)), par = 2 * 206265 / P.r / 6.15;
       readout.textContent = V <= 17
         ? FT("px.yes", { v: fmt(V, 1), p: fmt(par, 0) })
         : FT("px.no", { v: fmt(V, 1), k: fmt(k, k < 10 ? 1 : 0), p: fmt(par, 0) });
