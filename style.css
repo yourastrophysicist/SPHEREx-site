@@ -520,3 +520,21 @@ details.chapter[open] .sfig { margin-top: 18px; }
 .fieldnav .rep { margin-left: auto; background: var(--blue); color: var(--bg); }
 .fieldnav-hint { flex-basis: 100%; margin: 4px 0 0; font-size: 13px; line-height: 1.45; opacity: .85; }
 .viewer.is-full .fieldnav { display: none; }
+
+/* exoplanet host lookup in the 'your own position' panel */
+.exo-find { padding-bottom: 0; }
+.exo-row { display: flex; gap: 6px; margin-top: 6px; }
+.exo-row input { flex: 1; min-width: 0; height: 36px; padding: 0 8px; background: var(--surface); border: 1px solid var(--blue-line); border-radius: 0; color: var(--blue); font: 400 14px var(--mono); }
+.exo-row input:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 0 1px var(--blue); }
+.exo-row .mini { min-height: 36px; }
+.exo-list { list-style: none; margin: 6px 0 10px; padding: 0; max-height: 240px; overflow-y: auto; }
+.exo-list:empty { display: none; }
+.exo-list button { display: block; width: 100%; text-align: left; padding: 6px 8px; border: 0; border-bottom: 1px solid var(--blue-line); background: transparent; color: inherit; font: 13px var(--mono); cursor: pointer; }
+.exo-list button:hover, .exo-list button:focus-visible { background: var(--blue-soft); }
+.exo-list b { color: var(--blue); font-weight: 600; }
+.exo-list small { display: block; opacity: .75; font-size: 11px; }
+.exo-dlg { width: min(1100px, calc(100vw - 32px)); height: min(820px, calc(100vh - 32px)); padding: 0; border: 1px solid var(--blue); background: var(--bg); color: var(--blue); }
+.exo-dlg[open] { display: flex; flex-direction: column; }
+.exo-dlg::backdrop { background: rgba(0, 0, 0, .55); }
+.exo-dlg .spec-note { margin: 6px 12px; }
+.exo-dlg iframe { flex: 1; width: 100%; border: 0; background: #fff; }

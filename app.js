@@ -15,6 +15,7 @@ const PRESETS = {
 // ---------- words, in the three languages of the site ----------
 const WORDS = {
   en: {
+    "ex.wait": "Asking the NASA Exoplanet Archive", "ex.none": "No planet or host matches that name.", "ex.fail": "The archive did not answer. Try again, or browse the table.", "ex.n": "{n} hosts, {p} planets. Pick one.", "ex.short": "Type at least two letters.", "ex.picked": "{h} is in the form. Press show this field.", "ex.pl": "planets",
     "pk.open": "open in the viewer", "pk.load": "loading the blink", "pk.fail": "could not load the preview", "pk.pass": "pass {i} / {n} · {y}", "pk.close": "Close the preview",
     "nav.lab": "next field", "nav.n": "north", "nav.s": "south", "nav.e": "east", "nav.w": "west", "nav.r": "random spot", "nav.rep": "report a candidate",
     "nav.hint": "Each step moves one field over, about 5 arcmin. Report opens a short form on GitHub with this exact view filled in; it needs a free GitHub account.",
@@ -74,6 +75,7 @@ const WORDS = {
     "cap.earth.night": "The planet SPHEREx circles, at night, lit by its cities|Black Marble, NASA via GIBS",
   },
   id: {
+    "ex.wait": "Bertanya ke NASA Exoplanet Archive", "ex.none": "Tidak ada planet atau bintang induk dengan nama itu.", "ex.fail": "Arsip tidak menjawab. Coba lagi, atau telusuri tabelnya.", "ex.n": "{n} bintang induk, {p} planet. Pilih satu.", "ex.short": "Ketik paling sedikit dua huruf.", "ex.picked": "{h} sudah masuk formulir. Tekan tampilkan medan ini.", "ex.pl": "planet",
     "pk.open": "buka di penampil", "pk.load": "memuat kedipan", "pk.fail": "pratinjau gagal dimuat", "pk.pass": "lintasan {i} / {n} · {y}", "pk.close": "Tutup pratinjau",
     "nav.lab": "medan berikutnya", "nav.n": "utara", "nav.s": "selatan", "nav.e": "timur", "nav.w": "barat", "nav.r": "titik acak", "nav.rep": "laporkan kandidat",
     "nav.hint": "Setiap langkah bergeser satu medan, sekitar 5 menit busur. Lapor membuka formulir singkat di GitHub dengan tampilan ini sudah terisi; perlu akun GitHub gratis.",
@@ -132,6 +134,7 @@ const WORDS = {
     "cap.earth.night": "Planet yang dikelilingi SPHEREx, pada malam hari, diterangi kota-kotanya|Black Marble, NASA melalui GIBS",
   },
   it: {
+    "ex.wait": "Chiedo al NASA Exoplanet Archive", "ex.none": "Nessun pianeta o stella ospite con quel nome.", "ex.fail": "L’archivio non ha risposto. Riprova, o sfoglia la tabella.", "ex.n": "{n} stelle ospiti, {p} pianeti. Scegline una.", "ex.short": "Scrivi almeno due lettere.", "ex.picked": "{h} è nel modulo. Premi mostra questo campo.", "ex.pl": "pianeti",
     "pk.open": "apri nel visore", "pk.load": "carico il blink", "pk.fail": "anteprima non disponibile", "pk.pass": "passaggio {i} / {n} · {y}", "pk.close": "Chiudi l'anteprima",
     "nav.lab": "campo successivo", "nav.n": "nord", "nav.s": "sud", "nav.e": "est", "nav.w": "ovest", "nav.r": "punto a caso", "nav.rep": "segnala un candidato",
     "nav.hint": "Ogni passo sposta di un campo, circa 5 arcmin. Segnala apre un breve modulo su GitHub con questa vista già compilata; serve un account GitHub gratuito.",
@@ -194,6 +197,7 @@ const WORDS = {
 // static page text, keyed by data-i18n; English is read from the page itself
 const PAGE = {
   id: {
+    "ex.lab": "cari bintang induk eksoplanet lewat nama", "ex.go": "cari", "ex.browse": "telusuri tabel arsip lengkap", "ex.note": "Posisi dan gerak diri dari NASA Exoplanet Archive (Gaia, epoch 2015.5). Memilih satu bintang induk mengisi formulir di bawah.", "ex.dlg": "NASA Exoplanet Archive, Planetary Systems Composite", "ex.close": "tutup", "ex.dlgnote": "Saring tabelnya, lalu salin kolom ra dan dec (derajat desimal) ke formulir, atau cari lewat nama di panel.", "ex.tab": "buka di tab baru",
     skip: "Langsung ke isi", "n.home": "beranda", "n.notes": "catatan",
     eye: "NASA Space Apps Milano 2026 · Observationally Speaking",
     lede: "Pilih sebuah bintang dan lihat ia berjalan. Alat ini memutar gambar SPHEREx publik dari satu petak kecil langit, lintasan demi lintasan, sehingga apa pun yang cukup dekat untuk bergerak langsung terlihat di depan bintang-bintang di belakangnya.",
@@ -235,6 +239,7 @@ const PAGE = {
     foot: 'Padova, Italia · 45,4° LU, 11,9° BT · bagian dari <a href="/">yourastro.space</a>',
   },
   it: {
+    "ex.lab": "trova una stella con esopianeti per nome", "ex.go": "cerca", "ex.browse": "sfoglia la tabella completa dell’archivio", "ex.note": "Posizioni e moti propri dal NASA Exoplanet Archive (Gaia, epoca 2015.5). Scegliere una stella riempie il modulo qui sotto.", "ex.dlg": "NASA Exoplanet Archive, Planetary Systems Composite", "ex.close": "chiudi", "ex.dlgnote": "Filtra la tabella, poi copia le colonne ra e dec (gradi decimali) nel modulo, oppure cerca per nome nel pannello.", "ex.tab": "apri in una nuova scheda",
     skip: "Vai al contenuto", "n.home": "home", "n.notes": "appunti",
     eye: "NASA Space Apps Milano 2026 · Observationally Speaking",
     lede: "Scegli una stella e guardala camminare. Questo strumento mostra le immagini pubbliche di SPHEREx di una piccola zona di cielo, un passaggio dopo l’altro, così tutto ciò che è abbastanza vicino da muoversi salta all’occhio sulle stelle dietro.",
@@ -1723,3 +1728,52 @@ $("crossChk").checked = S.cross !== "0"; $("knownChk").checked = S.known !== "0"
 applyLang(startLang);
 if (!presetFor()) $("ownPanel").open = true;     // a shared custom link opens with its position showing
 writeURL(); syncUI(); setPlaying(playing); load();
+
+// ---------- exoplanet hosts by name, through the relay (NASA Exoplanet Archive sends no CORS headers) ----------
+const EXO_TABLE = "https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PSCompPars";
+let exoSeq = 0;
+async function exoSearch() {
+  const q = $("exoQ").value.trim(), msg = $("exoMsg"), list = $("exoList"), seq = ++exoSeq;
+  list.replaceChildren();
+  if (q.length < 2) { msg.textContent = T("ex.short"); return; }
+  msg.textContent = T("ex.wait");
+  let rows;
+  try {
+    const r = await fetch(RELAY + "?" + new URLSearchParams({ op: "exo", q }));
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || r.status);
+    rows = j.rows;
+  } catch (e) { if (seq === exoSeq) msg.textContent = T("ex.fail"); return; }
+  if (seq !== exoSeq) return;
+  if (!rows.length) { msg.textContent = T("ex.none"); return; }
+  const hosts = new Map();                     // planets of one host share its position
+  for (const x of rows) { if (!hosts.has(x.host)) hosts.set(x.host, { ...x, planets: [] }); hosts.get(x.host).planets.push(x.name); }
+  msg.textContent = T("ex.n", { n: hosts.size, p: rows.length });
+  for (const h of hosts.values()) {
+    const li = document.createElement("li"), b = document.createElement("button");
+    b.type = "button";
+    const name = document.createElement("b"); name.textContent = h.host;
+    const pos = document.createTextNode(`  ${h.ra.toFixed(5)}  ${h.dec >= 0 ? "+" : ""}${h.dec.toFixed(5)}`);
+    const sub = document.createElement("small");
+    sub.textContent = [h.planets.length > 3 ? `${h.planets.length} ${T("ex.pl")}` : h.planets.join(", "),
+      h.dist ? `${h.dist.toFixed(1)} pc` : "", h.kmag !== null ? `K ${h.kmag.toFixed(1)}` : "", h.method].filter(Boolean).join(" · ");
+    b.append(name, pos, sub);
+    b.addEventListener("click", () => {
+      form.elements.ra.value = h.ra.toFixed(6); form.elements.dec.value = h.dec.toFixed(6);
+      form.elements.pmra.value = h.pmra !== null ? h.pmra : "0"; form.elements.pmdec.value = h.pmdec !== null ? h.pmdec : "0";
+      form.elements.epoch.value = "2015.5";       // the archive's positions are Gaia DR2, epoch 2015.5
+      msg.textContent = T("ex.picked", { h: h.host });
+      form.elements.ra.focus();
+    });
+    li.append(b); list.append(li);
+  }
+}
+$("exoGo").addEventListener("click", exoSearch);
+$("exoQ").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); exoSearch(); } });
+$("exoBrowse").addEventListener("click", () => {
+  const f = $("exoFrame");
+  if (!f.src) f.src = EXO_TABLE;               // load the archive only when someone asks for it
+  $("exoDlg").showModal();
+});
+$("exoClose").addEventListener("click", () => $("exoDlg").close());
+$("exoDlg").addEventListener("click", (e) => { if (e.target === e.currentTarget) e.currentTarget.close(); });

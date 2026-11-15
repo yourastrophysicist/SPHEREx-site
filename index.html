@@ -261,6 +261,17 @@
 
                 <details class="panel" id="ownPanel">
                     <summary><div class="panel-bar"><span data-i18n="c.own">your own position</span><span class="plus" aria-hidden="true"></span></div></summary>
+                    <div class="panel-body exo-find">
+                        <label class="field" for="exoQ"><span data-i18n="ex.lab">find an exoplanet host by name</span></label>
+                        <div class="exo-row">
+                            <input id="exoQ" type="search" autocomplete="off" spellcheck="false" placeholder="TRAPPIST-1, 51 Peg, Barnard">
+                            <button class="mini" id="exoGo" type="button" data-i18n="ex.go">search</button>
+                        </div>
+                        <p class="spec-line" id="exoMsg" aria-live="polite"></p>
+                        <ul class="exo-list" id="exoList"></ul>
+                        <button class="mini" id="exoBrowse" type="button" data-i18n="ex.browse">browse the full archive table</button>
+                        <p class="spec-note" data-i18n="ex.note">Positions and proper motions from the NASA Exoplanet Archive (Gaia, epoch 2015.5). Picking a host fills in the form below.</p>
+                    </div>
                     <form class="panel-body" id="whereForm">
                         <div class="grid2">
                             <label class="field">RA (deg)<input name="ra" type="number" step="any" min="0" max="360" required></label>
@@ -422,5 +433,12 @@
 <script src="story.js?v=7"></script>
 <script src="story-i18n.js?v=4"></script>
 <script src="/theme.js?v=2" onerror="document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.theme-toggle');if(!b)return;var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('yas-theme',r.dataset.theme)}catch(x){}window.dispatchEvent(new Event('themechange'))})"></script>
+
+    <dialog id="exoDlg" class="exo-dlg" aria-labelledby="exoDlgT">
+        <div class="panel-bar"><span id="exoDlgT" data-i18n="ex.dlg">NASA Exoplanet Archive, Planetary Systems Composite</span><button class="mini" id="exoClose" type="button" data-i18n="ex.close">close</button></div>
+        <p class="spec-note" data-i18n="ex.dlgnote">Filter the table, then copy the ra and dec columns (decimal degrees) into the form, or search by name in the panel.</p>
+        <iframe id="exoFrame" title="NASA Exoplanet Archive table" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        <a class="spec-note" href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&amp;config=PSCompPars" target="_blank" rel="noopener" data-i18n="ex.tab">open it in a new tab</a>
+    </dialog>
 </body>
 </html>
