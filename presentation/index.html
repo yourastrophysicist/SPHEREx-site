@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ai-disclosure" content="Code and text written with Claude (Anthropic) from Jessica Syafaq Muthmaina's instructions and lecture notes, and checked by her.">
+    <script>try{var t=localStorage.getItem("yas-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
+    <script>if(location.hostname==="yourastrophysicist.github.io"){location.replace("https://www.yourastro.space/SPHEREx/presentation/"+location.search+location.hash);}</script>
+    <title>A camera for planets you cannot see</title>
+    <meta name="description" content="A 15 minute story in pictures: how astronomers find planets they cannot photograph, told as six camera settings, and what the SPHEREx all-sky infrared camera adds. With live SPHEREx data.">
+    <link rel="icon" type="image/png" href="/img/favicon.png?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;400;600&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=31">
+    <style>
+
+        /* the deck: one slide fills the window, in the frame of the site */
+        html, body { height: 100%; }
+        body { overflow: hidden; }
+        .deck { position: fixed; inset: 0; border: 5px solid var(--blue); background: var(--bg); }
+        .slide { position: absolute; inset: 0; display: none; padding: clamp(20px, 4vh, 48px) clamp(24px, 5vw, 72px) 70px; overflow: auto; }
+        .slide.on { display: grid; animation: in .35s ease-out; }
+        .slide:not(.on) { display: none !important; }
+        .levels { display: grid; grid-template-columns: repeat(3, 1fr); }
+        .levels button[aria-selected="true"] { background: var(--blue); color: var(--bg); }
+        @keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .kicker { font: 600 13px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
+        .kicker::before { content: '[ '; opacity: .6; } .kicker::after { content: ' ]'; opacity: .6; }
+        .big { font: 200 clamp(56px, 11vh, 140px)/.86 var(--display); text-transform: uppercase; margin: 0; }
+        .h { font: 200 clamp(40px, 7.4vh, 92px)/.9 var(--display); text-transform: uppercase; margin: 0 0 clamp(14px, 2.4vh, 28px); }
+        .lead { font-size: clamp(18px, 2.4vh, 24px); line-height: 1.45; max-width: 34ch; margin: 18px 0 0; }
+        .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 48px); align-items: center; }
+        .two.wide-r { grid-template-columns: .9fr 1.1fr; }
+        .meta { font: 400 13px/1.7 var(--mono); margin-top: 24px; }
+        .meta b { font-weight: 600; }
+        /* live SPHEREx blinks, real data from ../data */
+        .live { position: relative; background: #000; border: 1px solid var(--blue-line); }
+        .live canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+        .live .tag { position: absolute; left: 0; top: 0; padding: 4px 8px; background: var(--blue); color: #fff; font: 400 12px var(--mono); }
+        .live .tag2 { position: absolute; right: 0; top: 0; padding: 4px 8px; background: var(--blue); color: #fff; font: 400 12px var(--mono); }
+        .hero-live { max-width: min(58vh, 560px); justify-self: center; width: 100%; }
+        /* step cards on slide 2 */
+        .cards { display: grid; gap: 14px; }
+        .card { display: grid; grid-template-columns: 64px 1fr; gap: 16px; align-items: start; padding: 16px 18px; background: var(--panel); border: 1px solid var(--blue-line); text-decoration: none; color: var(--blue); }
+        .card:hover { background: var(--blue-soft); }
+        .card .n { font: 200 54px/0.9 var(--display); }
+        .card h3 { margin: 2px 0 4px; font: 400 24px/1.1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+        .card p { margin: 0; font-size: 16px; }
+        /* stats */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+        .stat { padding: 14px 16px; background: var(--panel); border: 1px solid var(--blue-line); }
+        .stat b { display: block; font: 200 clamp(40px, 6vh, 64px)/1 var(--display); }
+        .stat span { font: 400 13px/1.4 var(--mono); }
+        /* five live targets */
+        .five { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        .five a { text-decoration: none; color: var(--blue); }
+        .five h4 { margin: 10px 0 2px; font: 400 clamp(17px, 2.2vh, 22px)/1.1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+        .five p { margin: 0; font-size: 14px; line-height: 1.4; }
+        .five small { display: block; font: 400 12px var(--mono); margin-bottom: 4px; }
+        /* reading levels on slide 5 */
+        .levels { max-width: 520px; }
+        .levels + .lvl { margin-top: 14px; font-size: 17px; min-height: 5.5em; max-width: 46ch; }
+        .slide .sfig { margin: 0; background: var(--panel); }
+        .explore-url { font: 200 clamp(36px, 6vh, 72px)/1 var(--display); text-transform: uppercase; text-decoration: none; color: var(--blue); border-bottom: 2px solid var(--blue); }
+        /* controls */
+        .nav { position: fixed; left: 5px; right: 5px; bottom: 5px; display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--blue-line); z-index: 5; font: 400 13px var(--mono); }
+        .nav button { min-width: 40px; min-height: 34px; border: 1px solid var(--blue); background: transparent; color: var(--blue); cursor: pointer; font: 600 14px var(--mono); }
+        .nav button:hover { background: var(--blue-soft); }
+        .nav .bar { flex: 1; height: 4px; background: var(--blue-line); }
+        .nav .bar i { display: block; height: 100%; background: var(--blue); transition: width .3s; }
+        .notes { position: fixed; right: 16px; bottom: 64px; width: min(460px, 90vw); max-height: 50vh; overflow: auto; padding: 14px 16px; background: var(--surface); border: 1px solid var(--blue); font-size: 15px; z-index: 6; box-shadow: 0 6px 24px rgba(0,0,0,.15); }
+        .notes b { font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+        @media (max-width: 900px) {
+            body { overflow: auto; }
+            .two, .two.wide-r { grid-template-columns: 1fr; }
+            .five { grid-template-columns: repeat(2, 1fr); }
+            .stats { grid-template-columns: 1fr; }
+        }
+    
+        /* ---------- one click, one step ---------- */
+        .deck { user-select: none; -webkit-user-select: none; cursor: default; }
+        [data-step] { opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; }
+        [data-step].in { opacity: 1; transform: none; }
+        [data-step].anim { opacity: 1; transform: none; }
+        [data-until].gone { display: none; }
+        [data-step]:not(.in):not(.anim) { pointer-events: none; }
+        .black { position: fixed; inset: 0; background: #000; z-index: 50; }
+        .credit { font: 400 11px/1.4 var(--mono); opacity: .8; margin-top: 6px; }
+        .credit a { color: inherit; }
+        .stack > * + * { margin-top: 14px; }
+        .say { font-size: clamp(17px, 2.3vh, 23px); line-height: 1.45; max-width: 40ch; margin: 0; }
+        .say b { font-weight: 700; }
+        .num { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+        .num div { padding: 12px 14px; background: var(--panel); border: 1px solid var(--blue-line); }
+        .num b { display: block; font: 200 clamp(34px, 5.4vh, 58px)/1 var(--display); }
+        .num span { font: 400 12px/1.4 var(--mono); }
+        .vis { width: 100%; height: auto; max-height: 62vh; display: block; overflow: visible; }
+        .vis text { font: 400 13px var(--mono); fill: var(--blue); }
+        .vis .ax { stroke: var(--blue-line); stroke-width: 1.5; fill: none; }
+        .vis .curve { stroke: var(--blue); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        /* the camera tag on each method slide */
+        .mode { display: inline-flex; gap: 10px; align-items: center; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
+        .mode i { font-style: normal; display: inline-grid; place-items: center; width: 30px; height: 30px; background: var(--blue); color: var(--bg); font: 600 15px var(--mono); }
+        /* slide 2, the lighthouse and the firefly */
+        .glow-star { fill: url(#gStar); }
+        .firefly { fill: #7fe0ff; stroke: var(--blue); stroke-width: 1; }
+        /* slide 3, the timeline */
+        .tl { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--blue); }
+        .tl li { position: relative; padding: 0 0 clamp(10px, 1.8vh, 20px) 24px; }
+        .tl li::before { content: ''; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px; background: var(--blue); }
+        .tl b { font: 400 clamp(26px, 4vh, 40px)/1 var(--display); display: block; }
+        .tl span { font-size: clamp(15px, 2vh, 19px); }
+        /* transit */
+        .tr-planet { transition: transform 4.2s linear; }
+        .anim.in .tr-planet { transform: translateX(200px); }
+        .tr-lc { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 4.2s linear; }
+        .anim.in .tr-lc { stroke-dashoffset: 0; }
+        .tr-star { fill: url(#gSun); }
+        /* radial velocity */
+        @keyframes sway { from { transform: translateX(-9px); } to { transform: translateX(9px); } }
+        @keyframes orbit { to { transform: rotate(360deg); } }
+        .rv-lines, .rv-star { transform-box: view-box; }
+        .anim.in .rv-lines { animation: sway 1.6s ease-in-out infinite alternate; }
+        .anim.in .rv-star { animation: sway 1.6s ease-in-out infinite alternate; }
+        .rv-tag { opacity: 0; transition: opacity .4s; }
+        .anim.in .rv-tag { opacity: 1; }
+        /* astrometry */
+        .as-spin { transform-origin: 240px 130px; transform-box: view-box; }
+        .anim.in .as-spin { animation: orbit 3.2s linear infinite; }
+        .as-trail { stroke: var(--blue); stroke-dasharray: 4 5; fill: none; opacity: .25; transition: opacity .5s; }
+        .anim.in .as-trail { opacity: 1; }
+        /* direct imaging */
+        .im-glare { fill: url(#gGlare); transition: opacity 1.2s; }
+        .im-mask { transform-origin: 240px 150px; transform-box: view-box; transform: scale(0); transition: transform .9s cubic-bezier(.2,.8,.2,1); fill: #000; stroke: var(--blue); stroke-width: 2; }
+        .im-pl { fill: #ffcf7a; opacity: .05; transition: opacity 1.4s .6s; }
+        .anim.in .im-glare { opacity: .22; }
+        .anim.in .im-mask { transform: scale(1); }
+        .anim.in .im-pl { opacity: 1; }
+        .im-bg { fill: #04061a; }
+        /* microlensing */
+        .ml-main { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 3s ease-in-out; }
+        .anim.in .ml-main { stroke-dashoffset: 0; }
+        .ml-spike { stroke: #ff4040; stroke-width: 3.5; fill: none; }
+        /* timing */
+        .tk { stroke: var(--blue); stroke-width: 3; }
+        .tk-obs { transition: transform 1.4s ease-in-out; stroke: #ff4040; }
+        /* the Kaushik figure with highlights */
+        .kfig { position: relative; overflow: hidden; background: #fff; border: 1px solid var(--blue-line); }
+        .kfig img { display: block; width: 100%; height: auto; }
+        .kbox { position: absolute; border: 3px solid #141ef0; background: rgba(20, 30, 240, .07); box-shadow: 0 0 0 9999px rgba(242, 242, 242, .55); pointer-events: none; }
+        .kbox span { position: absolute; left: -3px; top: -30px; background: #141ef0; color: #fff; font: 600 13px var(--mono); padding: 4px 8px; white-space: nowrap; letter-spacing: .04em; }
+        .know { position: absolute; transform: translateX(-50%); background: #141ef0; color: #fff; font: 600 clamp(11px, 1.3vw, 15px)/1.2 var(--mono); padding: 3px 7px; white-space: nowrap; pointer-events: none; }
+        .know.date { transform: none; }
+        .kcap { font: 400 12px/1.5 var(--mono); margin-top: 8px; max-width: 110ch; }
+        .kcap a { color: inherit; }
+        .fig-layout { display: grid; grid-template-columns: minmax(0, 2.3fr) minmax(240px, 1fr); gap: clamp(18px, 2.4vw, 36px); align-items: center; }
+        /* SPHEREx photo */
+        .photo-frame img { display: block; width: 100%; max-height: 58vh; object-fit: cover; border: 1px solid var(--blue-line); }
+        .ticks { list-style: none; margin: 0; padding: 0; }
+        .ticks li { font-size: clamp(18px, 2.5vh, 25px); padding: 8px 0; border-bottom: 1px solid var(--blue-line); }
+        .ticks b { font-family: var(--display); font-weight: 400; font-size: 1.25em; text-transform: uppercase; letter-spacing: .02em; }
+        /* Pluto plates */
+        @keyframes plate { 0%, 49.9% { opacity: 0; } 50%, 100% { opacity: 1; } }
+        .plates { position: relative; background: #000; border: 1px solid var(--blue-line); aspect-ratio: 1; max-height: 52vh; }
+        .plates img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+        .plates img + img { animation: plate 1.3s steps(1) infinite; }
+        .plates .date { position: absolute; left: 0; top: 0; background: var(--blue); color: #fff; font: 400 12px var(--mono); padding: 4px 8px; z-index: 2; }
+        .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .pair .live { max-width: 46vh; }
+        .live-sm { max-width: min(52vh, 480px); }
+        /* last slide */
+        .qr { width: clamp(150px, 24vh, 240px); aspect-ratio: 1; background: #fff; padding: 10px; border: 1px solid var(--blue-line); }
+        .qr img, .qr canvas { width: 100% !important; height: 100% !important; image-rendering: pixelated; }
+        .tries { counter-reset: t; list-style: none; margin: 18px 0 0; padding: 0; }
+        .tries li { counter-increment: t; display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: baseline; font-size: clamp(17px, 2.3vh, 22px); padding: 6px 0; }
+        .tries li::before { content: counter(t, decimal-leading-zero); font: 200 34px/1 var(--display); }
+        .close-q { font: 200 clamp(30px, 5vh, 56px)/1.05 var(--display); text-transform: uppercase; margin: 22px 0 0; max-width: 24ch; }
+        /* presenter view */
+        .presenter { position: fixed; inset: 0; padding: 24px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; background: var(--bg); color: var(--blue); z-index: 60; }
+        .presenter .p-top { display: flex; justify-content: space-between; align-items: baseline; font: 600 15px var(--mono); }
+        .presenter .p-clock { font: 200 64px/1 var(--display); }
+        .presenter .p-title { font: 400 28px/1.1 var(--display); text-transform: uppercase; }
+        .presenter .p-notes { font-size: 24px; line-height: 1.5; overflow: auto; max-width: 70ch; }
+        .presenter .p-next { font: 400 14px var(--mono); opacity: .8; }
+        .presenter .p-btns { display: flex; gap: 10px; }
+        .presenter .p-btns button { min-height: 56px; min-width: 120px; border: 1px solid var(--blue); background: transparent; color: var(--blue); font: 600 16px var(--mono); cursor: pointer; }
+        @media (max-width: 900px) { .fig-layout, .pair { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+            <defs>
+                <radialGradient id="gStar"><stop offset="0" stop-color="#fffbe8"/><stop offset=".25" stop-color="#ffe7a3"/><stop offset=".6" stop-color="#ffb347" stop-opacity=".35"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+                <radialGradient id="gSun"><stop offset="0" stop-color="#fff6d8"/><stop offset=".85" stop-color="#ffc766"/><stop offset="1" stop-color="#ff9f3a"/></radialGradient>
+                <radialGradient id="gGlare"><stop offset="0" stop-color="#fffbe8"/><stop offset=".12" stop-color="#ffe7a3"/><stop offset=".45" stop-color="#ffb347" stop-opacity=".45"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+            <linearGradient id="gRain" x1="0" x2="1"><stop offset="0" stop-color="#6a2cff"/><stop offset=".2" stop-color="#2a6bff"/><stop offset=".38" stop-color="#20c4d8"/><stop offset=".52" stop-color="#3fd35a"/><stop offset=".68" stop-color="#f2e23a"/><stop offset=".84" stop-color="#ff8a2a"/><stop offset="1" stop-color="#e3262b"/></linearGradient>
+            </defs>
+</svg>
+<main class="deck" id="deck">
+
+    <!-- 01 -->
+    <section class="slide two" data-title="Title" data-notes="Everyone here has a camera in their pocket. Today I want to use that camera to tell you how we find planets around other stars, because every method we have is, in the end, a way of taking a picture. And at the end I will show you a real camera that photographs the whole sky, and you can try it yourself, on your phone, tonight.">
+        <div>
+            <p class="kicker">a story in pictures · 15 minutes</p>
+            <h1 class="big">A camera for planets you cannot see</h1>
+            <p class="lead">How astronomers photograph worlds too faint to photograph, and what one patient infrared camera, SPHEREx, adds.</p>
+            <p class="meta"><b>Jessica Syafaq Muthmaina</b> · MSc Astrophysics and Cosmology, Padova<br>tool by Observationally Speaking, with Joowon Sohn, NASA Space Apps Milano 2026<br>yourastro.space/SPHEREx</p>
+        </div>
+        <svg class="vis" viewBox="0 0 480 360" role="img" aria-label="A camera viewfinder framing a star">
+
+            <rect x="40" y="40" width="400" height="280" fill="#04061a"/>
+            <circle cx="240" cy="180" r="120" class="glow-star"/>
+            <g fill="none" stroke="var(--blue)" stroke-width="4">
+                <path d="M40 90V40h50M390 40h50v50M440 270v50h-50M90 320H40v-50"/>
+            </g>
+            <g stroke="#fff" stroke-width="1.5" opacity=".7"><path d="M225 180h-20M255 180h20M240 165v-20M240 195v20"/></g>
+            <circle cx="300" cy="166" r="2.2" class="firefly"/>
+            <text x="44" y="342">REC · 1 planet, hidden in the glare</text>
+        </svg>
+    </section>
+
+    <!-- 02 -->
+    <section class="slide two" data-title="The firefly and the lighthouse" data-notes="Here is the problem. Imagine a lighthouse, and right next to it a firefly. Now take a photo of the firefly. That is what photographing an Earth is like. (click) Here is the Earth next to the Sun. (click) In visible light the Sun is ten billion times brighter. (click) And seen from ten parsecs, which is close by astronomy standards, the two are one tenth of an arcsecond apart. That is a coin seen from forty kilometres away. No phone, and almost no telescope, can take that picture.">
+        <div>
+            <p class="kicker">the problem</p>
+            <h2 class="h">Photograph a firefly next to a lighthouse</h2>
+            <div class="stack">
+                <p class="say" data-step="1">This is the <b>Earth beside the Sun</b>, seen from 10 parsecs.</p>
+                <div class="num" data-step="2"><div><b>10 000 000 000×</b><span>brighter, the Sun against the Earth, in visible light</span></div></div>
+                <div class="num" data-step="3"><div><b>0.1″</b><span>apart on the sky, a 1 euro coin seen from 40 km</span></div></div>
+            </div>
+        </div>
+        <svg class="vis" viewBox="0 0 480 360" role="img" aria-label="A bright star with a tiny planet beside it">
+            <rect x="0" y="0" width="480" height="360" fill="#04061a"/>
+            <circle cx="220" cy="180" r="170" class="glow-star"/>
+            <g data-step="1"><circle cx="262" cy="168" r="2" class="firefly"/><path d="M268 162l40-40h60" stroke="#7fe0ff" fill="none" stroke-width="1.5"/><text x="312" y="114" style="fill:#7fe0ff">Earth</text></g>
+            <text x="16" y="346" style="fill:#ffe7a3">the Sun</text>
+        </svg>
+    </section>
+
+    <!-- 03 -->
+    <section class="slide two" data-title="So we photograph the star" data-notes="So astronomers cheat. We do not photograph the planet, we photograph what the planet does to its star. (click) In 1952 Otto Struve wrote a two page paper that said exactly how: watch the star change colour as it wobbles, and watch it get darker when a planet passes in front. (click) In 1963 Peter van de Kamp announced a planet around Barnard's Star, from a tiny wobble on photographic plates. About ten years later it turned out the wobble was the telescope itself, it changed when the lens was adjusted. Please remember this star, it comes back at the end. (click) In 1992 the first real planets were found, around a pulsar, a dead star. (click) In 1995 the first around a Sun-like star, 51 Pegasi b, which later won the Nobel Prize. (click) And today the NASA Exoplanet Archive lists six thousand four hundred and seventy.">
+        <div>
+            <p class="kicker">the trick</p>
+            <h2 class="h">Don't photograph the planet. Photograph what it does to its star.</h2>
+        </div>
+        <ol class="tl">
+            <li data-step="1"><b>1952</b><span>Otto Struve: watch the star wobble in colour, and watch it dim.</span></li>
+            <li data-step="2"><b>1963</b><span>Van de Kamp sees Barnard's Star wobble. Ten years later, the wobble is his telescope.</span></li>
+            <li data-step="3"><b>1992</b><span>The first planets, around a pulsar, a dead star.</span></li>
+            <li data-step="4"><b>1995</b><span>51 Pegasi b, the first around a star like the Sun.</span></li>
+            <li data-step="5"><b>2026</b><span>6,470 confirmed planets (NASA Exoplanet Archive, 15 November 2026).</span></li>
+        </ol>
+    </section>
+
+    <!-- 04 transit -->
+    <section class="slide two" data-title="Transit, the light meter" data-notes="Think of the camera's light meter, the little number that tells you how bright the scene is. (click) When a planet passes in front of its star, the star gets a little darker, and the light meter drops. That dip is a transit. (click) The size of the dip is the size of the planet's shadow. A Jupiter blocks one percent of a Sun. An Earth blocks less than one hundredth of a percent. (click) This is the most successful setting, almost three quarters of all known planets. The catch is that the orbit has to be edge-on to us. For an Earth around a Sun, that happens only once in about two hundred stars, so you watch hundreds of thousands of stars at once, which is what Kepler and TESS do.">
+        <div>
+            <p class="mode"><i>1</i>the light meter</p>
+            <h2 class="h">Transit: a shadow in the light meter</h2>
+            <p class="say">When a planet crosses its star, the star gets a little darker.</p>
+            <div class="num" data-step="2"><div><b>1 %</b><span>darker, a Jupiter in front of a Sun</span></div><div><b>0.008 %</b><span>darker, an Earth in front of a Sun</span></div></div>
+            <div class="num" data-step="3"><div><b>4,799</b><span>planets, 3 in 4 of all known</span></div><div><b>1 in 200</b><span>chance an Earth's orbit is edge-on to us</span></div></div>
+        </div>
+        <svg class="vis anim" data-step="1" viewBox="0 0 480 300" role="img" aria-label="A planet crosses its star and the light curve dips">
+            <circle cx="240" cy="95" r="75" class="tr-star"/>
+            <circle cx="140" cy="110" r="11" class="tr-planet" fill="#0b1038" stroke="var(--blue)" stroke-width="2"/>
+            <path class="ax" d="M40 205V280H450"/>
+            <text x="44" y="200">brightness</text><text x="400" y="296">time</text>
+            <path class="curve tr-lc" pathLength="1" d="M40 230L68 230L112 252L368 252L412 230L440 230"/>
+        </svg>
+    </section>
+
+    <!-- 05 radial velocity -->
+    <section class="slide two" data-title="Radial velocity, white balance" data-notes="Second setting, white balance, the colour of the light. (click) A planet does not really orbit its star. Both go round a shared centre, so the star makes a small circle too. When it comes towards us its light is a tiny bit bluer, when it goes away a tiny bit redder. We see that as the dark lines in the star's rainbow sliding back and forth. (click) Jupiter moves the Sun at about twelve and a half metres per second, a fast cyclist. The Earth moves it at nine centimetres per second, fifteen times slower than you walk. Modern spectrographs like ESPRESSO chase exactly that. (click) This setting found more than twelve hundred planets, and it gives the planet's mass, but only a lower limit, because we do not know how tilted the orbit is.">
+        <div>
+            <p class="mode"><i>2</i>white balance</p>
+            <h2 class="h">Radial velocity: the colour that wobbles</h2>
+            <p class="say">The star circles too. Towards us its light is a little bluer, away a little redder.</p>
+            <div class="num" data-step="2"><div><b>12.5 m/s</b><span>Jupiter moves the Sun, a fast cyclist</span></div><div><b>9 cm/s</b><span>the Earth moves the Sun, 15× slower than you walk</span></div></div>
+            <div class="num" data-step="3"><div><b>1,205</b><span>planets, the mass but only a lower limit (M sin i)</span></div></div>
+        </div>
+        <svg class="vis anim" data-step="1" viewBox="0 0 480 300" role="img" aria-label="A star wobbles and its spectral lines shift">
+            
+            <circle cx="240" cy="40" r="5" fill="#ffc766" opacity=".001"/>
+            <g class="rv-star"><circle cx="240" cy="80" r="34" class="tr-star"/></g>
+            <text x="40" y="160">the star's rainbow</text>
+            <rect x="40" y="170" width="400" height="56" fill="url(#gRain)"/>
+            <g class="rv-lines" fill="#000"><rect x="96" y="170" width="4" height="56"/><rect x="150" y="170" width="3" height="56"/><rect x="206" y="170" width="5" height="56"/><rect x="268" y="170" width="3" height="56"/><rect x="322" y="170" width="4" height="56"/><rect x="390" y="170" width="3" height="56"/></g>
+            <text x="40" y="252" class="rv-tag">← bluer, coming towards us</text><text x="292" y="252" class="rv-tag">going away, redder →</text>
+        </svg>
+    </section>
+
+    <!-- 06 astrometry -->
+    <section class="slide two" data-title="Astrometry, camera shake" data-notes="Third setting, camera shake. (click) Look at the same wobble from above, and the star traces a tiny circle on the sky. Measure the star's position very precisely, and you see it shake. (click) But tiny really means tiny. Jupiter, seen from ten parsecs, moves the Sun by half a thousandth of an arcsecond. An Earth, by a third of a millionth. (click) This is the setting that fooled van de Kamp: when your camera itself shakes, you think the star does. That is why it needed space. The Gaia satellite measures positions to millionths of an arcsecond, and its next data release, on the second of December, is expected to bring thousands of candidates. Today there are only eight planets found this way.">
+        <div>
+            <p class="mode"><i>3</i>camera shake</p>
+            <h2 class="h">Astrometry: the star that shakes</h2>
+            <p class="say">Seen from above, the same wobble is a tiny circle on the sky.</p>
+            <div class="num" data-step="2"><div><b>0.0005″</b><span>Jupiter moves the Sun, seen from 10 pc</span></div><div><b>0.0000003″</b><span>an Earth does the same</span></div></div>
+            <p class="say" data-step="3">The setting that fooled van de Kamp. In space, <b>Gaia</b> does it right. Gaia DR4, <b>2 December 2026</b>. So far, 8 planets.</p>
+        </div>
+        <svg class="vis anim" data-step="1" viewBox="0 0 480 300" role="img" aria-label="A star traces a small circle on the sky">
+            <rect x="0" y="0" width="480" height="300" fill="#04061a"/>
+            <g fill="#cfd6ff"><circle cx="60" cy="50" r="1.5"/><circle cx="410" cy="80" r="2"/><circle cx="380" cy="240" r="1.2"/><circle cx="90" cy="230" r="1.8"/><circle cx="300" cy="40" r="1"/><circle cx="150" cy="120" r="1"/></g>
+            <circle cx="240" cy="130" r="46" class="as-trail"/>
+            <g class="as-spin"><circle cx="286" cy="130" r="16" class="tr-star"/></g>
+            <path d="M226 130h28M240 116v28" stroke="#fff" stroke-width="1" opacity=".5"/>
+            <text x="20" y="288" style="fill:#cfd6ff">not to scale, a real wobble is a millionth of this</text>
+        </svg>
+    </section>
+
+    <!-- 07 imaging -->
+    <section class="slide two" data-title="Direct imaging, the lens hood" data-notes="Fourth setting, the one everybody expects: just take the photo. On a sunny day you block the Sun with your hand to see better. Telescopes do the same with a mask called a coronagraph, and they fix the blur of the air with adaptive optics. (click) Block the star, and the planets appear. (click) It works best for young giant planets, still warm from being born, far from their star, and in infrared light. There the contrast is one in a million instead of one in ten billion. (click) About a hundred planets so far. The most beautiful is HR 8799, four giant planets that astronomers have filmed going round their star over more than ten years.">
+        <div>
+            <p class="mode"><i>4</i>the lens hood</p>
+            <h2 class="h">Direct imaging: put your thumb over the Sun</h2>
+            <p class="say">A mask, the coronagraph, hides the star. Adaptive optics removes the blur of the air.</p>
+            <div class="num" data-step="2"><div><b>1 : 1 000 000</b><span>a young, warm giant in the infrared, instead of 1 : 10 000 000 000</span></div></div>
+            <div class="num" data-step="3"><div><b>98</b><span>planets imaged</span></div><div><b>HR 8799</b><span>four giants, filmed orbiting for over ten years</span></div></div>
+        </div>
+        <svg class="vis anim" data-step="1" viewBox="0 0 480 300" role="img" aria-label="A coronagraph hides a star and four planets appear">
+            <rect x="0" y="0" width="480" height="300" class="im-bg"/>
+            <circle cx="240" cy="150" r="150" class="im-glare"/>
+            <circle cx="240" cy="150" r="30" class="im-mask"/>
+            <circle cx="282" cy="138" r="3" class="im-pl"/><circle cx="196" cy="182" r="3.5" class="im-pl"/><circle cx="318" cy="200" r="4" class="im-pl"/><circle cx="130" cy="84" r="4" class="im-pl"/>
+            <text x="16" y="288" style="fill:#cfd6ff">four planets, laid out like HR 8799 (sketch)</text>
+        </svg>
+    </section>
+
+    <!-- 08 microlensing -->
+    <section class="slide two" data-title="Microlensing, a zoom lens of gravity" data-notes="Fifth setting, a zoom lens, made of gravity. Einstein showed that mass bends light. (click) When a star drifts exactly in front of a more distant star, its gravity acts as a lens and the background star brightens and fades over a few weeks. (click) If the lens star has a planet, the planet adds its own tiny lens, a short blip of a few hours or days. You get one chance, it never repeats. (click) About three hundred planets so far, many far from their star, and even planets floating alone with no star at all. The Roman Space Telescope, launched this year, is expected to find more than a thousand.">
+        <div>
+            <p class="mode"><i>5</i>the zoom lens</p>
+            <h2 class="h">Microlensing: gravity as a zoom lens</h2>
+            <p class="say">A star passing in front of a farther one bends and magnifies its light.</p>
+            <p class="say" data-step="2">A planet around the lens adds a <b>short blip</b>, hours to days, once.</p>
+            <div class="num" data-step="3"><div><b>294</b><span>planets, far out, some with no star at all</span></div><div><b>1000+</b><span>expected from Roman, launched 2026</span></div></div>
+        </div>
+        <svg class="vis anim" data-step="1" viewBox="0 0 480 300" role="img" aria-label="A microlensing light curve with a planet blip">
+            <path class="ax" d="M40 30V270H450"/>
+            <text x="44" y="24">brightness</text><text x="400" y="290">weeks</text>
+            <path class="curve ml-main" id="mlMain" pathLength="1" d=""/>
+            <g data-step="2"><path class="ml-spike" id="mlSpike" d=""/><text x="330" y="72" style="fill:#ff4040">the planet</text></g>
+        </svg>
+    </section>
+
+    <!-- 09 timing -->
+    <section class="slide two" data-title="Timing, the clock" data-notes="Sixth setting, the clock in your camera. A pulsar is the core of a dead star that spins and flashes like a lighthouse, hundreds of times a second, more regularly than our best clocks. (click) A planet pulls it back and forth, so the flashes arrive a little early, then a little late, by a fraction of a millisecond. (click) That is how the very first planets were found, in 1992, around the pulsar PSR B1257+12. Planets around a dead star, three years before any around a living one. (click) The same idea works with pulsating stars, eclipsing binary stars, and with transits that arrive early or late because of another planet. About fifty-six planets in total.">
+        <div>
+            <p class="mode"><i>6</i>the clock</p>
+            <h2 class="h">Timing: a clock that runs early, then late</h2>
+            <p class="say">A pulsar flashes more steadily than any clock. A planet makes the flashes arrive early, then late.</p>
+            <div class="num" data-step="2"><div><b>1992</b><span>PSR B1257+12, the first planets ever confirmed, around a dead star</span></div></div>
+            <div class="num" data-step="3"><div><b>56</b><span>planets from timing: pulsars, pulsating stars, eclipsing binaries, transit times</span></div></div>
+        </div>
+        <svg class="vis anim" data-step="1" viewBox="0 0 480 240" role="img" aria-label="Pulse arrival times drift early and late">
+            <text x="20" y="54">expected</text><text x="20" y="144">arrived</text>
+            <g id="tkExp"></g><g id="tkObs"></g>
+            <text x="20" y="222" id="tkNote" style="opacity:0">← early · late →, a few tenths of a millisecond</text>
+        </svg>
+    </section>
+
+    <!-- 10 the figure -->
+    <section class="slide" style="align-content:center" data-title="The whole camera menu (Kaushik et al. 2024, Fig. 1)" data-notes="Here is the whole menu on one picture, from a 2024 review. Planet mass goes down the page, from ten Jupiters to one Earth, and each branch is one setting. (click) On the left the dynamical settings, the clock, the colour wobble and the shake. Radial velocity reaches all the way down to Earth masses. (click) In the middle, the zoom lens of gravity. (click) On the right, the light meter and the lens hood, transits and imaging. Imaging only reaches the heaviest planets. (click) This figure counts planets on the first of January 2018, three thousand five hundred. Here are today's numbers. Transits went from about two thousand eight hundred to almost four thousand eight hundred. (click) And the most important lesson: every setting has blind spots. A Jupiter far from its star, or an Earth around a Sun, is still the hardest picture. An empty corner on this plot is a blind spot of the camera, not an empty sky.">
+        <div class="fig-layout">
+            <figure style="margin:0">
+                <div class="kfig">
+                    <img src="img/kaushik2024_fig1.png" alt="Tree of exoplanet detection methods, dynamical, microlensing, photometry and indirect, against decreasing planet mass from 10 Jupiter masses to 1 Earth mass, with discovery counts as of 1 January 2018" width="1434" height="782">
+                    <div class="kbox" data-step="1" data-until="2" style="left:7%;top:31%;width:36%;height:63%"><span>clock · white balance · shake</span></div>
+                    <div class="kbox" data-step="2" data-until="3" style="left:41%;top:20%;width:19%;height:74%"><span>gravity zoom</span></div>
+                    <span class="know date" data-step="4" style="left:2%;top:12.5%">blue = 15 Nov 2026 · 6,470 planets</span>
+                    <span class="know" data-step="4" style="left:12.9%;top:85.6%">56</span>
+                    <span class="know" data-step="4" style="left:26.1%;top:85.6%">1,205</span>
+                    <span class="know" data-step="4" style="left:36.6%;top:85.6%">8</span>
+                    <span class="know" data-step="4" style="left:52.3%;top:85.6%">294</span>
+                    <span class="know" data-step="4" style="left:65.9%;top:85.6%">98</span>
+                    <span class="know" data-step="4" style="left:84.4%;top:85.6%">4,799</span>
+                    <div class="kbox" data-step="3" data-until="4" style="left:58%;top:31%;width:41.5%;height:63%"><span>lens hood · light meter</span></div>
+                </div>
+                <figcaption class="kcap">Exoplanet detection methods on a logarithmic mass scale, current and upcoming. Solid arrows are discoveries, open arrows earlier evaluations. Data from the NASA Exoplanet Archive and Perryman (2018). Source: Kaushik, Mattoo and Rastogi 2024, "Exoplanet Detection: A Detailed Analysis", <a href="https://arxiv.org/abs/2404.09143" target="_blank" rel="noopener">arXiv:2404.09143</a>, Fig. 1, CC BY 4.0. Blue labels added: counts from the NASA Exoplanet Archive, 15 November 2026.</figcaption>
+            </figure>
+            <div>
+                <p class="kicker">the whole camera menu</p>
+                <h2 class="h" style="font-size:clamp(34px,5.6vh,64px)">Each setting sees a different slice</h2>
+                <p class="say" data-step="0" data-until="1">Planet mass goes <b>down</b> the page, from 10 Jupiters to 1 Earth. Each branch is one setting.</p>
+                <p class="say" data-step="1" data-until="2"><b>Dynamical</b>: timing, radial velocity, astrometry. Radial velocity reaches down to Earth masses.</p>
+                <p class="say" data-step="2" data-until="3"><b>Microlensing</b>: planets far from their star, even with no star.</p>
+                <p class="say" data-step="3" data-until="4"><b>Photometry</b>: transits for small planets, imaging only for the heaviest.</p>
+                <p class="say" data-step="4" data-until="5">2018: <b>3,572</b> planets. Today: <b>6,470</b>.</p>
+                <p class="say" data-step="5">Every camera has blind spots. An empty corner is the <b>camera's blind spot</b>, not an empty sky.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11 SPHEREx -->
+    <section class="slide two" data-title="SPHEREx, a slow camera with 102 colours" data-notes="Now let me show you a different camera. This is SPHEREx, a NASA telescope, small enough to fit in a room. It was not built to find planets. It maps the whole sky to study the first instant after the Big Bang, the history of galaxies, and the ice in clouds where stars are born. (click) It launched in March 2025. (click) Every six months it photographs the entire sky. (click) In 102 colours of infrared light, colours our eyes cannot see. (click) And its pixels are big, six arcseconds each. It is a blurry camera. But it is a very patient one, it keeps coming back. And a patient camera that comes back is exactly what you need to see things move.">
+        <div>
+            <p class="kicker">now, a different camera</p>
+            <h2 class="h">SPHEREx: a slow camera with 102 colours</h2>
+            <ul class="ticks">
+                <li data-step="1"><b>Launched</b> March 2025, NASA</li>
+                <li data-step="2"><b>The whole sky</b> every six months</li>
+                <li data-step="3"><b>102 colours</b> of infrared, 0.75 to 5 µm</li>
+                <li data-step="4"><b>Big pixels</b>, 6.15″ each. Blurry, but patient.</li>
+            </ul>
+        </div>
+        <figure class="photo-frame" style="margin:0">
+            <img src="../img/story/spherex_telescope.jpg" alt="The SPHEREx telescope and detector assembly in a clean room">
+            <figcaption class="credit">SPHEREx telescope and detectors before launch. <a href="https://commons.wikimedia.org/wiki/File:SPHEREx_telescope_and_detectors.jpg" target="_blank" rel="noopener">NASA/JPL-Caltech, public domain</a></figcaption>
+        </figure>
+    </section>
+
+    <!-- 12 blink -->
+    <section class="slide two" data-title="Two photos, one flip" data-notes="The oldest trick for moving things is the flipbook. In 1930 Clyde Tombaugh took two photos of the same sky six days apart, and flipped between them. Everything stayed still, except one dot. That dot was Pluto. (click) Our tool does the same with SPHEREx. This is not an animation, these are real SPHEREx photos, one per six-month pass, lined up on one grid. The red marks show where the Gaia satellite says the star should be. (click) And this is Barnard's Star, the same star van de Kamp watched in 1963. It is the fastest star on the sky, ten arcseconds a year, and in SPHEREx it walks exactly where Gaia predicts. (click) And here is the happy ending. Barnard's Star does have planets. Four of them, found in 2024 and 2025, by radial velocity. Not van de Kamp's giants, but four small worlds, each about a third of the Earth's mass, at least.">
+        <div>
+            <p class="kicker">the oldest trick</p>
+            <h2 class="h">Two photos, one flip</h2>
+            <p class="say" data-step="0" data-until="1">1930: Tombaugh flips two plates six days apart. One dot jumps. <b>Pluto.</b></p>
+            <p class="say" data-step="1" data-until="2">Now real <b>SPHEREx</b> photos, one per six-month pass. Red marks: where <b>Gaia</b> says the star should be.</p>
+            <p class="say" data-step="2" data-until="3"><b>Barnard's Star</b>, the star of the 1963 false alarm. 10.4″ a year, walking exactly where Gaia says.</p>
+            <p class="say" data-step="3">And it <b>does</b> have planets: <b>four</b>, found in 2024 and 2025 by radial velocity, each at least about a third of an Earth.</p>
+        </div>
+        <div>
+            <div class="plates" data-step="0" data-until="1">
+                <img src="img/pluto_1930-01-23.jpg" alt="Photographic plate of 23 January 1930"><img src="img/pluto_1930-01-29.jpg" alt="Photographic plate of 29 January 1930">
+                <span class="date">23 and 29 January 1930, blinking</span>
+            </div>
+            <p class="credit" data-step="0" data-until="1"><a href="https://commons.wikimedia.org/wiki/File:Pluto_discovery_plates.png" target="_blank" rel="noopener">Clyde Tombaugh, Lowell Observatory, public domain</a></p>
+            <figure class="live live-sm" data-step="1" data-live="Barnard" style="margin:0 auto"><canvas width="560" height="560"></canvas><span class="tag"></span><span class="tag2">Barnard's Star · D1</span></figure>
+        </div>
+    </section>
+
+    <!-- 13 infrared -->
+    <section class="slide" style="align-content:center" data-title="Night vision for cold worlds" data-notes="Why 102 colours? Because some things only shine in some colours. This is the same patch of sky in SPHEREx's bluest detector. Nothing special. (click) Now the reddest detector, near four and a half microns. A dot appears and walks. (click) That is WISE 0855, the coldest brown dwarf known, about 250 kelvin, colder than the North Pole in winter, only two parsecs away. It is invisible in short colours and only glows near four and a half microns, where its air lets the light out. It is like a thermal camera finding a cat in the dark. (click) Brown dwarfs are the things in between, heavier than planets, too light to be stars, from about thirteen to eighty Jupiter masses. On the figure from before, they live just above the top line. SPHEREx cannot see exoplanets around other stars, but it sees these neighbours very well.">
+        <p class="kicker">why 102 colours matter</p>
+        <h2 class="h">Night vision for cold worlds</h2>
+        <div class="two" style="align-items:start">
+            <div class="pair">
+                <figure class="live" data-live="W1" data-nospeed data-src="../data/bands/WISE0855_D1.json" style="margin:0"><canvas width="460" height="460"></canvas><span class="tag"></span><span class="tag2">D1 · 0.75 to 1.1 µm</span></figure>
+                <figure class="live" data-step="1" data-live="W6" data-nospeed data-src="../data/bands/WISE0855_D6.json" style="margin:0"><canvas width="460" height="460"></canvas><span class="tag"></span><span class="tag2">D6 · 4.4 to 5.0 µm</span></figure>
+            </div>
+            <div class="stack">
+                <p class="say" data-step="0" data-until="1">The same patch of sky in the <b>bluest</b> detector. Nothing there.</p>
+                <p class="say" data-step="1" data-until="2">The <b>reddest</b> detector. Something appears, and walks.</p>
+                <p class="say" data-step="2"><b>WISE 0855</b>, the coldest brown dwarf known: about <b>250 K</b>, 2.3 pc away. A thermal camera finding a cat in the dark.</p>
+                <p class="say" data-step="3"><b>Brown dwarfs</b>: heavier than planets, too light to be stars, about 13 to 80 Jupiter masses. Just above the top line of the figure.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14 honest -->
+    <section class="slide two" data-title="Can this camera find a planet?" data-notes="So, can this camera find a planet? Honestly. (click) Around other stars, no. The planet would sit a tiny fraction of one pixel away from a star ten billion times brighter. (click) What about a hidden Planet Nine in our own Solar System? Probably not either. Even in the best case it would be magnitude 18 to 21 near one micron, and one SPHEREx photo reaches about magnitude 17. You can move the sliders here. Motion is never the problem, it would jump across the image. Faintness is. (click) What it can do is catch the neighbours in between, fast stars and cold brown dwarfs, and show you the host star of any planet in 102 colours. Which brings me to the last slide.">
+        <div>
+            <p class="kicker">the honest answer</p>
+            <h2 class="h">Can this camera find a planet?</h2>
+            <div class="stack">
+                <p class="say" data-step="1"><b>Around other stars: no.</b> A fraction of a pixel from a star 10 billion times brighter.</p>
+                <p class="say" data-step="2"><b>A Planet Nine: probably not.</b> Best case AB 18 to 21 near 1 µm. One SPHEREx photo reaches about AB 17. Motion is easy, faintness is the problem.</p>
+                <p class="say" data-step="3"><b>What it can do:</b> catch the neighbours in between, and show any planet's host star in 102 colours.</p>
+            </div>
+            <p class="credit" data-step="2">Grey surface assumed, methane makes a real one darker. SPHEREx depth is a published forecast, not our measurement.</p>
+        </div>
+        <figure class="sfig" data-fig="planetx" data-step="2"></figure>
+    </section>
+
+    <!-- 15 try it -->
+    <section class="slide two" data-title="Your turn" data-notes="Now it is your turn. Scan this, or type yourastro.space slash SPHEREx. (click) Type the name of a planet's host star, TRAPPIST-1, or Barnard's Star, and the page fetches every SPHEREx photo of it from NASA's archive. (click) Pick one of our five test objects and press play. (click) Or hide a fake planet in the real images and see if your friends can find it. (click) I want to end with a question. We have six settings, and none of them has yet taken a real photo of an Earth around another Sun. Which camera will be the first? Thank you.">
+        <div>
+            <p class="kicker">your turn</p>
+            <a class="explore-url" href="https://www.yourastro.space/SPHEREx/" target="_blank" rel="noopener">yourastro.space/SPHEREx</a>
+            <ol class="tries">
+                <li data-step="1"><span>Type a planet's host star, like <b>TRAPPIST-1</b> or <b>Barnard's Star</b>, under <i>your own position</i>.</span></li>
+                <li data-step="2"><span>Pick one of the five test objects and press play.</span></li>
+                <li data-step="3"><span>Hide a <b>fake planet</b> in the real images. Can your friends find it?</span></li>
+            </ol>
+            <p class="close-q" data-step="4">Which camera will take the first photo of another Earth?</p>
+            <p class="credit" data-step="4">SPHEREx images NASA/JPL-Caltech/IPAC via IRSA · Gaia DR3 ESA/Gaia/DPAC · planet counts NASA Exoplanet Archive, 15 Nov 2026 · Fig. Kaushik, Mattoo and Rastogi 2024, CC BY 4.0 · built with Claude (Anthropic), checked by me</p>
+        </div>
+        <div style="justify-self:center;text-align:center">
+            <div class="qr" id="qr" role="img" aria-label="QR code for yourastro.space/SPHEREx"></div>
+            <p class="credit">scan to open on your phone</p>
+        </div>
+    </section>
+
+    <nav class="nav" aria-label="slides">
+        <button type="button" id="prev" aria-label="Back one step">←</button>
+        <span id="num">01 / 15</span>
+        <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+        <button type="button" id="presBtn" title="Presenter view in a second window (p)">presenter</button>
+        <button type="button" id="notesBtn" aria-pressed="false" title="Speaker notes (n)">notes</button>
+        <button type="button" id="fsBtn" title="Full screen (f)">full screen</button>
+        <button type="button" id="next" aria-label="Next step">→</button>
+    </nav>
+    <aside class="notes" id="notes" hidden><b>notes</b><p id="notesText"></p></aside>
+</main>
+<div class="black" id="black" hidden></div>
+<div class="presenter" id="presenter" hidden>
+    <div class="p-top"><span id="pPos"></span><span class="p-clock" id="pClock">00:00</span></div>
+    <div class="p-title" id="pTitle"></div>
+    <div class="p-notes" id="pNotes"></div>
+    <div><p class="p-next" id="pNext"></p><div class="p-btns"><button type="button" id="pPrev">← back</button><button type="button" id="pGo">next →</button><button type="button" id="pReset">reset clock</button></div></div>
+</div>
+
+<script>let lang = "en";</script>
+<script src="../figs.js?v=7"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+"use strict";
+// ---------- live SPHEREx blinks from the same static files the page uses ----------
+const BEST = { Barnard: "D1", EpsIndB: "D5", WISE0855: "D6", RWAur: "D1", RDra: "D3" };
+const cache = {}, SRC = {};
+document.querySelectorAll("[data-src]").forEach((f) => { SRC[f.dataset.live] = f.dataset.src; });
+function load(t) {
+  return cache[t] || (cache[t] = fetch(SRC[t] || `../data/${t}.json`).then((r) => r.json()));
+}
+function decode(f, n) {
+  const bin = atob(f.image), out = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const c = (bin.charCodeAt(2 * i) | (bin.charCodeAt(2 * i + 1) << 8)) << 16 >> 16;
+    out[i] = c === -32768 ? NaN : f.lo + f.scale * (c + 32767);
+  }
+  return out;
+}
+function median(a) { const b = a.filter((x) => !isNaN(x)).sort((x, y) => x - y); return b.length ? b[b.length >> 1] : NaN; }
+function views(j, mode) {
+  const n = j.npix * j.npix, imgs = j.frames.map((f) => decode(f, n));
+  if (mode === "frames") return j.frames.map((f, i) => ({ img: imgs[i], xy: f.target_xy, label: f.year.toFixed(2) }));
+  const passes = [...new Set(j.frames.map((f) => f.pass_index))];
+  return passes.map((p) => {
+    const ids = j.frames.map((f, i) => (f.pass_index === p ? i : -1)).filter((i) => i >= 0);
+    const img = new Float32Array(n);
+    for (let k = 0; k < n; k++) img[k] = median(ids.map((i) => imgs[i][k]));
+    const xy = [0, 1].map((a) => ids.reduce((s, i) => s + j.frames[i].target_xy[a], 0) / ids.length);
+    const y = ids.reduce((s, i) => s + j.frames[i].year, 0) / ids.length;
+    return { img, xy, label: `pass ${passes.indexOf(p) + 1} · ${y.toFixed(2)}` };
+  });
+}
+// the measured track, as on the page: centroid of each sky-pass median, or the centre of a saturated blank core
+function centroid(img, N, xy) {
+  let [cx, cy] = xy;
+  const blank = [];
+  for (let y = Math.floor(cy - 5); y <= Math.ceil(cy + 5); y++) for (let x = Math.floor(cx - 5); x <= Math.ceil(cx + 5); x++)
+    if (x >= 0 && y >= 0 && x < N && y < N && Math.hypot(x - cx, y - cy) <= 5 && isNaN(img[y * N + x])) blank.push([x, y]);
+  if (blank.filter(([x, y]) => Math.hypot(x - cx, y - cy) <= 2).length >= 3) return [blank.reduce((s, b) => s + b[0], 0) / blank.length, blank.reduce((s, b) => s + b[1], 0) / blank.length];
+  for (let it = 0; it < 2; it++) {
+    const ring = [];
+    for (let y = Math.floor(cy - 7); y <= Math.ceil(cy + 7); y++) for (let x = Math.floor(cx - 7); x <= Math.ceil(cx + 7); x++) {
+      const r = Math.hypot(x - cx, y - cy), val = (x >= 0 && y >= 0 && x < N && y < N) ? img[y * N + x] : NaN;
+      if (r >= 4 && r <= 7 && !isNaN(val)) ring.push(val);
+    }
+    const bg = median(ring) || 0;
+    let sx = 0, sy = 0, sw = 0;
+    for (let y = Math.floor(cy - 3); y <= Math.ceil(cy + 3); y++) for (let x = Math.floor(cx - 3); x <= Math.ceil(cx + 3); x++) {
+      if (x < 0 || y < 0 || x >= N || y >= N || Math.hypot(x - cx, y - cy) > 3) continue;
+      const val = img[y * N + x]; if (isNaN(val)) continue;
+      const w = Math.max(0, val - bg); sx += w * x; sy += w * y; sw += w;
+    }
+    if (!sw) return null;
+    cx = sx / sw; cy = sy / sw;
+  }
+  return [cx, cy];
+}
+function trackOf(j) {
+  const n = j.npix * j.npix, imgs = j.frames.map((f) => decode(f, n)), pts = [];
+  for (const p of [...new Set(j.frames.map((f) => f.pass_index))]) {
+    const ids = j.frames.map((f, i) => (f.pass_index === p ? i : -1)).filter((i) => i >= 0);
+    const img = new Float32Array(n);
+    for (let k = 0; k < n; k++) img[k] = median(ids.map((i) => imgs[i][k]));
+    const g = [0, 1].map((a) => ids.reduce((s, i) => s + j.frames[i].target_xy[a], 0) / ids.length);
+    const c = centroid(img, j.npix, g);
+    if (c && Math.hypot(c[0] - g[0], c[1] - g[1]) < 3) pts.push({ x: c[0], y: c[1], yr: ids.reduce((s, i) => s + j.frames[i].year, 0) / ids.length });
+  }
+  let speed = 0;
+  if (pts.length > 1) {
+    const t = pts.map((p) => p.yr), mt = t.reduce((a, b) => a + b) / t.length;
+    const sl = (k) => { const m = pts.reduce((s, p) => s + p[k], 0) / pts.length; let a = 0, b = 0; pts.forEach((p, i) => { a += (t[i] - mt) * (p[k] - m); b += (t[i] - mt) ** 2; }); return a / b; };
+    speed = Math.hypot(sl("x"), sl("y")) * 6.15;
+  }
+  return { pts, speed };
+}
+function paint(cv, v, N, tr) {
+  const ctx = cv.getContext("2d"), fin = Array.from(v.img).filter((x) => !isNaN(x)).sort((a, b) => a - b);
+  const pct = (p) => fin[Math.min(fin.length - 1, Math.round(p / 100 * (fin.length - 1)))];
+  const med = pct(50), mad = 1.4826 * median(Array.from(fin, (x) => Math.abs(x - med))) || 1e-3;
+  const lo = med - 2 * mad, hi = Math.max(pct(99.5), lo + mad), beta = 3 * mad, norm = Math.asinh((hi - lo) / beta);
+  const id = ctx.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const val = v.img[y * N + x], o = ((N - 1 - y) * N + x) * 4;
+    const g = isNaN(val) ? 30 : Math.round(255 * Math.min(1, Math.max(0, Math.asinh((val - lo) / beta) / norm)));
+    id.data[o] = id.data[o + 1] = id.data[o + 2] = g; id.data[o + 3] = 255;
+  }
+  const off = document.createElement("canvas"); off.width = off.height = N; off.getContext("2d").putImageData(id, 0, 0);
+  ctx.imageSmoothingEnabled = false; ctx.drawImage(off, 0, 0, cv.width, cv.height);
+  const s = cv.width / N, cx = (v.xy[0] + 0.5) * s, cy = (N - 1 - v.xy[1] + 0.5) * s;
+  ctx.strokeStyle = "#ff4040"; ctx.lineWidth = Math.max(2, s / 3);
+  ctx.beginPath();
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { ctx.moveTo(cx + dx * 3 * s, cy + dy * 3 * s); ctx.lineTo(cx + dx * 5 * s, cy + dy * 5 * s); }
+  ctx.stroke();
+  if (tr && tr.pts.length > 1) {
+    const at = (p) => [(p.x + 0.5) * s, (N - 1 - p.y + 0.5) * s];
+    ctx.strokeStyle = ctx.fillStyle = "#ffb000"; ctx.lineWidth = Math.max(1.5, s / 4);
+    ctx.beginPath(); tr.pts.forEach((p, k) => { const [x, y] = at(p); if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y); }); ctx.stroke();
+    for (const p of tr.pts) { const [x, y] = at(p); ctx.beginPath(); ctx.arc(x, y, Math.max(2.5, s / 3), 0, 2 * Math.PI); ctx.fill(); }
+  }
+}
+const timers = [], tracks = {};
+async function startLive(slide) {
+  for (const fig of slide.querySelectorAll("[data-live]")) {
+    const t = fig.dataset.live, cv = fig.querySelector("canvas"), tag = fig.querySelector(".tag");
+    tag.textContent = "loading SPHEREx data";
+    const j = await load(t), vs = views(j, fig.dataset.mode || "pass");
+    const tr = tracks[t] || (tracks[t] = trackOf(j)), tag2 = fig.querySelector(".tag2");
+    if (tag2 && !tag2.dataset.base) tag2.dataset.base = tag2.textContent;
+    if (tag2 && !("nospeed" in fig.dataset) && tr.speed > 2) tag2.textContent = `${tag2.dataset.base} · ${tr.speed.toFixed(1)}″/yr measured`;
+    let i = 0;
+    const step = () => { paint(cv, vs[i], j.npix, tr); tag.textContent = vs[i].label; i = (i + 1) % vs.length; };
+    step(); timers.push(setInterval(step, fig.dataset.mode === "frames" ? 220 : 650));
+  }
+}
+
+
+// ---------- drawings made in code ----------
+(function lensing() {
+  // Paczynski magnification with u0 = 0.25, plus a short planetary blip after the peak
+  const X = (t) => 40 + (t + 2.2) / 4.4 * 400, A = (t) => { const u = Math.hypot(0.25, t); return (u * u + 2) / (u * Math.sqrt(u * u + 4)); };
+  const Y = (a) => 260 - (a - 1) / 3.2 * 210;
+  let d = "", s = "";
+  for (let k = 0; k <= 440; k++) { const t = -2.2 + 4.4 * k / 440; d += (k ? "L" : "M") + X(t).toFixed(1) + " " + Y(A(t)).toFixed(1); }
+  for (let k = 0; k <= 40; k++) { const t = 0.58 + 0.08 * k / 40, b = A(t) + 0.9 * Math.exp(-(((t - 0.62) / 0.012) ** 2)); s += (k ? "L" : "M") + X(t).toFixed(1) + " " + Y(b).toFixed(1); }
+  document.getElementById("mlMain").setAttribute("d", d);
+  document.getElementById("mlSpike").setAttribute("d", s);
+})();
+(function pulses() {
+  const ns = "http://www.w3.org/2000/svg", exp = document.getElementById("tkExp"), obs = document.getElementById("tkObs");
+  for (let k = 0; k < 18; k++) {
+    const x = 110 + k * 19.5;
+    const a = document.createElementNS(ns, "line"); a.setAttribute("class", "tk"); a.setAttribute("x1", x); a.setAttribute("x2", x); a.setAttribute("y1", 30); a.setAttribute("y2", 66); exp.append(a);
+    const b = document.createElementNS(ns, "line"); b.setAttribute("class", "tk tk-obs"); b.setAttribute("x1", x); b.setAttribute("x2", x); b.setAttribute("y1", 120); b.setAttribute("y2", 156);
+    b.dataset.dx = (7 * Math.sin(2 * Math.PI * k / 9)).toFixed(2); obs.append(b);
+  }
+})();
+function pulseState(on) {
+  document.querySelectorAll(".tk-obs").forEach((b) => { b.style.transform = on ? `translateX(${b.dataset.dx}px)` : ""; });
+  document.getElementById("tkNote").style.opacity = on ? 1 : 0;
+}
+try { new QRCode(document.getElementById("qr"), { text: "https://www.yourastro.space/SPHEREx/", width: 512, height: 512, colorDark: "#141ef0", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M }); } catch (e) { document.getElementById("qr").textContent = "yourastro.space/SPHEREx"; }
+
+// ---------- the deck: one click, one step ----------
+const slides = [...document.querySelectorAll(".slide")];
+const maxStep = slides.map((s) => Math.max(0, ...[...s.querySelectorAll("[data-step]")].map((e) => +e.dataset.step)));
+const PRESENTER = new URLSearchParams(location.search).has("presenter");
+const chan = "BroadcastChannel" in window ? new BroadcastChannel("yas-presentation") : null;
+let cur = -1, at = 0, t0 = null;
+const built = new Set();
+
+function apply() {
+  const s = slides[cur];
+  s.dataset.at = at;
+  s.querySelectorAll("[data-step]").forEach((e) => e.classList.toggle("in", +e.dataset.step <= at));
+  s.querySelectorAll("[data-until]").forEach((e) => e.classList.toggle("gone", at >= +e.dataset.until || +(e.dataset.step || 0) > at));
+  if (s.querySelector("#tkObs")) pulseState(at >= 1);
+  const num = `${String(cur + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+  document.getElementById("num").textContent = maxStep[cur] ? `${num} · ${at}/${maxStep[cur]}` : num;
+  const done = cur + (maxStep[cur] ? at / maxStep[cur] : 1);
+  document.getElementById("bar").style.width = `${100 * done / slides.length}%`;
+  history.replaceState(null, "", `${location.search}#${cur + 1}.${at}`);
+  if (PRESENTER) presenter();
+}
+function go(i, step, remote) {
+  i = Math.max(0, Math.min(slides.length - 1, i));
+  if (i !== cur) {
+    cur = i;
+    while (timers.length) clearInterval(timers.pop());
+    while (FIG_STOPS.length) FIG_STOPS.pop()();
+    slides.forEach((s, k) => s.classList.toggle("on", k === cur));
+    const s = slides[cur];
+    if (!built.has(cur)) { s.querySelectorAll(".sfig[data-fig]").forEach((f) => FIGS[f.dataset.fig](f)); built.add(cur); }
+    if (!PRESENTER) startLive(s).catch(() => {});
+    document.getElementById("notesText").textContent = s.dataset.notes || "";
+  }
+  at = Math.max(0, Math.min(maxStep[cur], step));
+  apply();
+  if (!remote && chan) chan.postMessage({ cur, at });
+}
+function next() { if (t0 === null) t0 = Date.now(); if (at < maxStep[cur]) go(cur, at + 1); else if (cur < slides.length - 1) go(cur + 1, 0); }
+function prev() { if (at > 0) go(cur, at - 1); else if (cur > 0) go(cur - 1, maxStep[cur - 1]); }
+if (chan) chan.onmessage = (e) => { if (e.data && typeof e.data.cur === "number") go(e.data.cur, e.data.at, true); };
+
+document.getElementById("prev").onclick = (e) => { e.stopPropagation(); prev(); };
+document.getElementById("next").onclick = (e) => { e.stopPropagation(); next(); };
+const notes = document.getElementById("notes"), nb = document.getElementById("notesBtn");
+const toggleNotes = () => { notes.hidden = !notes.hidden; nb.setAttribute("aria-pressed", String(!notes.hidden)); };
+nb.onclick = (e) => { e.stopPropagation(); toggleNotes(); };
+const fs = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
+document.getElementById("fsBtn").onclick = (e) => { e.stopPropagation(); fs(); };
+const openPresenter = () => window.open(`${location.pathname}?presenter#${cur + 1}.${at}`, "yas-presenter", "width=900,height=700");
+document.getElementById("presBtn").onclick = (e) => { e.stopPropagation(); openPresenter(); };
+const black = document.getElementById("black");
+black.onclick = () => { black.hidden = true; };
+
+// a click anywhere on a slide is the next step; links, buttons, sliders and the planet calculator keep their own clicks
+document.getElementById("deck").addEventListener("click", (e) => {
+  if (e.button !== 0 || e.target.closest("a, button, input, select, label, textarea, .sfig, .nav, .notes")) return;
+  next();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.target.closest("input, select, textarea")) return;
+  if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter"].includes(e.key) && !e.target.closest("button, a")) { e.preventDefault(); next(); }
+  else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); prev(); }
+  else if (e.key === "n") toggleNotes();
+  else if (e.key === "f" || e.key === "F5") { e.preventDefault(); fs(); }
+  else if (e.key === "p") openPresenter();
+  else if (e.key === "b" || e.key === "." || e.key === "w") black.hidden = !black.hidden;   // clickers send b or . for a blank screen
+  else if (e.key === "Home") go(0, 0);
+  else if (e.key === "End") go(slides.length - 1, maxStep[slides.length - 1]);
+});
+
+// ---------- presenter view: notes, clock and next slide, in sync with the audience window ----------
+function presenter() {
+  const s = slides[cur], n = slides[cur + 1];
+  document.getElementById("pPos").textContent = `slide ${cur + 1} / ${slides.length} · step ${at} / ${maxStep[cur]}`;
+  document.getElementById("pTitle").textContent = s.dataset.title || "";
+  document.getElementById("pNotes").textContent = s.dataset.notes || "";
+  document.getElementById("pNext").textContent = at < maxStep[cur] ? `next click: step ${at + 1} on this slide` : n ? `next slide: ${n.dataset.title}` : "last slide";
+}
+if (PRESENTER) {
+  document.getElementById("presenter").hidden = false;
+  document.title = "Presenter · " + document.title;
+  document.getElementById("pGo").onclick = next;
+  document.getElementById("pPrev").onclick = prev;
+  document.getElementById("pReset").onclick = () => { t0 = Date.now(); };
+  setInterval(() => {
+    const sec = t0 === null ? 0 : Math.floor((Date.now() - t0) / 1000);
+    const el = document.getElementById("pClock");
+    el.textContent = `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
+    el.style.color = sec > 15 * 60 ? "#ff4040" : sec > 13 * 60 ? "#ff9f3a" : "";
+  }, 500);
+}
+
+const [hs, hstep] = location.hash.slice(1).split(".");
+go((parseInt(hs, 10) || 1) - 1, parseInt(hstep, 10) || 0, true);
+</script>
+</body>
+</html>
