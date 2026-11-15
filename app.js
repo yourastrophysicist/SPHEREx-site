@@ -286,7 +286,7 @@ const DEFAULTS = {
   ra: "", dec: "", size: "360", band: "D1", pmra: "0", pmdec: "0", epoch: "2016.0",
   view: "blink", mode: "frames", speed: "500", stretch: "asinh", contrast: "99.5",
   invert: "0", marker: "1", mask: "0", gaia: "1", gmag: "16", catwise: "0", wmag: "16",
-  shape: "map", world: "sky", layer: "spherex", frame: "20", earth: "night", cross: "1", known: "1",
+  shape: "map", layer: "spherex", frame: "20", cross: "1", known: "1",
   read: "curious", wl: "", track: "1", sv: "spec", fake: "", fakem: "1",
 };
 const DATA_KEYS = ["ra", "dec", "size", "band", "pmra", "pmdec", "epoch"];
@@ -1058,7 +1058,7 @@ function start() { stop(); if (views.length > 1) timer = setInterval(() => step(
 function stop() { if (timer) clearInterval(timer); timer = null; }
 function step(d) { if (!views.length) return; idx = (idx + d + views.length) % views.length; draw(); }
 function setPlaying(p) {
-  playing = p; $("icoPause").hidden = !p; $("icoPlay").hidden = p;
+  playing = p; $("icoPause").toggleAttribute("hidden", !p); $("icoPlay").toggleAttribute("hidden", p);   // SVG has no .hidden property
   $("play").setAttribute("aria-label", p ? "Pause" : "Play");
   p ? start() : stop();
 }
@@ -1189,7 +1189,7 @@ const SURVEYS = {
 // wavelength of each SPHEREx DR1 frame (um), from the survey's properties; frames 50 and 51 are blank
 const LAMBDA = [0.753,0.771,0.790,0.809,0.828,0.848,0.868,0.889,0.910,0.932,0.955,0.978,1.001,1.025,1.050,1.075,1.102,1.113,1.139,1.167,1.195,1.224,1.254,1.284,1.315,1.346,1.378,1.412,1.446,1.481,1.517,1.554,1.592,1.631,1.656,1.695,1.735,1.775,1.818,1.861,1.905,1.949,1.995,2.041,2.089,2.139,2.189,2.240,2.292,2.345,2.399,2.445,2.506,2.575,2.646,2.719,2.794,2.871,2.951,3.033,3.118,3.204,3.293,3.383,3.476,3.570,3.667,3.768,3.833,3.867,3.901,3.935,3.970,4.005,4.040,4.076,4.112,4.148,4.184,4.220,4.257,4.294,4.331,4.368,4.405,4.435,4.467,4.500,4.533,4.566,4.600,4.635,4.669,4.704,4.739,4.773,4.808,4.843,4.879,4.915,4.951,4.988];
 const SHAPES = { map: { proj: "MOL", fov: 360 }, outside: { proj: "SIN", fov: 180 }, inside: { proj: "STG", fov: 140 } };
-const EX = { shape: "map", world: "sky", layer: "spherex", frame: 20, earth: "night" };
+const EX = { shape: "map", layer: "spherex", frame: 20 };
 let aladin = null, boxLayer = null, ringLayer = null, pickLayer = null, targetCat = null;
 let knownCats = null, eclLayer = null, knownOpen = null;
 let aladinLoading = false, spinT = 0, spinLon = 0, lastTouch = 0, lensOn = false, lensXY = null;
@@ -1215,47 +1215,34 @@ function presetNow(p) {
 
 function exCaption() {
   const el = $("exNow");
-  let k, extra = "";
-  if (EX.world === "earth") k = "cap.earth." + EX.earth;
-  else { k = "cap." + EX.layer; if (EX.layer === "spherex") extra = `${LAMBDA[EX.frame].toFixed(2)} µm`; }
+  const k = "cap." + EX.layer, extra = EX.layer === "spherex" ? `${LAMBDA[EX.frame].toFixed(2)} µm` : "";
   const [what, src] = T(k).split("|");
   el.innerHTML = `${what.replace("{l}", extra)} <span class="src">· ${src}</span>`;
   $("fsLabel").textContent = what.replace("{l}", extra);
   $("fsPanelBtn").setAttribute("aria-label", T("fs.panel")); $("fsPanelBtn").title = T("fs.panel");
-  $("exTitle").textContent = EX.world === "earth" ? T("ex.title.earth") : `${T("ex.title")} · ${T("ex.shape." + EX.shape)}`;
+  $("exTitle").textContent = `${T("ex.title")} · ${T("ex.shape." + EX.shape)}`;
   $("lambdaVal").textContent = `${LAMBDA[EX.frame].toFixed(3)} µm`;
 }
 
 function exSync() {
   const ex = $("explore");
-  ex.dataset.shape = EX.shape; ex.dataset.world = EX.world;
-  document.querySelectorAll("#explore [data-shape]").forEach((b) => {
-    b.setAttribute("aria-checked", String(b.dataset.shape === EX.shape));
-    const off = EX.world === "earth" && b.dataset.shape !== "map";
-    b.setAttribute("aria-disabled", String(off)); b.tabIndex = off ? -1 : 0;
-  });
-  document.querySelectorAll("#world [data-world]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.world === EX.world)));
+  ex.dataset.shape = EX.shape; ex.dataset.world = "sky";
+  document.querySelectorAll("#explore [data-shape]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.shape === EX.shape)));
   document.querySelectorAll("[data-layer]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.layer === EX.layer)));
-  document.querySelectorAll("[data-earth]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.earth === EX.earth)));
-  $("skyLayers").hidden = EX.world === "earth"; $("earthLayers").hidden = EX.world !== "earth";
-  $("lambdaRow").hidden = EX.world === "earth" || EX.layer !== "spherex";
+  $("lambdaRow").hidden = EX.layer !== "spherex";
   $("lambda").value = EX.frame;
   const det = Math.floor(EX.frame / 17) + 1;
   document.querySelectorAll("[data-det]").forEach((b) => b.setAttribute("aria-checked", String(+b.dataset.det === det)));
   $("lensState").textContent = lensOn ? T("lens.on") : T("lens.off");
-  const img = $("earthImg");
-  img.hidden = EX.world !== "earth";
-  if (EX.world === "earth") { img.src = `img/earth_${EX.earth}.webp`; img.alt = T("cap.earth." + EX.earth).split("|")[0]; }
   exCaption();
 }
 
 function exSave() {        // the explorer's state lives in the URL too
-  S.shape = EX.shape; S.world = EX.world; S.layer = EX.layer; S.frame = String(EX.frame); S.earth = EX.earth;
+  S.shape = EX.shape; S.layer = EX.layer; S.frame = String(EX.frame);
   writeURL();
 }
 
 function setShape(sh) {
-  if (EX.world === "earth" && sh !== "map") return;
   EX.shape = sh; exSave(); exSync();
   if (!aladin) return;
   aladin.setProjection(SHAPES[sh].proj);
@@ -1263,11 +1250,6 @@ function setShape(sh) {
   if (sh !== "map") aladin.gotoPosition(spinLon, 0);
   else aladin.gotoPosition(0, 0);
   spin();
-}
-function setWorld(w) {
-  EX.world = w;
-  if (w === "earth" && EX.shape !== "map") { EX.shape = "map"; if (aladin) { aladin.setProjection("MOL"); aladin.setFoV(360); } }
-  exSave(); exSync(); spin();
 }
 function setLayer(l) {
   EX.layer = l; exSave(); exSync();
@@ -1294,7 +1276,7 @@ function applySlice(n = 0) {
 // the turning sphere: a slow spin in "outside", paused while someone drags or zooms
 function spin() {
   cancelAnimationFrame(spinT);
-  if (!aladin || EX.shape !== "outside" || EX.world !== "sky" || reduceMotion) return;
+  if (!aladin || EX.shape !== "outside" || reduceMotion) return;
   let last = performance.now();
   const step = (t) => {
     if (t - lastTouch > 4000) { spinLon = (spinLon + (t - last) * 0.004) % 360; aladin.gotoPosition(spinLon, 0); }
@@ -1592,7 +1574,6 @@ function lensRead() {
 }
 function setLens(on) {
   lensOn = on;
-  if (on && EX.world === "earth") setWorld("sky");
   $("lens").hidden = !on;
   $("lensBtn").setAttribute("aria-pressed", String(on));
   $("lensState").textContent = on ? T("lens.on") : T("lens.off");
@@ -1638,10 +1619,7 @@ document.querySelectorAll("[data-det]").forEach((b) => b.addEventListener("click
   setFrame(17 * (+b.dataset.det - 1) + 8);
 }));
 document.querySelectorAll("#explore [data-shape]").forEach((b) => b.addEventListener("click", () => setShape(b.dataset.shape)));
-document.querySelectorAll("#world [data-world]").forEach((b) => b.addEventListener("click", () => setWorld(b.dataset.world)));
-$("wTrack").addEventListener("click", () => setWorld(EX.world === "sky" ? "earth" : "sky"));
 document.querySelectorAll("[data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
-document.querySelectorAll("[data-earth]").forEach((b) => b.addEventListener("click", () => { EX.earth = b.dataset.earth; exSave(); exSync(); }));
 $("lambda").addEventListener("input", (e) => setFrame(+e.target.value));
 $("zIn").addEventListener("click", () => { lastTouch = performance.now(); if (aladin) aladin.setFoV(aladin.getFoV()[0] / 1.6); });
 $("zOut").addEventListener("click", () => { lastTouch = performance.now(); if (aladin) aladin.setFoV(Math.min(SHAPES[EX.shape].fov, aladin.getFoV()[0] * 1.6)); });
@@ -1720,10 +1698,8 @@ try {
   const nav = (navigator.language || "").toLowerCase().slice(0, 2);
   startLang = ["en", "id", "it"].includes(saved) ? saved : (nav === "id" || nav === "it" ? nav : "en");
 } catch { /* private window */ }
-EX.shape = SHAPES[S.shape] ? S.shape : "map"; EX.world = S.world === "earth" ? "earth" : "sky";
+EX.shape = SHAPES[S.shape] ? S.shape : "map";
 EX.layer = SURVEYS[S.layer] ? S.layer : "spherex"; EX.frame = Math.max(0, Math.min(101, parseInt(S.frame, 10) || 20));
-EX.earth = S.earth === "day" ? "day" : "night";
-if (EX.world === "earth") EX.shape = "map";
 $("crossChk").checked = S.cross !== "0"; $("knownChk").checked = S.known !== "0"; $("explore").classList.toggle("no-cross", S.cross === "0");
 applyLang(startLang);
 if (!presetFor()) $("ownPanel").open = true;     // a shared custom link opens with its position showing

@@ -59,7 +59,6 @@
                 <div class="panel-bar"><span id="exTitle">the whole sky</span><span data-i18n="ex.hint">click the sky, then drag to move · scroll or + and − to zoom</span></div>
                 <div class="ex-stage">
                     <div id="sky3" class="ex-sky" role="img" aria-label="The whole sky, interactive"></div>
-                    <img id="earthImg" class="ex-earth" alt="" hidden width="2400" height="1200">
                     <p class="ex-load" id="exLoad" data-i18n="ex.load">loading the whole sky</p>
                     <div class="ex-cross" id="exCross" aria-hidden="true"></div>
                     <div class="ex-shield" id="exShield"><span data-i18n="ex.shield">click or tap the sky to explore it</span></div>
@@ -106,20 +105,11 @@
                         <button type="button" role="radio" data-shape="inside" title="The sky around you, seen from inside"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="1.6" fill="currentColor"/></svg><span data-i18n="ex.inside">inside</span></button>
                     </div>
                     <div class="ex-row">
-                        <div class="world" id="world" role="radiogroup" aria-label="Sky or Earth">
-                            <button type="button" class="wtrack" id="wTrack" aria-label="Switch between the sky and the Earth"></button>
-                            <button type="button" role="radio" data-world="sky" data-i18n="ex.sky">sky</button>
-                            <button type="button" role="radio" data-world="earth" data-i18n="ex.earth">Earth</button>
-                        </div>
                         <div class="seg seg4" id="skyLayers" role="radiogroup" aria-label="Survey">
                             <button type="button" role="radio" data-layer="spherex">SPHEREx</button>
                             <button type="button" role="radio" data-layer="2mass">2MASS</button>
                             <button type="button" role="radio" data-layer="allwise">AllWISE</button>
                             <button type="button" role="radio" data-layer="dss2">DSS2</button>
-                        </div>
-                        <div class="seg" id="earthLayers" role="radiogroup" aria-label="Earth" hidden>
-                            <button type="button" role="radio" data-earth="day" data-i18n="ex.day">day</button>
-                            <button type="button" role="radio" data-earth="night" data-i18n="ex.night">night</button>
                         </div>
                     </div>
                     <div class="ex-lambda" id="lambdaRow">
@@ -344,11 +334,7 @@
                     <p data-i18n="a1.d">Map flattens the whole sky into an oval with the Milky Way across the middle, the way astronomers draw it. Outside puts the same sky on a sphere you look at from outside, turning slowly. Inside puts you at the centre, the way the sky looks from the ground.</p>
                 </div>
                 <div class="panel">
-                    <div class="panel-bar"><span data-i18n="a2.t">sky and Earth</span><span>02</span></div>
-                    <p data-i18n="a2.d">The Earth side shows the planet SPHEREx circles, by day and at night, in the same oval. Every picture of the sky is taken from somewhere, and this is where.</p>
-                </div>
-                <div class="panel">
-                    <div class="panel-bar"><span data-i18n="a3.t">the surveys</span><span>03</span></div>
+                    <div class="panel-bar"><span data-i18n="a3.t">the surveys</span><span>02</span></div>
                     <p data-i18n="a3.d">SPHEREx DR1 is the mission's first all-sky release, in 102 colours from 0.75 to 5 microns, and the slider steps through them. 2MASS, AllWISE and DSS2 show the same sky years or decades earlier, so a fast star like Barnard's sits in a different place on each.</p>
                 </div>
             </div>
@@ -406,7 +392,6 @@
                     <dt data-i18n="cr.t2">positions</dt><dd data-i18n="cr.d2">Gaia DR3 (ESA/DPAC) for positions and motions, and for WISE 0855 AllWISE with the motion of Kirkpatrick et al. 2021.</dd>
                     <dt data-i18n="cr.t3">catalogues</dt><dd data-i18n="cr.d3">Gaia DR3 and CatWISE2020 (Marocco et al. 2021), both through NASA/IPAC IRSA.</dd>
                     <dt data-i18n="cr.t4">sky maps</dt><dd data-i18n="cr.d4">Aladin Lite (CDS, Strasbourg), with 2MASS and AllWISE through IRSA and DSS2 through ESA.</dd>
-                    <dt data-i18n="cr.t5">Earth</dt><dd data-i18n="cr.d5">Blue Marble and Black Marble, NASA, through NASA GIBS.</dd>
                     <dt data-i18n="cr.t6">ideas</dt><dd data-i18n="cr.d6">The blink follows WiseView by Caselden and collaborators. The whole-sky layout follows Brice Menard's ultraviolet sky map. The lens, the crosshair, the fixed Home and the list of known objects come from our teammate's Time Lens.</dd>
                     <dt data-i18n="cr.t8">pictures</dt><dd data-i18n="cr.d8">The photographs in the story come from Wikimedia Commons, by NASA, ESA, JPL-Caltech, Webb, Hubble, WISE and Lowell Observatory. Each one is credited under it with a link to its licence.</dd>
                     <dt data-i18n="cr.t7">made by</dt><dd data-i18n="cr.d7">Observationally Speaking, at NASA Space Apps Milano, 14 and 15 November 2026, building on our own prep scripts of 10 November. Most of the code and much of the text were written with Claude (Anthropic) during the event, from the team's instructions, and the Time Lens prototype with Codex (OpenAI). The team set the goals and the design, decided what to keep, checked the results against the archive and Gaia, and is responsible for the content.</dd>
