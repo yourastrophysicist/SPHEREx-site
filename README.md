@@ -16,8 +16,10 @@ jumps out against the stars behind it. Above it, a whole-sky map shows where tha
   <img src="docs/img/sky-map.png" width="49%" alt="The whole-sky map in SPHEREx DR1 at 1.2 micrometres, with the five test targets marked">
 </p>
 
-**Slides:** [www.yourastro.space/SPHEREx/slides](https://www.yourastro.space/SPHEREx/slides/), six
-slides with live SPHEREx data on them. More below in [Slides](#slides).
+**Slides:** [www.yourastro.space/SPHEREx/slides](https://www.yourastro.space/SPHEREx/slides/), seven
+slides with live SPHEREx data on them for the judges, and
+[www.yourastro.space/SPHEREx/presentation](https://www.yourastro.space/SPHEREx/presentation/), a
+15 minute talk for everyone. More below in [Slides](#slides) and [The talk](#the-talk).
 
 ## What is on the page
 
@@ -25,7 +27,6 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
 
 - Three shapes: **map** (the whole sky as an oval, Milky Way across the middle), **outside**
   (a slowly turning globe), **inside** (the view from the centre, like a planetarium).
-- A **sky / Earth** switch. Earth shows the planet SPHEREx circles, by day and at night.
 - Surveys: **SPHEREx DR1**, the mission's all-sky release in 102 colours from 0.75 to 5 µm, with
   D1 to D6 buttons and a wavelength slider, and for comparison 2MASS, AllWISE and DSS2.
 - The five test targets as markers. Click one and a small card opens beside it on the map, blinking
@@ -76,6 +77,13 @@ slides with live SPHEREx data on them. More below in [Slides](#slides).
 - **Any other position**: type RA and Dec (with a proper motion if you like) under *your own
   position*, drag the lens on the map, or press *blink it in SPHEREx* on a known object. The page
   fetches every SPHEREx DR1 exposure of that spot live from IRSA, which takes about half a minute.
+- **Find an exoplanet host by name**: in the same panel, type a planet or host star (TRAPPIST-1,
+  51 Peg, Barnard) and pick it from the list. Position and proper motion come from the
+  [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) Planetary Systems Composite
+  table and go straight into the form, with epoch 2015.5 (the archive's positions are Gaia DR2 at that
+  epoch, checked on Barnard's Star). The archive sends no CORS headers either, so the search goes
+  through the relay (`op=exo`). *Browse the full archive table* opens the archive's own table in a
+  window on the page, for anyone who wants to filter it and copy RA and Dec by hand.
 
 On a wide screen the viewer stays in sight while the settings beside it scroll, so every change is
 seen as it happens. Both the map and the viewer have a **full screen** view. Every setting lives in the address, so a
@@ -128,18 +136,19 @@ once the second time. It also takes fields up to 900 arcsec, against 600 on the 
 | `data/` | the five targets as static JSON, with and without flagged pixels |
 | `data/bands/` | each target in all six detectors, read by the page's D1 to D6 switch, built by the GitHub workflow below |
 | `data/targets.json` | the five targets, what kind of object each is, why it is in the set and what to look for |
-| `img/` | the Earth by day and at night, in the same oval as the sky map, and `og.png`, the picture for link previews |
+| `img/` | `og.png`, the picture for link previews, and `story/`, the photographs in the story and the talk. The Earth images are no longer shown |
 | `tool/spherex_frames.py` | the data path, `get_frames()` |
 | `known.js` | the 29 known objects, the Sun and the ecliptic on the sky map, text in three languages |
 | `tool/server.py` | local server for the page, `/api/frames` and `/api/progress` |
 | `api/spherex.js` (main site repo) | the relay on yourastro.space that serves any other position |
 | `tool/export_static.py` | writes `data/` |
 | `tool/export_all_bands.py` | writes `data/bands/` |
-| `tool/earth_mollweide.py` | makes the Earth images in `img/` |
+| `tool/earth_mollweide.py` | made the Earth images in `img/`, no longer used on the page |
 | `.github/workflows/export-bands.yml` | runs `export_all_bands.py` on GitHub |
 | `docs/release/` | the release document, LaTeX and PDF |
 | `docs/img/` | the screenshots in this README |
 | `slides/index.html`, `slides/data/` | the seven slides, and the Kapteyn's Star view fetched through the relay for slide 5 |
+| `presentation/index.html`, `presentation/img/` | the 15 minute talk, with the Kaushik et al. 2024 figure and Tombaugh's Pluto plates |
 | `tool/README.md` | URL parameters, keys, overlays, data format |
 | `prep/` | our test notebook and scripts of 10 November 2026 |
 
@@ -185,6 +194,25 @@ slides, `n` shows the speaker notes and `f` goes full screen.
 | **5.** Any position, with Kapteyn's Star | **6.** The story at three reading levels |
 | ![Slide 7, could it find Planet X?](docs/img/slide-7.png) | |
 | **7.** Could it find Planet X? | |
+
+## The talk
+
+A 15 minute story for a general audience, `presentation/index.html`, shown at
+[www.yourastro.space/SPHEREx/presentation](https://www.yourastro.space/SPHEREx/presentation/). It
+tells how planets around other stars are found as six settings of a camera: transit as the light
+meter, radial velocity as white balance, astrometry as camera shake, direct imaging as the lens
+hood, microlensing as a zoom lens made of gravity, and timing as the clock. Then it shows the whole
+menu on Fig. 1 of Kaushik, Mattoo and Rastogi 2024
+([arXiv:2404.09143](https://arxiv.org/abs/2404.09143), CC BY 4.0) with today's counts added, and
+turns to SPHEREx as a slow camera with 102 colours: Tombaugh's Pluto plates, Barnard's Star walking
+(the star of the 1963 astrometric false alarm, which turned out to have four small planets found in
+2024 and 2025), WISE 0855 appearing only in D6, an honest answer about Planet X, and a QR code to
+try the page.
+
+Every click, arrow key or clicker press is one step, so the presenter only ever presses next.
+`p` opens a presenter window in sync (script, clock, what the next click does), `n` shows the notes
+on the main screen, `b` blanks it and `f` goes full screen. The script is about 1,800 words, about
+14 minutes. Planet counts are from the NASA Exoplanet Archive on 15 November 2026.
 
 ## What it cannot do
 
@@ -256,14 +284,17 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
   [doi:10.26131/IRSA679](https://doi.org/10.26131/IRSA679), NASA/JPL-Caltech/IPAC, through the
   [NASA/IPAC Infrared Science Archive](https://irsa.ipac.caltech.edu/Missions/spherex.html).
 - **Software:** Astropy, NumPy and SciPy for the Python data path; Aladin Lite for the sky map. The
-  relay and the page use no outside libraries.
+  relay and the page use no outside libraries. The talk draws its QR code with qrcodejs.
 - **Known objects:** the list from our teammate's Time Lens, positions from SIMBAD (CDS).
 - **Positions and motions:** Gaia DR3 (ESA/DPAC). For WISE 0855, AllWISE with the motion of
   Kirkpatrick et al. 2021.
 - **Catalogue overlays:** Gaia DR3 and CatWISE2020 (Marocco et al. 2021), both through IRSA.
 - **Sky maps:** [Aladin Lite](https://aladin.cds.unistra.fr/) (CDS, Strasbourg), with 2MASS and
   AllWISE through IRSA and DSS2 through ESA.
-- **Earth:** Blue Marble and Black Marble, NASA, through NASA GIBS.
+- **Exoplanet hosts and counts:** NASA Exoplanet Archive, Planetary Systems Composite table
+  ([doi:10.26133/NEA13](https://doi.org/10.26133/NEA13)).
+- **Talk figures:** Kaushik, Mattoo and Rastogi 2024, Fig. 1, CC BY 4.0; Pluto discovery plates,
+  Clyde Tombaugh, Lowell Observatory, public domain; the SPHEREx telescope photo, NASA/JPL-Caltech.
 - **Ideas:** the blink follows [WiseView](http://byw.tools/wiseview) by Caselden and collaborators.
   The whole-sky layout follows Brice Menard's [ultraviolet sky map](https://menard.pha.jhu.edu/uvmap/).
   The lens, the crosshair, the fixed Home and the known objects come from our teammate's Time Lens.
@@ -276,5 +307,6 @@ reusing them is fine, and they are cited as our earlier work. See `prep/README.m
   the goals and the design, decided what to keep, checked the results against IRSA and Gaia (the
   measured tracks, the relay against the Python path, the known-object facts against SIMBAD), and is
   responsible for the content. Every code file says so in its first lines, and the page and the
-  slides carry an `ai-disclosure` meta tag. The prep scripts of 10 November in `prep/` were made
+  slides and the talk carry an `ai-disclosure` meta tag. The talk's story follows Jessica's
+  Exoplanetary Astrophysics lecture notes. The prep scripts of 10 November in `prep/` were made
   before the event, partly with Claude, and are used with the Local Lead's agreement.
